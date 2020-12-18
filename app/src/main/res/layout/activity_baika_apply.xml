@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_baika_detail_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAFAFA"
+    android:orientation="vertical"
+    tools:context=".activity.card.BkApplyActivity">
+
+    <include layout="@layout/layout_background_two" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#DDDDDD" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="收货人姓名"
+            android:layout_marginLeft="15dp"
+            android:textColor="#FF333333"
+            android:textSize="16dp" />
+
+        <EditText
+            android:id="@+id/reciever_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:background="@null"
+            android:gravity="right"
+            android:textColor="#666666"
+            android:textSize="16dp"
+            android:hint="请输入姓名"
+            android:text=""/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#DDDDDD" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="联系电话"
+            android:layout_marginLeft="15dp"
+            android:textColor="#FF333333"
+            android:textSize="16dp" />
+
+        <EditText
+            android:id="@+id/phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:background="@null"
+            android:gravity="right"
+            android:inputType="number"
+            android:textColor="#666666"
+            android:maxLength="11"
+            android:hint="请输入电话"
+            android:textSize="16dp"
+            android:text=""/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#DDDDDD" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="收货人地址"
+            android:layout_marginLeft="15dp"
+            android:textColor="#FF333333"
+            android:textSize="16dp" />
+
+        <EditText
+            android:id="@+id/address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:background="@null"
+            android:gravity="right"
+            android:textColor="#666666"
+            android:hint="请输入收获地址"
+            android:textSize="16dp"
+            android:text=""/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#DDDDDD" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="申请数量"
+            android:layout_marginLeft="15dp"
+            android:textColor="#FF333333"
+            android:textSize="16dp" />
+
+        <EditText
+            android:id="@+id/mount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:background="@null"
+            android:gravity="right"
+            android:inputType="number"
+            android:textColor="#666666"
+            android:hint="请输入申请数量"
+            android:textSize="16dp"
+            android:text=""/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#DDDDDD" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:textColor="#FF2626"
+        android:textSize="13dp"
+        android:text="注：请如实填写收件人信息；申请数量以实际为准；" />
+
+
+    <TextView
+        android:id="@+id/submit"
+        android:layout_width="170dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="200dp"
+        android:background="@drawable/shape_bt_background_new"
+        android:gravity="center"
+        android:text="提交"
+        android:textColor="@color/colorWhite"
+        android:textSize="16dp" />
+
+</LinearLayout>

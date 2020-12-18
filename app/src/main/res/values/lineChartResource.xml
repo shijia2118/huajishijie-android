@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LineChart">
+        <attr name="xylinecolor" format="color" ></attr>
+        <attr name="xylinewidth" format="dimension"></attr>
+        <attr name="xytextcolor" format="color"></attr>
+        <attr name="xytextsize" format="dimension"></attr>
+        <attr name="linecolor" format="color"></attr>
+        <attr name="interval" format="dimension"></attr>
+        <attr name="bgcolor" format="color"></attr>
+    </declare-styleable>
+
+</resources>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_cute_number_write_success"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorGray12"
+    android:orientation="vertical"
+    tools:context="com.test.tworldapplication.activity.card.CuteNumberWriteSuccessActivity">
+
+    <include layout="@layout/layout_background_two" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorGray13" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="88dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="49dp"
+            android:layout_height="49dp"
+            android:layout_marginLeft="37dp"
+            android:src="@drawable/heart" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="预开户成功!"
+            android:textColor="@color/colorOrange"
+            android:textSize="17dp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="31dp"
+        android:layout_marginRight="31dp"
+        android:background="@color/colorGray15" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:orientation="vertical"
+        android:paddingBottom="20dp"
+        android:paddingLeft="31dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="开户详情"
+            android:textColor="@color/colorGray1"
+            android:textSize="14dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="靓号"
+            android:textColor="@color/colorGray1"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/tvAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:text="归属地"
+            android:textColor="@color/colorGray1"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/tvOperate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:text="运营商"
+            android:textColor="@color/colorGray1"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/tvPackage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:text="套餐"
+            android:textColor="@color/colorGray1"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/tvActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:text="活动包"
+            android:textColor="@color/colorGray1"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:text="状态"
+            android:textColor="@color/colorGray1"
+            android:textSize="14dp" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

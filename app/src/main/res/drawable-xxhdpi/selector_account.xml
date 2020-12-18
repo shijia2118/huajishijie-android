@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@mipmap/account_click" android:state_pressed="true" />
+    <item android:drawable="@mipmap/account_click" android:state_selected="true" />
+    <item android:drawable="@mipmap/account" />
+    <!--<item android:drawable="@mipmap/home" android:maxLevel="1" />-->
+    <!--<item android:drawable="@mipmap/home_click" android:maxLevel="2" />-->
+
+</selector>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_bill_query"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorGray12"
+    android:orientation="vertical"
+    tools:context="com.test.tworldapplication.activity.card.ProductBusinessActivity">
+
+    <include layout="@layout/layout_background_two" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGrayd2" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:text="手机号码"
+            android:textSize="16dp"
+            android:textColor="#FF333333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp" />
+
+        <EditText
+            android:id="@+id/etPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:background="@null"
+            android:hint="请输入手机号码"
+            android:inputType="phone"
+            android:maxLength="11"
+            android:gravity="right"
+            android:textColor="@color/colorGray"
+            android:textColorHint="@color/colorGray5"
+            android:textSize="16dp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_color_e5" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:text="账期"
+            android:textSize="16dp"
+            android:textColor="#FF333333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp" />
+
+        <TextView
+            android:id="@+id/tvDay"
+            android:layout_width="0dp"
+            android:gravity="right"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="请选择"
+            android:textColor="@color/colorGray"
+            android:textColorHint="@color/colorGray5"
+            android:textSize="16dp" />
+        <ImageView
+            android:layout_width="9dp"
+            android:layout_height="16dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/arr_right" />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tvQuery"
+        android:layout_width="170dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="127dp"
+        android:layout_marginTop="39dp"
+        android:background="@drawable/shape_bt_background_new"
+        android:gravity="center"
+        android:text="查询"
+        android:textColor="@color/colorWhite"
+        android:textSize="14dp" />
+
+</LinearLayout>

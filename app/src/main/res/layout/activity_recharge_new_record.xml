@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_background_two" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGray7" />
+
+    <LinearLayout
+        android:id="@+id/llArr"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp">
+
+        <View
+            android:layout_width="4dp"
+            android:layout_height="17dp"
+            android:background="@color/colorBlue1" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:text="筛选条件"
+            android:textColor="@color/colorBlue" />
+
+        <ImageView
+            android:id="@+id/imgArr"
+            android:layout_width="19dp"
+            android:layout_height="10dp"
+            android:layout_marginRight="10dp" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/vLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGray7" />
+
+    <LinearLayout
+        android:id="@+id/llCondition"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/colorWhite"
+        android:orientation="vertical"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvBegin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="15dp"
+                android:text="起始时间:1221.23.32"
+                android:textColor="@color/colorGray"
+                android:textSize="13dp" />
+
+            <TextView
+                android:id="@+id/tvEnd"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="截止时间:1009.09.09"
+                android:textColor="@color/colorGray"
+                android:textSize="13dp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="9dp">
+
+            <TextView
+                android:id="@+id/tvOrderState"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="15dp"
+                android:text="订单状态：已激活"
+                android:textColor="@color/colorGray"
+                android:textSize="13dp" />
+
+            <TextView
+                android:id="@+id/tvState"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="手机号码:12334556666"
+                android:textColor="@color/colorGray"
+                android:textSize="13dp"
+                android:visibility="invisible" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvNumber"
+        android:layout_width="match_parent"
+        android:layout_height="21dp"
+        android:gravity="center"
+        android:text="共3条"
+        android:textColor="@color/colorGray"
+        android:textSize="8dp" />
+
+
+    <!--<com.test.tworldapplication.view.pullableview.PullToRefreshLayout-->
+    <!--android:id="@+id/refresh_view"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
+
+    <!--<include layout="@layout/refresh_head" />-->
+
+    <!--<com.test.tworldapplication.view.pullableview.PullableListView-->
+    <!--android:id="@+id/content_view"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:background="@color/colorWhite"-->
+    <!--android:cacheColorHint="@color/colorWhite"-->
+    <!--android:divider="@color/colorBackground"-->
+    <!--android:dividerHeight="9dp"-->
+    <!--android:groupIndicator="@null"-->
+    <!--android:listSelector="@color/colorWhite" />-->
+
+    <!--<include layout="@layout/load_more" />-->
+    <!--</com.test.tworldapplication.view.pullableview.PullToRefreshLayout>-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.liaoinstan.springview.widget.SpringView
+            android:id="@+id/springview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#ffffff"
+            app:footer="@layout/header_recycle"
+            app:header="@layout/header_recycle"
+            app:type="follow">
+
+            <ListView
+                android:id="@+id/content_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorWhite"
+                android:cacheColorHint="@color/colorWhite"
+                android:divider="@color/colorBackground"
+                android:dividerHeight="9dp"
+                android:groupIndicator="@null"
+                android:listSelector="@color/colorWhite" />
+        </com.liaoinstan.springview.widget.SpringView>
+
+        <View
+            android:id="@+id/shadow_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.6"
+            android:background="@color/black"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

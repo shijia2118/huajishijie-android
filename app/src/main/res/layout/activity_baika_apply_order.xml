@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_baika_detail_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAFAFA"
+    android:orientation="vertical"
+    tools:context=".activity.order.BkApplyOrderActivity">
+
+    <include layout="@layout/layout_background_two" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#DDDDDD" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="编号："
+            android:layout_marginLeft="15dp"
+            android:textColor="#FF333333"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/order_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:background="@null"
+            android:gravity="left"
+            android:inputType="number"
+            android:textColor="#999999"
+            android:textSize="16dp"
+            android:text=""/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="申请时间："
+            android:layout_marginLeft="15dp"
+            android:textColor="#FF333333"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/apply_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:background="@null"
+            android:gravity="left"
+            android:inputType="date"
+            android:textColor="#999999"
+            android:textSize="16dp"
+            android:text=""/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="审核时间："
+            android:layout_marginLeft="15dp"
+            android:textColor="#FF333333"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/examine_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:background="@null"
+            android:gravity="left"
+            android:inputType="date"
+            android:textColor="#999999"
+            android:textSize="16dp"
+            android:text=""/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#DDDDDD" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="6dp"
+        android:background="#DDDDDD" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="申请状态："
+            android:layout_marginLeft="15dp"
+            android:textColor="#FF333333"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/apply_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:background="@null"
+            android:gravity="left"
+            android:textColor="#EC6C00"
+            android:textSize="16dp"
+            android:text=""/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="申请数量："
+            android:layout_marginLeft="15dp"
+            android:textColor="#FF333333"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/apply_mount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:background="@null"
+            android:gravity="left"
+            android:textColor="#999999"
+            android:textSize="16dp"
+            android:text=""/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="获批数量："
+            android:layout_marginLeft="15dp"
+            android:textColor="#FF333333"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/approved_mount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:background="@null"
+            android:gravity="left"
+            android:textColor="#999999"
+            android:textSize="16dp"
+            android:text=""/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/reason_layout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="拒绝原因："
+            android:textColor="#FF333333"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/reason"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:background="@null"
+            android:gravity="left"
+            android:text=""
+            android:textColor="#999999"
+            android:textSize="16dp" />
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#DDDDDD" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="6dp"
+        android:background="#DDDDDD" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="收件人姓名："
+            android:layout_marginLeft="15dp"
+            android:textColor="#FF333333"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:background="@null"
+            android:gravity="left"
+            android:textColor="#999999"
+            android:textSize="16dp"
+            android:text=""/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="联系电话："
+            android:layout_marginLeft="15dp"
+            android:textColor="#FF333333"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:background="@null"
+            android:gravity="left"
+            android:textColor="#999999"
+            android:textSize="16dp"
+            android:text=""/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="收件地址："
+            android:layout_marginLeft="15dp"
+            android:textColor="#FF333333"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:background="@null"
+            android:gravity="left"
+            android:textColor="#999999"
+            android:textSize="16dp"
+            android:text=""/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#DDDDDD" />
+
+
+</LinearLayout>

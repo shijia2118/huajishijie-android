@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="vertical"
+    tools:context=".activity.home.HomeMainFragment">
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.jude.rollviewpager.RollPagerView
+                android:id="@+id/fragment_shouye_rollpagerview"
+                android:layout_width="match_parent"
+                android:layout_height="195dp"></com.jude.rollviewpager.RollPagerView>
+            <!--<com.test.tworldapplication.view.ADView-->
+            <!--android:id="@+id/adview"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="195dp"></com.test.tworldapplication.view.ADView>-->
+
+            <LinearLayout
+                android:id="@+id/ll_QD"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:background="@color/colorOrange"></View>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:gravity="center"
+                        android:text="快速通道"
+                        android:textColor="@color/colorOrange"
+                        android:textSize="14dp" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:background="@color/colorOrange"></View>
+                </LinearLayout>
+
+                <com.test.tworldapplication.view.GridViewForScrollView
+                    android:id="@+id/main_grideview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorGray12"
+                    android:divider="@color/colorGray12"
+                    android:horizontalSpacing="2dp"
+                    android:verticalSpacing="2dp"></com.test.tworldapplication.view.GridViewForScrollView>
+
+                <!--<com.test.tworldapplication.view.HomeGrideview-->
+                <!--android:id="@+id/main_grideview"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@color/colorWhite"-->
+                <!--android:divider="@color/colorGray12">-->
+
+                <!--</com.test.tworldapplication.view.HomeGrideview>-->
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_DL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/colorWhite">
+
+                    <RelativeLayout
+                        android:id="@+id/llHalfNumber"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/tvHalf1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="20dp"
+                            android:text="六个月" />
+
+                        <View
+                            android:id="@+id/vHalfNumber"
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="10dp"
+                            android:layout_toLeftOf="@id/tvHalf1"
+                            android:background="@drawable/shape_checkbox_click" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/llOneNumber"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical">
+
+                        <View
+                            android:id="@+id/vOneNumber"
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="20dp"
+                            android:background="@drawable/shape_checkbox_noclick" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:layout_toRightOf="@id/vOneNumber"
+                            android:text="六年" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <TextView
+                    style="@style/editContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:background="@color/colorWhite"
+                    android:text="开户量" />
+
+                <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chartNumber"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginBottom="10dp" />
+               <!-- <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/chartNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginBottom="10dp" />-->
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

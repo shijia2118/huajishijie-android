@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_huaji_write"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorGray12"
+    android:orientation="vertical"
+    tools:context="com.test.tworldapplication.activity.card.HuajiWriteActivity">
+
+    <include layout="@layout/layout_background_two" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorGray13" />
+
+    <LinearLayout
+        android:id="@+id/ll_number"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="靓号"
+            android:textColor="@color/colorGray1"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/tvNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorGray1"
+            android:textSize="16dp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="15dp"
+        android:background="@color/colorGray13" />
+
+    <LinearLayout
+        android:id="@+id/ll_address"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="归属地"
+            android:textColor="@color/colorGray1"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/tvAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorGray1"
+            android:textSize="16dp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="15dp"
+        android:background="@color/colorGray13" />
+
+    <LinearLayout
+        android:id="@+id/ll_operate"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="运营商"
+            android:textColor="@color/colorGray1"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/tvOperate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorGray1"
+            android:textSize="16dp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="15dp"
+        android:background="@color/colorGray13" />
+
+    <LinearLayout
+        android:id="@+id/ll_package"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="套餐"
+            android:textColor="@color/colorGray1"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/tvPackage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorGray1"
+            android:textSize="16dp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="15dp"
+        android:background="@color/colorGray13" />
+
+    <LinearLayout
+        android:id="@+id/ll_activity"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="活动包"
+            android:textColor="@color/colorGray1"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/tvActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorGray1"
+            android:textSize="16dp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="15dp"
+        android:background="@color/colorGray13" />
+
+    <LinearLayout
+        android:id="@+id/ll_iccid"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="ICCID"
+            android:textColor="@color/colorGray1"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/tvIccidText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorOrange"
+            android:textSize="16dp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvIccid"
+            android:layout_width="60dp"
+            android:layout_height="28dp"
+            android:background="@drawable/shape_recharge"
+            android:gravity="center"
+            android:text="写卡"
+            android:textColor="@color/colorBlue"
+            android:textSize="14dp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvSubmit"
+        android:layout_width="170dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="39dp"
+        android:background="@drawable/shape_bt_background_new"
+        android:gravity="center"
+        android:text="下一步"
+        android:textColor="@color/colorWhite"
+        android:textSize="16dp"
+        android:visibility="gone" />
+
+
+</LinearLayout>

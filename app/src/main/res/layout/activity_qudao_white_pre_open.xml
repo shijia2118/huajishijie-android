@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_qudao_white_pre_open"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.test.tworldapplication.activity.card.QudaoWhitePreOpenActivity">
+
+    <include layout="@layout/layout_background_two" />
+
+    <View
+        android:id="@+id/vLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGray7" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/ll_inumber"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="@color/colorWhite">
+
+            <TextView
+                style="@style/textBig"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:text="号码" />
+
+            <EditText
+                android:id="@+id/etNumber"
+                style="@style/editContentLight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="35dp"
+                android:background="@null"
+                android:digits="0123456789"
+                android:gravity="right"
+                android:hint="请输入号码"
+                android:inputType="phone"
+                android:maxLength="11" />
+
+            <ImageView
+                android:id="@+id/imgDelete"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="15dp"
+                android:src="@drawable/delete_gray" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tvToast"
+            style="@style/textRed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:text="您的号码输入有误!"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tvNext"
+        android:layout_width="170dp"
+        android:layout_height="40dp"
+
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="100dp"
+        android:background="@drawable/shape_bt_background_new"
+        android:gravity="center"
+        android:text="下一步"
+        android:textColor="@color/colorWhite"
+        android:textSize="14dp" />
+</LinearLayout>

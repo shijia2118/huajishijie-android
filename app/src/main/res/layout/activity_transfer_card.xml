@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_transfer_card"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="vertical"
+    tools:context="com.test.tworldapplication.activity.card.TransferCardActivity">
+
+    <include layout="@layout/layout_background_two" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGray7" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:background="@color/colorWhite"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp">
+
+                <TextView
+                    style="@style/textBig"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_weight="1"
+                    android:text="过户号码" />
+
+                <EditText
+                    android:id="@+id/etNumber"
+                    style="@style/editContentLight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:background="@null"
+                    android:gravity="right"
+                    android:hint="请输入过户号码"
+                    android:inputType="number"
+                    android:maxLength="11" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorGray7" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:background="@color/colorWhite"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp">
+
+                <TextView
+                    style="@style/textBig"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_weight="1"
+                    android:text="姓名" />
+
+                <EditText
+                    android:id="@+id/etName"
+                    style="@style/editContentLight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:background="@null"
+                    android:gravity="right"
+                    android:hint="请输入姓名" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorGray7" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:background="@color/colorWhite"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp">
+
+                <TextView
+                    style="@style/textBig"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_weight="1"
+                    android:text="证件号码" />
+
+                <EditText
+                    android:id="@+id/etId"
+                    style="@style/editContentLight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:background="@null"
+                    android:digits="0123456789xX"
+                    android:gravity="right"
+                    android:hint="请输入证件号码"
+                    android:inputType="number" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorGray7" />
+
+            <LinearLayout
+                android:id="@+id/ll_activity"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:background="@color/colorWhite"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp">
+
+                <TextView
+                    style="@style/textBig"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_weight="1"
+                    android:text="证件地址" />
+
+                <EditText
+                    android:id="@+id/etAddress"
+                    style="@style/editContentLight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:background="@null"
+                    android:gravity="right"
+                    android:hint="请输入地址" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorGray7" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:background="@color/colorWhite"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp">
+
+                <TextView
+                    style="@style/textBig"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_weight="1"
+                    android:inputType="phone"
+                    android:text="联系电话" />
+
+                <EditText
+                    android:id="@+id/etPhone"
+                    style="@style/editContentLight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:background="@null"
+                    android:gravity="right"
+                    android:hint="请输入联系电话"
+                    android:inputType="phone"
+                    android:maxLength="11" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorGray7" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:background="@color/colorWhite"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp">
+
+                <TextView
+                    style="@style/textBig"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_weight="1"
+                    android:text="近期联系电话1" />
+
+                <EditText
+                    android:id="@+id/etLast0"
+                    style="@style/editContentLight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:background="@null"
+                    android:gravity="right"
+                    android:hint="请输入近期联系电话1"
+                    android:inputType="phone"
+                    android:maxLength="11" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorGray7" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:background="@color/colorWhite"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp">
+
+                <TextView
+                    style="@style/textBig"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_weight="1"
+                    android:text="近期联系电话2" />
+
+                <EditText
+                    android:id="@+id/etLast1"
+                    style="@style/editContentLight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:background="@null"
+                    android:digits="0123456789xX"
+                    android:gravity="right"
+                    android:hint="请输入近期联系电话2"
+                    android:inputType="phone"
+                    android:maxLength="11" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorGray7" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:background="@color/colorWhite"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp">
+
+                <TextView
+                    style="@style/textBig"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_weight="1"
+                    android:text="近期联系电话3" />
+
+                <EditText
+                    android:id="@+id/etLast2"
+                    style="@style/editContentLight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:background="@null"
+                    android:gravity="right"
+                    android:hint="请输入近期联系电话3"
+                    android:inputType="phone"
+                    android:maxLength="11" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorWhite"
+                android:orientation="vertical"
+                android:paddingLeft="15dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingTop="10dp">
+
+                    <TextView
+                        style="@style/textBig"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="原用户" />
+
+                    <TextView
+                        style="@style/textSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:text="(点击图片可放大)" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="14dp">
+
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imgOldIdFront"
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:src="@drawable/add" />
+
+                            <TextView
+                                style="@style/textSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="身份证正面照" />
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/imgOldIdFrontRemove"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_marginLeft="82dp"
+                            android:src="@drawable/remove"
+                            android:visibility="invisible" />
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imgOldIdBack"
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:src="@drawable/add" />
+
+                            <TextView
+                                style="@style/textSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="本人手持证件照" />
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/imgOldIdBackRemove"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_marginLeft="80dp"
+                            android:src="@drawable/remove"
+                            android:visibility="invisible" />
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorWhite"
+                android:orientation="vertical"
+                android:paddingLeft="15dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingTop="10dp">
+
+                    <TextView
+                        style="@style/textBig"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="新用户"
+                        android:textColor="@color/colorGray"
+                        android:textSize="14dp" />
+
+                    <TextView
+                        style="@style/textSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:text="(点击图片可放大)" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="14dp">
+
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imgNewIdFront"
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:src="@drawable/add" />
+
+                            <TextView
+                                style="@style/textSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="身份证正面照" />
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/imgNewIdFrontRemove"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_marginLeft="82dp"
+                            android:src="@drawable/remove"
+                            android:visibility="invisible" />
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imgNewIdBack"
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:src="@drawable/add" />
+
+                            <TextView
+                                style="@style/textSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="本人手持证件照" />
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/imgNewIdBackRemove"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_marginLeft="80dp"
+                            android:src="@drawable/remove"
+                            android:visibility="invisible" />
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_tips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="15dp"
+                android:paddingTop="5dp"></LinearLayout>
+
+
+            <TextView
+                android:id="@+id/tvSubmit"
+                android:layout_width="170dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="39dp"
+                android:background="@drawable/shape_bt_background_new"
+                android:gravity="center"
+                android:text="提交"
+                android:textColor="@color/colorWhite"
+                android:textSize="14dp" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

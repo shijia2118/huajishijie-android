@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_renew"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_background_two" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGray7" />
+
+    <RelativeLayout
+        android:id="@+id/ll_inumber"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@color/colorWhite">
+
+        <TextView
+            style="@style/textBig"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="手机号码" />
+
+        <EditText
+            android:id="@+id/etNumber"
+            style="@style/editContentLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@null"
+            android:gravity="right"
+            android:hint="请输入手机号码"
+            android:inputType="number"
+            android:maxLength="11" />
+
+
+    </RelativeLayout>
+
+    <View
+        android:visibility="gone"
+        android:id="@+id/v_puk"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="15dp"
+        android:background="@color/colorGray7" />
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/ll_PUK"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorWhite">
+
+        <TextView
+            style="@style/textBig"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="PUK码" />
+
+        <EditText
+            android:id="@+id/etPUK"
+            style="@style/editContentLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@null"
+            android:gravity="right"
+            android:hint="请输入PUK码"
+            android:inputType="number" />
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvToast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:text="该号码为靓号,请输入PUK码"
+        android:textColor="@color/appColor"
+        android:textSize="13dp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tvNext"
+        android:layout_width="170dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="39dp"
+        android:background="@drawable/shape_bt_background_new"
+        android:gravity="center"
+        android:text="下一步"
+        android:textColor="@color/colorWhite"
+        android:textSize="14dp" />
+
+</LinearLayout>

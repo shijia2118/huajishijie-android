@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_card_reading"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.test.tworldapplication.activity.card.CardReadingActivity">
+
+    <include layout="@layout/layout_background_two" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGray7" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:orientation="vertical"
+        android:paddingLeft="15dp">
+
+        <TextView
+            android:id="@+id/tvPhone"
+            style="@style/editContentLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="号码: " />
+
+        <TextView
+            android:id="@+id/tvAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="号码归属地: 浙江省"
+            android:textColor="@color/colorGray5"
+            android:textSize="14dp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvState"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="号码状态: 已激活"
+            android:textColor="@color/colorGray5"
+            android:textSize="14dp"
+            android:visibility="gone" />
+
+
+        <TextView
+            android:id="@+id/tvInternet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="网络制式: 话机通信"
+            android:textColor="@color/colorGray5"
+            android:textSize="14dp"
+            android:visibility="gone" />
+        <TextView
+            android:id="@+id/tvIccid"
+            style="@style/editContentLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="10dp"
+            android:text="ICCID: " />
+
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tvRead"
+        android:layout_width="171dp"
+        android:layout_height="41dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="39dp"
+        android:background="@drawable/shape_bt_background_new"
+        android:gravity="center"
+        android:text="写卡"
+        android:textColor="@color/colorWhite"
+        android:textSize="14dp" />
+
+    <LinearLayout
+        android:id="@+id/ll_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/ll_package"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="11dp"
+            android:background="@color/colorWhite"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <TextView
+                style="@style/textBig"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="套餐选择" />
+
+            <TextView
+                style="@style/editContentLight"
+                android:id="@+id/tvPackage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="请选择" />
+
+            <ImageView
+                android:layout_width="9dp"
+                android:layout_height="16dp"
+                android:src="@drawable/arr_right" />
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="15dp"
+            android:background="@color/colorGray7" />
+
+        <LinearLayout
+            android:id="@+id/ll_activity"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="@color/colorWhite"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <TextView
+                style="@style/textBig"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="活动包选择" />
+
+            <TextView
+                style="@style/editContentLight"
+                android:id="@+id/tvActivity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="请选择" />
+
+            <ImageView
+                android:layout_width="9dp"
+                android:layout_height="16dp"
+                android:src="@drawable/arr_right" />
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="15dp"
+            android:background="@color/colorGray7" />
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="@color/colorWhite"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp">
+
+            <TextView
+                style="@style/textBig"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_weight="1"
+                android:text="预存金额"/>
+
+            <EditText
+                style="@style/editContentLight"
+                android:id="@+id/etMoney"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:background="@null"
+                android:focusableInTouchMode="true"
+                android:gravity="right"
+                android:hint="请输入预存金额"
+                android:focusable="false" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvNext"
+            android:layout_width="171dp"
+            android:layout_height="41dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="39dp"
+            android:background="@drawable/shape_bt_background_new"
+            android:gravity="center"
+            android:text="下一步"
+            android:textColor="@color/colorWhite"
+            android:textSize="14dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

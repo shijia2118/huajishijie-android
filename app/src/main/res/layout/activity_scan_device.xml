@@ -1,0 +1,40 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    <RelativeLayout
+        android:id="@+id/relativeLayout_textview_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/appColor"
+        android:gravity="center" >
+
+        <TextView
+            android:id="@+id/textview_head_title"
+            style="@style/style_head_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设备列表" >
+        </TextView>
+    </RelativeLayout>
+    
+    <ListView 
+        android:id="@+id/listview_devices"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeLayout_textview_title"
+        android:layout_above="@+id/button_scan"
+        android:layout_margin="5dp"
+        />
+
+    <Button
+        android:id="@+id/button_scan"
+        style="@style/style_button_with_cornor"
+		android:layout_alignParentBottom="true"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:text="开始扫描" />
+
+</RelativeLayout>

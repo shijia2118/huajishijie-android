@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_info_write_in"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_background_two" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGray7" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="vertical"
+        android:background="#E2E2E2">
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:textColor="#EC6C00"
+            android:textSize="14dp"
+            android:text="00:00:00" />
+    </LinearLayout>
+
+    <com.test.tworldapplication.utils.RoundImageView
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center"
+        android:id="@+id/imgRound"/>
+
+    <TextView
+        android:id="@+id/tip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:textSize="14dp"
+        android:textColor="#333333"
+        android:text="请对准人相框录制10s视频" />
+
+    <ImageView
+        android:id="@+id/start"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        app:srcCompat="@mipmap/start_stop" />
+
+    <TextView
+        android:id="@+id/submit"
+        android:layout_width="170dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/shape_bt_background_new"
+        android:gravity="center"
+        android:text="提交"
+        android:textColor="@color/colorWhite"
+        android:textSize="16dp"
+        android:visibility="gone" />
+
+
+</LinearLayout>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_feedback_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="vertical"
+    tools:context="com.test.tworldapplication.activity.admin.FeedbackMainActivity">
+
+    <include layout="@layout/layout_background_two" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGray7" />
+
+    <EditText
+        android:id="@+id/etInput"
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        android:background="@color/colorWhite"
+        android:gravity="top"
+        android:hint="请输入您的意见或建议"
+        android:paddingLeft="15dp"
+        android:paddingTop="10dp"
+        android:textColor="@color/colorGray6"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/tvSubmit"
+        android:layout_width="171dp"
+        android:layout_height="41dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="39dp"
+        android:background="@drawable/shape_bt_background_new"
+        android:gravity="center"
+        android:text="提交"
+        android:textColor="@color/colorWhite"
+        android:textSize="14dp" />
+</LinearLayout>

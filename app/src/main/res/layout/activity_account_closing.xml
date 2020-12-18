@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_account_closing"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="vertical"
+    tools:context="com.test.tworldapplication.activity.card.AccountClosingActivity">
+
+    <include layout="@layout/layout_background_two" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGray7" />
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <ImageView
+            android:id="@+id/xy"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+    </ScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:background="@color/colorGray12" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="#ffffff"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="15dp"
+            android:text="客户签名"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.test.tworldapplication.utils.signature.SignatureView
+                android:id="@+id/sign"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="15dp"
+                android:background="@drawable/shape_sign" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="签名区"
+                android:textColor="#aaE2E2E2"
+                android:textSize="50sp" />
+
+            <ImageView
+                android:id="@+id/close"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentRight="true"
+                android:background="@mipmap/close" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:orientation="vertical"
+        android:paddingLeft="15dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvNumber"
+            style="@style/editContentLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="开户号码: " />
+
+        <TextView
+            android:id="@+id/tvMoney"
+            style="@style/editContentLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="预存金额:" />
+
+        <TextView
+            android:id="@+id/tvPackageMoney"
+            style="@style/editContentLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="套餐金额:" />
+
+        <TextView
+            android:id="@+id/tvActivity"
+            style="@style/editContentLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="活动包:" />
+
+        <TextView
+            android:id="@+id/tvMoneyDiscounted"
+            style="@style/editContentLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="优惠金额:" />
+
+        <TextView
+            android:id="@+id/tvFinalMoney"
+            style="@style/editContentLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="14dp"
+            android:layout_marginTop="14dp"
+            android:text="总金额:" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llAgreement"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:visibility="gone">
+
+        <CheckBox
+            android:id="@+id/checkbox"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="我已经详细阅读并同意" />
+
+        <TextView
+            android:id="@+id/tvAgreement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="开户协议"
+            android:textColor="#FF0000" />
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tvSubmit"
+        android:layout_width="170dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="39dp"
+        android:background="@drawable/shape_bt_background_new"
+        android:enabled="false"
+        android:gravity="center"
+        android:text="开户"
+        android:textColor="@color/colorWhite"
+        android:textSize="14dp"
+        android:visibility="gone" />
+</LinearLayout>

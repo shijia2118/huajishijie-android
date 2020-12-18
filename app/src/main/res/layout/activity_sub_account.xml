@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_cute_number"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    tools:context="com.test.tworldapplication.activity.card.CuteNumberActivity">
+
+    <include layout="@layout/layout_background_two" />
+
+    <View
+        android:id="@+id/vLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGray7" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.liaoinstan.springview.widget.SpringView
+            android:id="@+id/springView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#ffffff"
+            app:footer="@layout/header_recycle"
+            app:header="@layout/header_recycle"
+            app:type="follow">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorGray12"
+                android:cacheColorHint="@color/colorWhite"
+                android:divider="@color/colorGray13"
+                android:dividerHeight="1dp"
+                android:groupIndicator="@null"
+                android:listSelector="@color/colorWhite" />
+        </com.liaoinstan.springview.widget.SpringView>
+
+        <View
+            android:id="@+id/shadow_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.6"
+            android:visibility="gone"
+            android:background="@color/black" />
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_info_write_in"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorBackground"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_background_two" />
+
+    <TextView
+        android:id="@+id/timer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/view0"
+        android:background="#F1F1F1"
+        android:gravity="center"
+        android:text="00:00:00"
+        android:textColor="#EC6C00"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/view0"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="#F1F1F1" />
+
+    <TextView
+        android:id="@+id/view1"
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="#FBFBFB" />
+
+    <TextView
+        android:id="@+id/timer0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/view0"
+        android:background="#F1F1F1"
+        android:gravity="center"
+        android:text="正在录制视频中"
+        android:textColor="#EC6C00"
+        android:visibility="gone" />
+
+    <Chronometer
+        android:id="@+id/record_time"
+        android:layout_width="match_parent"
+        android:layout_height="21dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:background="#F1F1F1"
+        android:format="%s"
+        android:gravity="center"
+        android:textColor="#EC6C00"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="380dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:background="#FBFBFB"
+        android:padding="10dp"
+        android:layout_alignParentLeft="true">
+
+
+        <SurfaceView
+            android:id="@+id/record_surfaceView"
+            android:layout_width="280dp"
+            android:layout_height="300dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/circle" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="5dp"
+            app:srcCompat="@mipmap/video" />
+
+        <ImageView
+            android:id="@+id/showimg"
+            android:layout_width="77dp"
+            android:layout_height="46dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="25dp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/a" />
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:text="请根据提示，对准人相框录制10s视频"
+        android:textColor="#333333"
+        android:textSize="13dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="129dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:background="#FBFBFB"
+        android:padding="10dp">
+
+        <!-- 开始/结束 录制按钮 -->
+        <ImageView
+            android:id="@+id/record_control"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="11dp"
+            android:src="@mipmap/start_stop" />
+
+        <ImageView
+            android:id="@+id/record_control0"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="11dp"
+            android:src="@mipmap/start_stop"
+            android:visibility="gone" />
+        <ImageView
+            android:id="@+id/record_control1"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="11dp"
+            android:src="@mipmap/start_stop"
+            android:visibility="gone" />
+        <ImageView
+            android:id="@+id/record_control2"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="11dp"
+            android:src="@mipmap/start_stop"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/record_pause"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:onClick="stopRecord"
+            android:src="@mipmap/start_stop"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/result_iv"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="29dp"
+            android:layout_marginStart="29dp"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_commission_statistic"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="vertical"
+    tools:context="com.test.tworldapplication.activity.admin.CommissionStatisticActivity">
+
+    <include layout="@layout/layout_background_one" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!--<ScrollView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--&gt;-->
+
+            <View
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorGray7" />
+            <LinearLayout
+                android:background="@color/colorWhite"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:paddingLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    style="@style/textBig"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_weight="1"
+                    android:text="佣金金额" />
+
+                <TextView
+                    android:id="@+id/tvCommission"
+                    style="@style/editContentLight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:background="@null"
+                    android:focusableInTouchMode="true"
+                    android:gravity="right"
+                    tools:text="138元"
+                    android:maxLength="11" />
+
+
+            </LinearLayout>
+            <View
+                android:visibility="gone"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorGray7" />
+
+            <LinearLayout
+                android:visibility="gone"
+                android:background="@color/colorWhite"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:paddingLeft="10dp"
+                    style="@style/textBig"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_weight="1"
+                    android:text="账期选择" />
+
+                <TextView
+                    android:id="@+id/tvDate"
+                    style="@style/editContentLight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:background="@null"
+                    android:focusableInTouchMode="true"
+                    android:gravity="right"
+                    android:hint="请选择"
+                    android:maxLength="11" />
+                <ImageView
+                    android:layout_width="9dp"
+                    android:layout_height="16dp"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/arr_right" />
+
+            </LinearLayout>
+            <View
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorGray7" />
+
+            <LinearLayout
+                android:id="@+id/detail_ll"
+                android:background="@color/colorWhite"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:paddingLeft="10dp"
+                    style="@style/textBig"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_weight="1"
+                    android:text="佣金详情" />
+                <ImageView
+                    android:layout_width="9dp"
+                    android:layout_height="16dp"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/arr_right" />
+
+            </LinearLayout>
+            <View
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorGray7" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/colorWhite">
+
+
+                    <RelativeLayout
+                        android:id="@+id/llHalfMoney"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/tvHalf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="20dp"
+                            android:text="六个月" />
+
+                        <View
+                            android:id="@+id/vHalfMoney"
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="10dp"
+                            android:layout_toLeftOf="@id/tvHalf"
+                            android:background="@drawable/shape_checkbox_click" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/llOneMoney"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical">
+
+                        <View
+                            android:id="@+id/vOneMoney"
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="20dp"
+                            android:background="@drawable/shape_checkbox_noclick" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:layout_toRightOf="@id/vOneMoney"
+                            android:text="六年" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:background="@color/colorWhite"
+                    android:text="佣金" />
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/chartMoney"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginBottom="10dp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/colorWhite">
+
+                    <RelativeLayout
+                        android:id="@+id/llHalfNumber"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/tvHalf1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="20dp"
+                            android:text="六个月" />
+
+                        <View
+                            android:id="@+id/vHalfNumber"
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="10dp"
+                            android:layout_toLeftOf="@id/tvHalf1"
+                            android:background="@drawable/shape_checkbox_click" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/llOneNumber"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical">
+
+                        <View
+                            android:id="@+id/vOneNumber"
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="20dp"
+                            android:background="@drawable/shape_checkbox_noclick" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:layout_toRightOf="@id/vOneNumber"
+                            android:text="六年" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:background="@color/colorWhite"
+                    android:text="开户量" />
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/chartNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginBottom="10dp" />
+            </LinearLayout>
+            <!--</ScrollView>-->
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

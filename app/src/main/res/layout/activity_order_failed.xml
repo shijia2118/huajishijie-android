@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.test.tworldapplication.activity.card.OrderFailedActivity">
+
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="57dp"
+        android:background="@drawable/shape_activity_bg"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvToast"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="57dp"
+            android:gravity="center"
+            android:textColor="@color/colorOrange"
+            android:textSize="17dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="114dp"
+        android:layout_height="114dp"
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/order_failed" />
+</RelativeLayout>

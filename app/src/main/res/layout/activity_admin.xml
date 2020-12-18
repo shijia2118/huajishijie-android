@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_admin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="vertical"
+    tools:context="com.test.tworldapplication.activity.admin.AdminActivity">
+
+    <include layout="@layout/layout_background_one" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:background="@color/colorGray9" />
+
+    <ListView
+        android:id="@+id/lvAdmin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:paddingLeft="15dp"></ListView>
+
+    <TextView
+        android:id="@+id/btExit"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="27dp"
+        android:background="@color/colorWhite"
+        android:gravity="center"
+        android:text="退出登录"
+        android:textColor="@color/colorOrange"
+        android:textSize="18dp" />
+</LinearLayout>

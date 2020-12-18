@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:orientation="vertical"
+    android:paddingLeft="15dp">
+
+    <LinearLayout
+        android:id="@+id/ll_pool"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            style="@style/textBig"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="号码池" />
+
+        <TextView
+            android:id="@+id/tvPool"
+            style="@style/editContentLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="请选择" />
+
+        <ImageView
+            android:layout_width="9dp"
+            android:layout_height="16dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/arr_right" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/vLine0"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGray7" />
+
+    <LinearLayout
+        android:id="@+id/ll_regular"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            style="@style/textBig"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="靓号规则" />
+
+        <TextView
+            android:id="@+id/tvRegular"
+            style="@style/editContentLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="请选择" />
+
+        <ImageView
+            android:layout_width="9dp"
+            android:layout_height="16dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/arr_right" />
+
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGray7" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="15dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tvReset"
+            android:layout_width="0dp"
+            android:layout_height="34dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_bt_background_reset"
+            android:gravity="center"
+            android:text="重置"
+            android:textColor="@color/colorGray11"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/tvInquery"
+            android:layout_width="0dp"
+            android:layout_height="34dp"
+            android:layout_marginLeft="30dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_bt_background_new"
+            android:gravity="center"
+            android:text="查询"
+            android:textColor="@color/colorWhite"
+            android:textSize="16dp" />
+
+
+    </LinearLayout>
+</LinearLayout>

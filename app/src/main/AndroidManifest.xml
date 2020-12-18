@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.test.tworldapplication">
+
+    <uses-feature
+        android:name="android.hardware.nfc"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.usb.host"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.NFC" /> <!-- 权限列表 -->
+    <uses-permission android:name="android.permission.VIBRATE" /> <!-- 访问联网权限 -->
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" /> <!-- 手机有没有连接到wifi -->
+    <uses-permission android:name="android.permission.BLUETOOTH" /> <!-- 写入网络GPRS接入点设置 -->
+    <!-- 相机权限 -->
+    <uses-permission android:name="android.permission.SET_WALLPAPER" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCES_MOCK_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" /> <!-- 添加拨出电话的权限 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" /> <!-- 访问网络状态的权限 -->
+    <uses-permission android:name="android.permission.FLASHLIGHT" /> <!-- 允许使用GPS权限 -->
+    <uses-permission android:name="android.permission.CALL_PHONE" /> <!-- 读写存储卡的权限 -->
+    <uses-permission android:name="android.permission.VIBRATE" /> <!-- 读取电话状态的权限 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_GPS" /> <!-- 改变WIFI网络状态的权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 访问WIFI网络状态的权限 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 访问手机精准位置 -->
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!-- Service开机自动 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 获取到运行中的task（任务） -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 网络视频播放 -->
+    <uses-permission android:name="com.android.browser.permission.READ_HISTORY_BOOKMARKS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 获取机型信息权限 -->
+    <uses-permission android:name="android.permission.RESTART_PACKAGES" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 访问internet权限 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" /> <!-- android:theme="@style/AppTheme.NoActionBar" -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" /> <!-- 这个权限用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 这个权限用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 访问网络，网络定位需要上网 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name=".base.MyApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="话机代理"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:supportsRtl="true"
+        android:theme="@style/title_bg2"
+        tools:replace="android:icon,android:theme,android:label">
+        <activity android:name=".activity.SplashActivity">
+
+        </activity>
+        <activity android:name=".activity.home.YewuListActivity" />
+        <activity android:name=".activity.home.HuiyuanActivity" />
+        <activity android:name=".activity.home.LiuliangActivity" />
+        <activity android:name=".activity.home.YewubanliActivity" />
+
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="OX4POCnksOOtHYqWqwqPZLFEGhK0lxo3" />
+
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.test.tworldapplication.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_path" />
+        </provider> <!-- <activity -->
+        <!-- android:name="com.tencent.bugly.beta.ui.BetaActivity" -->
+        <!-- android:configChanges="keyboardHidden|orientation|screenSize|locale" -->
+        <!-- android:theme="@android:style/Theme.Translucent" /> -->
+        <activity
+            android:name=".activity.other.ScanDeviceActivity"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".activity.other.SendApduActivity"
+            android:configChanges="keyboardHidden|navigation|orientation|screenSize"
+            android:label="@string/title_activity_send_apdu" />
+        <activity android:name=".base.BaseActivity" />
+        <activity android:name=".activity.main.SplashActivity" />
+        <activity
+            android:name=".activity.main.MainActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".activity.other.SpaceImageDetailActivity" />
+        <activity android:name=".activity.other.MessageMainActivity" />
+        <activity android:name=".activity.account.NumberBalanceActivity" />
+        <activity android:name=".activity.account.AccountBalanceActivity" />
+        <activity
+            android:name=".activity.account.NumberRechargeActivity"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+        <activity android:name=".activity.account.RechargeRecordNewActivity" />
+        <activity android:name=".activity.account.BalanceDetailsActivity" />
+        <activity android:name=".activity.account.PayResultActivity" />
+        <activity android:name=".activity.card.RenewCardActivity" />
+        <activity
+            android:name=".activity.card.TransferCardActivity"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+        <activity
+            android:name=".activity.card.ReplaceCardActivity"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+        <activity android:name=".activity.card.ProgressQueryActivity" />
+        <activity android:name=".activity.card.PackageSelectActivity" />
+        <activity android:name=".activity.card.MessageCollectionActivity" />
+        <activity android:name=".activity.card.MessageCollectionNewActivity">
+
+        </activity>
+        <activity android:name=".activity.card.NewCardActivity" />
+        <activity android:name=".activity.order.OrderKhDetailActivity" />
+        <activity android:name=".activity.order.OrderGhDetailActivity" />
+        <activity android:name=".activity.order.OrderBkDetailActivity" />
+        <activity android:name=".activity.card.AccountClosingActivity"></activity>
+        <activity android:name=".activity.card.CardReadingActivity" />
+        <activity android:name=".activity.admin.AdminActivity" />
+        <activity android:name=".activity.admin.PersonInformationActivity" />
+        <activity android:name=".activity.admin.PasswordManageActivity" />
+        <activity android:name=".activity.admin.CommissionStatisticActivity" />
+        <activity android:name=".activity.admin.SettingMainActivity" />
+        <activity android:name=".activity.admin.LogPassReviseActivity" />
+        <activity android:name=".activity.admin.PayPassCreateActivity" />
+        <activity android:name=".activity.admin.PayPassVerifyActivity" />
+        <activity android:name=".activity.admin.PayPassReviseActivity" />
+        <activity android:name=".activity.admin.FeedbackMainActivity" />
+        <activity android:name=".activity.admin.AboutUsActivity" />
+        <activity android:name=".activity.main.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.main.RegisterActivity"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+        <activity android:name=".activity.main.PasswordForgetActivity" />
+        <activity android:name=".activity.main.PasswordResetActivity" />
+        <activity android:name=".activity.other.PhotoDetailActivity" />
+        <activity android:name=".activity.card.PackageSelectDetailActivity" />
+        <activity android:name=".activity.card.ActivitySelectDetailActivity" />
+        <activity android:name=".activity.other.WebViewActivity" />
+        <activity android:name=".activity.other.MessageDetailActivity" />
+        <activity android:name=".activity.card.BlueToothActivity" />
+        <activity android:name=".activity.main.MainNewActivity" />
+        <activity android:name=".activity.card.BlueToothReadActivity" />
+        <activity android:name="wintone.passportreader.sdk.MainActivity" />
+        <activity
+            android:name="wintone.passportreader.sdk.CameraActivity"
+            android:screenOrientation="landscape" />
+        <activity android:name="wintone.passport.sdk.utils.PermissionActivity" />
+        <activity android:name="wintone.passportreader.sdk.ShowResultActivity" />
+        <activity android:name=".activity.card.SelectActivity" />
+        <activity android:name=".activity.card.WhitePreOpenActivity" />
+        <activity android:name=".activity.card.PhoneDetailActivity" />
+        <activity android:name=".activity.card.CuteNumberActivity" />
+        <activity android:name=".activity.card.PreOpenRecordActivity" />
+        <activity android:name=".activity.card.CutePhoneDetailActivity" />
+        <activity android:name=".activity.card.QdsCuteSelectActivity" />
+        <activity android:name=".activity.card.DailiCuteActivity" />
+        <activity android:name=".activity.card.HuajiCuteDetailActivity" />
+        <activity android:name=".activity.card.DailiCuteDetailActivity" />
+        <activity android:name=".activity.card.HuajiWriteActivity" />
+        <activity android:name=".activity.card.HuajiSelectActivity" />
+        <activity android:name=".activity.card.QudaoWhitePreOpenActivity" />
+        <activity android:name=".activity.card.QudaoPreDetailActivity" />
+        <activity android:name=".activity.card.CuteNumberDailiActivity" />
+        <activity android:name=".activity.card.CuteNumberDetailDailiActivity" />
+        <activity android:name=".activity.card.CuteNumberWriteDailiActivity" />
+        <activity android:name=".activity.card.CuteNumberWriteSuccessActivity" />
+        <activity android:name=".activity.card.CutePhoneDetailDailiActivity" />
+        <activity android:name=".activity.order.OrderKHDetailNewActivity" />
+        <activity android:name=".activity.card.QudaoWhitePhoneDetailActivity" />
+        <activity android:name=".activity.card.HuajiCuteActivity" />
+        <activity
+            android:name=".activity.card.ProductBusinessActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".activity.card.ProductInputActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".activity.TextActivity" />
+        <activity android:name=".activity.order.OrderKhListActivity" />
+        <activity android:name=".activity.order.OrderGHDetailNewActivity" />
+        <activity android:name=".activity.order.OrderBKDetailNewActivity" />
+        <activity android:name=".activity.order.OrderCZDetailNewActivity" />
+        <activity android:name=".activity.Text2Activity" />
+        <activity
+            android:name=".activity.other.DialogActivity"
+            android:theme="@style/CustomActivityDialogStyle" />
+        <activity android:name=".activity.card.CautionActivity" />
+        <activity
+            android:name=".activity.card.ProductConfirmActivity"
+            android:theme="@style/dialogActivityNoActivityBar" />
+        <activity
+            android:name=".activity.card.OrderSuccessActivity"
+            android:theme="@style/dialogActivityNoActivityBar" />
+        <activity
+            android:name=".activity.card.OrderFailedActivity"
+            android:theme="@style/dialogActivityNoActivityBar" />
+        <activity android:name=".activity.order.ProductRecordActivity" />
+        <activity android:name=".activity.order.ProductRecordDetailActivity" />
+        <activity android:name=".activity.HbcjActivity" />
+        <activity
+            android:name=".activity.CjjgActivity"
+            android:theme="@style/dialogActivityNoActivityBar" />
+        <activity android:name=".CjRecordActivity" />
+        <activity android:name=".CjDetailActivity" />
+        <activity android:name=".AgreementActivity" />
+        <activity android:name=".activity.card.BillQueryActivity" />
+        <activity android:name=".activity.card.BillDetailActivity" />
+        <activity android:name=".activity.account.SubAccountActivity" />
+        <activity android:name=".activity.admin.CommissionListActivity" />
+        <activity android:name=".activity.admin.CommissionDetailActivity" />
+        <activity android:name=".activity.account.SubAccountDetailActivity" />
+        <activity android:name=".activity.admin.WriteInActivity" />
+        <activity android:name=".activity.order.BkOrderListActivity" />
+        <activity android:name=".activity.order.BkApplyOrderActivity" />
+        <activity android:name=".activity.card.BkApplyActivity" />
+        <activity android:name=".activity.card.FaceRecordingActivity"></activity>
+        <activity android:name=".activity.admin.RefillInfoActivity" />
+        <activity android:name=".activity.order.OrderYKHDetailNewActivity" />
+        <activity android:name=".activity.order.QrCodeActivity" />
+        <activity android:name=".activity.main.PhoneListActivity" />
+        <activity android:name=".activity.main.PhoneDetailActivity" />
+        <activity android:name=".activity.card.OrderJHDetailActivity" />
+
+        <service android:name=".activity.other.MessageService" />
+        <service
+            android:name=".utils.bluetooth.PlkBluetoothLeService"
+            android:enabled="true" />
+        <service
+            android:name="com.plk.bluetoothlesdk.PlkBluetoothLeService"
+            android:enabled="true" />
+        <service
+            android:name="wintone.idcard.android.AuthService"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="wintone.idcard.authService" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="wintone.idcard.android.RecogService"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="wintone.idcard.recogService" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="wintone.idcard.android.TimeService"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="wintone.idcard.TimeService" />
+            </intent-filter>
+        </service>
+    </application>
+
+</manifest>

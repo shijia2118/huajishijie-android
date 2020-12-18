@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:orientation="vertical"
+    android:paddingLeft="15dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="22dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvTime"
+            style="@style/textcolor9"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/tvStatus"
+            style="@style/textOrange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_djShow"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:gravity="center_vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvName"
+                style="@style/textBig"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+            <TextView
+                android:id="@+id/tvNumber"
+                style="@style/textcolor6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="8dp" />
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvAgain"
+            style="@style/textLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:autoLink="all"
+            android:background="@drawable/rectangle_corner4_blue"
+            android:paddingBottom="3dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="3dp"
+            android:text="重新提交资料"
+            android:textColor="@color/colorBlue1"
+            android:visibility="gone" />
+
+        <ImageView
+            android:layout_width="8dp"
+            android:layout_height="13dp"
+            android:layout_marginRight="15dp"
+            android:src="@mipmap/arr_right" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_czShow"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvCZNumber"
+            style="@style/textcolor6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:layout_width="8dp"
+            android:layout_height="13dp"
+            android:layout_marginRight="15dp"
+            android:src="@mipmap/arr_right" />
+    </LinearLayout>
+
+
+
+</LinearLayout>

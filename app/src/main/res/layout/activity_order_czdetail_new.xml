@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_order_czdetail_new"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.test.tworldapplication.activity.order.OrderCZDetailNewActivity">
+
+    <include layout="@layout/layout_background_two" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGray7" />
+
+    <LinearLayout
+        android:id="@+id/ll_ordermsg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:orientation="vertical"
+        android:paddingBottom="20dp"
+        android:paddingLeft="15dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                style="@style/textBig"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="编号:" />
+
+            <TextView
+                android:id="@+id/tvId"
+                style="@style/textcolor2a"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/llName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                style="@style/textBig"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="名称:" />
+
+            <TextView
+                android:id="@+id/tvName"
+                style="@style/textcolor2a"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp">
+
+            <TextView
+                style="@style/textBig"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="号码:" />
+
+            <TextView
+                android:id="@+id/tvNumber"
+                style="@style/textcolor2a"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp">
+
+            <TextView
+                style="@style/textBig"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="时间:" />
+
+            <TextView
+                android:id="@+id/tvOrdertime"
+                style="@style/textcolor2a"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/llValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp">
+
+            <TextView
+                style="@style/textBig"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="金额:" />
+
+            <TextView
+                android:id="@+id/tvValue"
+                style="@style/textcolor2a"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp">
+
+            <TextView
+                style="@style/textBig"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="状态:" />
+
+            <TextView
+                android:id="@+id/tvStatus"
+                style="@style/textcolor2a"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="14dp">-->
+
+        <!--<TextView-->
+        <!--style="@style/textBig"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="取消原因:" />-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/tvReason"-->
+        <!--style="@style/textcolor2a"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="订单编号:" />-->
+        <!--</LinearLayout>-->
+    </LinearLayout>
+
+</LinearLayout>

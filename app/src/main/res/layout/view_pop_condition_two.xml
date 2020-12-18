@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:orientation="vertical"
+    android:paddingLeft="15dp">
+
+    <LinearLayout
+        android:id="@+id/llBegin"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            style="@style/textTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="起始时间" />
+
+        <TextView
+            android:id="@+id/tvPopBegin"
+            style="@style/editContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="请选择" />
+
+        <ImageView
+            android:layout_width="9dp"
+            android:layout_height="16dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/arr_right" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/vLine0"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGray7" />
+
+    <LinearLayout
+        android:id="@+id/llEnd"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            style="@style/textTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="截止时间" />
+
+        <TextView
+            android:id="@+id/tvPopEnd"
+            style="@style/editContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="请选择" />
+
+        <ImageView
+            android:layout_width="9dp"
+            android:layout_height="16dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/arr_right" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/vLine1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGray7" />
+
+    <LinearLayout
+        android:id="@+id/llState"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            style="@style/textTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_weight="1"
+            android:text="手机号码" />
+
+        <EditText
+            android:id="@+id/etNumber"
+            style="@style/editContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@null"
+            android:focusableInTouchMode="true"
+            android:gravity="right"
+            android:hint="请输入手机号码" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGray7" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/tvInquery"
+            android:layout_width="100dp"
+            android:layout_height="31dp"
+            android:background="@drawable/shape_bt_background"
+            android:gravity="center"
+            android:text="查询"
+            android:textColor="@color/colorWhite"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/tvReset"
+            android:layout_width="100dp"
+            android:layout_height="31dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/shape_bt_background"
+            android:gravity="center"
+            android:text="重置"
+            android:textColor="@color/colorWhite"
+            android:textSize="12dp" />
+    </LinearLayout>
+</LinearLayout>

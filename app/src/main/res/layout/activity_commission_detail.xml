@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_about_us"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="vertical"
+    tools:context="com.test.tworldapplication.activity.admin.AboutUsActivity">
+
+    <include layout="@layout/layout_background_two" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGray7" />
+    <LinearLayout
+        android:background="@color/colorWhite"
+        android:paddingLeft="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical">
+        <TextView
+            style="@style/textBig"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_weight="1"
+            android:text="号码" />
+        <TextView
+            android:id="@+id/tel"
+            style="@style/editContentLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@null"
+            android:focusableInTouchMode="true"
+            android:gravity="right"
+            tools:text="12345678"
+            android:maxLength="11" />
+    </LinearLayout>
+    <LinearLayout
+        android:background="@color/colorWhite"
+        android:paddingLeft="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical">
+        <TextView
+            style="@style/textBig"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_weight="1"
+            android:text="开户日期" />
+        <TextView
+            android:id="@+id/openTime"
+            style="@style/editContentLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@null"
+            android:focusableInTouchMode="true"
+            android:gravity="right"
+            tools:text="2018-06-29"
+            android:maxLength="11" />
+    </LinearLayout>
+    <LinearLayout
+        android:background="@color/colorWhite"
+        android:paddingLeft="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical">
+        <TextView
+            style="@style/textBig"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_weight="1"
+            android:text="号码状态" />
+        <TextView
+            android:id="@+id/telStart"
+            style="@style/editContentLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@null"
+            android:focusableInTouchMode="true"
+            android:gravity="right"
+            tools:text="已开户"
+            android:maxLength="11" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:background="@color/colorWhite"
+        android:paddingLeft="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical">
+        <TextView
+            android:id="@+id/subject_t"
+            style="@style/textBig"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_weight="1"
+            android:text="佣金科目" />
+        <TextView
+            android:id="@+id/subject"
+            style="@style/editContentLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@null"
+            android:focusableInTouchMode="true"
+            android:gravity="right"
+            tools:text="发展佣金"
+            android:maxLength="11" />
+    </LinearLayout>
+    <LinearLayout
+        android:background="@color/colorWhite"
+        android:paddingLeft="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical">
+        <TextView
+            android:id="@+id/amount_t"
+            style="@style/textBig"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_weight="1"
+            android:text="佣金金额" />
+        <TextView
+            android:id="@+id/amount"
+            style="@style/editContentLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@null"
+            android:focusableInTouchMode="true"
+            android:gravity="right"
+            tools:text="50.0元"
+            android:maxLength="11" />
+    </LinearLayout>
+    <LinearLayout
+        android:background="@color/colorWhite"
+        android:paddingLeft="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical">
+        <TextView
+            android:id="@+id/year_t"
+            style="@style/textBig"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_weight="1"
+            android:text="佣金年限" />
+        <TextView
+            android:id="@+id/year"
+            style="@style/editContentLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@null"
+            android:focusableInTouchMode="true"
+            android:gravity="right"
+            tools:text="截止2018年12月31日"
+            android:maxLength="11" />
+    </LinearLayout>
+    <LinearLayout
+        android:background="@color/colorWhite"
+        android:paddingLeft="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical">
+        <TextView
+            android:id="@+id/accountPeriod_t"
+            style="@style/textBig"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_weight="1"
+            android:text="账期" />
+        <TextView
+            android:id="@+id/accountPeriod"
+            style="@style/editContentLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@null"
+            android:focusableInTouchMode="true"
+            android:gravity="right"
+            tools:text="2018年5月"
+            android:maxLength="11" />
+    </LinearLayout>
+    <LinearLayout
+        android:background="@color/colorWhite"
+        android:paddingLeft="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical">
+        <TextView
+            android:id="@+id/reason_t"
+            style="@style/textBig"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_weight="1"
+            android:text="获得原因" />
+        <TextView
+            android:id="@+id/reason"
+            style="@style/editContentLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@null"
+            android:focusableInTouchMode="true"
+            android:gravity="right"
+            tools:text="XXXXXXX"
+            android:maxLength="11" />
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>

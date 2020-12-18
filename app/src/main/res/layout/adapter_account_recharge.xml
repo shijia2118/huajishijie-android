@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/ll_click"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:gravity="center"
+        android:background="@drawable/shape_recharge"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tvPrime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlue3"
+            android:textSize="14dp"/>
+        <TextView
+            android:id="@+id/tvCurrent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlue3"
+            android:layout_marginTop="5dp"
+            android:textSize="11dp"/>
+    </LinearLayout>
+
+
+
+</LinearLayout>

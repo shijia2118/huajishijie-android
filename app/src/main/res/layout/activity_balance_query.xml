@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="vertical"
+    tools:context=".activity.account.NumberBalanceActivity">
+
+    <include layout="@layout/layout_background_two" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGray7" />
+
+    <RelativeLayout
+        android:id="@+id/ll_input"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@color/colorWhite">
+
+        <TextView
+            style="@style/textBig"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="手机号码" />
+
+        <EditText
+            android:id="@+id/etNumber"
+            style="@style/editContentLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@null"
+            android:gravity="right"
+            android:hint="请输入手机号码"
+            android:inputType="phone"
+            android:maxLength="11" />
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvBalance"
+        style="@style/editContentLight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorWhite"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:text="号码余额："
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tvInquiry"
+        android:layout_width="170dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="39dp"
+        android:background="@drawable/shape_bt_background_new"
+        android:gravity="center"
+        android:text="查询"
+        android:textColor="@color/colorWhite"
+        android:textSize="14dp" />
+
+</LinearLayout>

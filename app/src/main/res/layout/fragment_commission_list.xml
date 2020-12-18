@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.liaoinstan.springview.widget.SpringView
+        android:id="@+id/springView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#ffffff"
+        app:footer="@layout/header_recycle"
+        app:header="@layout/header_recycle"
+        app:type="follow">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/comm_list_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </androidx.recyclerview.widget.RecyclerView>
+    </com.liaoinstan.springview.widget.SpringView>
+</LinearLayout>

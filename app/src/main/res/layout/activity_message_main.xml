@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="vertical"
+    tools:context="com.test.tworldapplication.activity.other.MessageMainActivity">
+
+    <include layout="@layout/layout_background_one" />
+
+    <com.test.tworldapplication.view.pullableview.PullToRefreshLayout
+        android:id="@+id/refresh_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/refresh_head" />
+
+        <com.test.tworldapplication.view.pullableview.PullableListView
+            android:id="@+id/content_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="15dp"
+            android:background="@color/colorWhite"
+            android:cacheColorHint="@color/colorWhite"
+            android:divider="@color/colorGray7"
+            android:dividerHeight="1dp"
+            android:groupIndicator="@null"
+            android:listSelector="@color/colorWhite" />
+
+        <include layout="@layout/load_more" />
+    </com.test.tworldapplication.view.pullableview.PullToRefreshLayout>
+    <!--<ListView
+        android:id="@+id/ivMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:paddingLeft="15dp">
+
+    </ListVi-->ew>
+
+</LinearLayout>

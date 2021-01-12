@@ -144,8 +144,8 @@
         <activity android:name=".activity.card.PackageSelectActivity" />
         <activity android:name=".activity.card.MessageCollectionActivity" />
         <activity android:name=".activity.card.MessageCollectionNewActivity">
-
         </activity>
+        <activity android:name=".activity.card.MessageCollectionNewActivity2" android:screenOrientation="portrait"></activity>
         <activity android:name=".activity.card.NewCardActivity" />
         <activity android:name=".activity.order.OrderKhDetailActivity" />
         <activity android:name=".activity.order.OrderGhDetailActivity" />

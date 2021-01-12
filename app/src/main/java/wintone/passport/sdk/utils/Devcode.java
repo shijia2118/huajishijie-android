@@ -18,4 +18,5 @@ package wintone.passport.sdk.utils;
  */
 public class Devcode {
 public static String devcode="6KAD5PY65LIW55W";
+//public static String devcode="QMVPAMLUZYBXAW5";
 }

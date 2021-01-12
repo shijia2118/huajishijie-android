@@ -17,5 +17,7 @@ public class Devcode {
     /**
      *    授权文件中的开发码
      */
-  public static String devcode="QMVPAMLUZYBXAW5";
+  public static String devcode="6KAD5PY65LIW55W";
+
+  //public static String devcode="6KAD5PY65LIW55W";
 }

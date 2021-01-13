@@ -50,7 +50,9 @@ import cn.com.senter.model.IdentityCardZ;
 import cn.finalteam.galleryfinal.GalleryFinal;
 import cn.finalteam.galleryfinal.model.PhotoInfo;
 import com.kernal.passportreader.sdk.CardsCameraActivity;
+import com.kernal.passportreader.sdk.ThreadManager;
 import com.kernal.passportreader.sdk.utils.DefaultPicSavePath;
+import com.kernal.passportreader.sdk.utils.ImportRecog;
 import com.kernal.passportreader.sdk.utils.ManageIDCardRecogResult;
 import com.luck.picture.lib.tools.ToastUtils;
 import com.otg.idcard.OTGReadCardAPI;
@@ -87,8 +89,10 @@ import com.test.tworldapplication.utils.BlueReaderHelper;
 import com.test.tworldapplication.utils.DialogManager;
 import com.test.tworldapplication.utils.DisplayUtil;
 import com.test.tworldapplication.utils.Util;
+import io.reactivex.Flowable;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -547,6 +551,19 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                             disPlayImage(path);
                         }
                         break;
+                    case 21:
+                        if (reqeustCode == 111) {
+                            SharedPreferences sharedPreferences = getSharedPreferences("mySP", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("photo3", path);
+                            editor.commit();
+                            file_three = path;
+                            disPlayImage(path);
+                        } else {
+                            file_three = path;
+                            disPlayImage(path);
+                        }
+                        break;
                     case 2:
                         switch (type) {
                             case "0"://蓝牙
@@ -605,7 +622,24 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
         }
     };
 
+
     public  void showCamera(Activity activity, File file, int requestCode) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        Uri uri;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            String authority = activity.getPackageName() + ".fileprovider"; //【清单文件中provider的authorities属性的值】
+            Log.d("xxx", authority);
+            Log.d("xxx", file.getName());
+            uri = FileProvider.getUriForFile(activity, authority, file);
+        } else {
+            uri = Uri.fromFile(file);
+        }
+        Log.i("bqt", "【uri】" + uri);//【content://{$authority}/files/bqt/temp】或【file:///storage/emulated/0/bqt/temp】
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        activity.startActivityForResult(intent, requestCode);
+    }
+
+    public  void showCamera(int requestCode) {
         CardOcrRecogConfigure.getInstance()
             .initLanguage(getApplicationContext())
             .setSaveCut(true)
@@ -678,7 +712,7 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                                         fileDir = new File(fileDir, "bqt");
                                         if (!fileDir.exists()) fileDir.mkdirs();
                                         tempFile = new File(fileDir, "temp_last.jpg");
-                                        showCamera(MessageCollectionNewActivity2.this, tempFile, REQUEST_CODE_CAMERA);
+                                        showCamera(REQUEST_CODE_CAMERA);
 
                                     }
                                 }, mOnHanlderResultCallback);
@@ -691,14 +725,15 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                                         bulmorcamera = 1;
 
 
-                                        Intent intent = new Intent(MessageCollectionNewActivity2.this, CameraActivity.class);
-//
-                                        intent.putExtra("nMainId", SharedPreferencesHelper.getInt(
-                                                getApplicationContext(), "nMainId", 2));
-                                        intent.putExtra("devcode", devcode);
-                                        intent.putExtra("flag", 0);
-                                        startActivityForResult(intent, 10);
-                                        overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
+//                                        Intent intent = new Intent(MessageCollectionNewActivity2.this, CameraActivity.class);
+////
+//                                        intent.putExtra("nMainId", SharedPreferencesHelper.getInt(
+//                                                getApplicationContext(), "nMainId", 2));
+//                                        intent.putExtra("devcode", devcode);
+//                                        intent.putExtra("flag", 0);
+//                                        startActivityForResult(intent, 10);
+//                                        overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
+                                        showCamera(REQUEST_CODE_CAMERA);
                                     }
                                 }, mOnHanlderResultCallback);
                                 break;
@@ -707,45 +742,17 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
 
                     break;
                 case R.id.imgIdBackLast:
-                    if (!Util.isFastDoubleClick()) {
+                    DialogManager.changeAvatar(MessageCollectionNewActivity2.this, new SuccessNull() {
+                        @Override
+                        public void onSuccess() {
+                            File fileDir = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ? getFilesDir() : Environment.getExternalStorageDirectory();
+                            fileDir = new File(fileDir, "bqt");
+                            if (!fileDir.exists()) fileDir.mkdirs();
+                            tempFile = new File(fileDir, "temp_idback.jpg");
+                            showCamera(MessageCollectionNewActivity2.this, tempFile, REQUEST_CODE_CAMERA);
 
-                        switch (type) {
-                            case "0":
-                                //                                DialogManager.changeAvatar(MessageCollectionNewActivity.this, mOnHanlderResultCallback);
-                                DialogManager.changeAvatar(MessageCollectionNewActivity2.this, new SuccessNull() {
-                                    @Override
-                                    public void onSuccess() {
-                                        File fileDir = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ? getFilesDir() : Environment.getExternalStorageDirectory();
-                                        fileDir = new File(fileDir, "bqt");
-                                        if (!fileDir.exists()) fileDir.mkdirs();
-                                        tempFile = new File(fileDir, "temp_last_back.jpg");
-                                        showCamera(MessageCollectionNewActivity2.this, tempFile, REQUEST_CODE_CAMERA);
-
-                                    }
-                                }, mOnHanlderResultCallback);
-                                break;
-                            case "1":
-                                bulmorcamera = 0;
-                                DialogManager.changeAvatar(MessageCollectionNewActivity2.this, new SuccessNull() {
-                                    @Override
-                                    public void onSuccess() {
-                                        bulmorcamera = 1;
-
-
-                                        Intent intent = new Intent(MessageCollectionNewActivity2.this, CardsCameraActivity.class);
-                                        //
-                                        intent.putExtra("nMainId", SharedPreferencesHelper.getInt(
-                                            getApplicationContext(), "nMainId", 2));
-                                        intent.putExtra("devcode", devcode);
-                                        intent.putExtra("flag", 0);
-                                        startActivityForResult(intent, 11);
-                                        overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
-                                    }
-                                }, mOnHanlderResultCallback);
-                                break;
                         }
-                    }
-
+                    }, mOnHanlderResultCallback);
                     break;
             }
 
@@ -846,8 +853,8 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
 
                 break;
             case R.id.imgIdBackLast:
-                flag = 2;
-                switch (state_two) {
+                flag = 21;
+                switch (state_three) {
                     case 0:
                         requestPermission();
                         break;
@@ -862,16 +869,9 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                 }
                 break;
             case R.id.imgIdBackLasRemove:
-                flag = 2;
-                etName.setText("");
-                etId.setText("");
-                etAddress.setText("");
-                etRemark.setText("");
-                showPic0(null);
-                imgIdBackLast.setImageResource(R.mipmap.firstid);
-
-                indextime = 0;
-
+                flag = 21;
+                showPic(null);
+                imgIdBackLast.setImageResource(R.mipmap.idcardback);
                 break;
             case R.id.tvNext:
                 if (!Util.isFastDoubleClick()) {
@@ -905,17 +905,12 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                             httpPost.setApp_key(Util.encode(BaseCom.APP_KEY));
                             httpPost.setParameter(postPictureUpload);
                             httpPost.setApp_sign(Util.encode(BaseCom.APP_PWD + gson.toJson(postPictureUpload) + BaseCom.APP_PWD));
+
+
                             new OtherHttp().pictureUpload(new OtherRequest().pictureUpload(
                                 MessageCollectionNewActivity2.this, dialog, new SuccessValue<RequestPictureUpload>() {
                                 @Override
                                 public void OnSuccess(RequestPictureUpload value) {
-                                    if (urlList != null && urlList.size() > 0) {
-                                        for (int i = 0; i < urlList.size(); i++)
-                                            deletePic(MessageCollectionNewActivity2.this, urlList.get(i));
-                                    }
-                                    Log.d("ccc", value.getPhoto1());
-                                    Log.d("ccc", value.getPhoto2());
-                                    Log.d("ccc", value.getPhoto3());
                                     if (urlList != null && urlList.size() > 0) {
                                         for (int i = 0; i < urlList.size(); i++)
                                             deletePic(MessageCollectionNewActivity2.this, urlList.get(i));
@@ -1422,10 +1417,12 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
             photo.setPhoto1(BitmapUtil.bitmapToBase64(bitmap_zero));/*正面*/
             photo.setPhoto2(BitmapUtil.bitmapToBase64(bitmap_one));/*背面*/
             photo.setPhoto3(BitmapUtil.bitmapToBase64(bitmap_two));/*扫描面*/
+            photo.setPhoto7(BitmapUtil.bitmapToBase64(bitmap_three));//身份证背面
 
             BaseCom.photoOne = bitmap_zero;
             BaseCom.photoThree = bitmap_two;
             BaseCom.photoTwo = bitmap_one;
+            BaseCom.photoFour = bitmap_three;
 
             Intent intent = new Intent(MessageCollectionNewActivity2.this, FaceRecordingActivity.class);
             intent.putExtra("strBuyName", strBuyName);
@@ -1683,20 +1680,12 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                     imgIdLasRemove.setVisibility(View.INVISIBLE);
                 }
                 break;
-            case 3:
+            case 21:
                 imgIdBackLast.setImageBitmap(bitmap);
                 if (capturePath != null) {
-                    // urlList.add(capturePath);
                     state_three = 1;
                     bitmap_three = bitmap;
-                    imgIdLasRemove.setVisibility(View.VISIBLE);
-                    if (type.equals("1") && bulmorcamera == 0) {
-                        Message message = new Message();
-                        message.what = STARTSCAN;
-                        handler.sendMessageDelayed(message, 500);
-
-
-                    }
+                    imgIdBackLasRemove.setVisibility(View.VISIBLE);
                 } else {
                     state_three = 0;
                     bitmap_three = null;
@@ -1735,7 +1724,12 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                         editor.putString("reco", handleUri);
                         editor.commit();
                         break;
-                    case 3:
+                    case 21:
+                        file_three = handleUri;
+                        SharedPreferences sharedPreferences2 = getSharedPreferences("mySP", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor2 = sharedPreferences2.edit();
+                        editor2.putString("reco", handleUri);
+                        editor2.commit();
                         break;
                 }
                 showPic(handleUri);
@@ -1813,8 +1807,12 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                 break;
             case REQUEST_CODE_CAMERA:
                 if (resultCode == Activity.RESULT_OK) {
-                    String path = tempFile.getAbsolutePath();
-                    Log.d("bqt", tempFile.getAbsolutePath());//【data/user/0/包名/files/bqt/temp】或【/storage/emulated/0/bqt/temp】
+                    Bundle bundle=data.getBundleExtra("resultbundle");
+                    String path = "";
+                    if (tempFile != null) {
+                        path = tempFile.getAbsolutePath();
+                        Log.d("bqt", tempFile.getAbsolutePath());//【data/user/0/包名/files/bqt/temp】或【/storage/emulated/0/bqt/temp】
+                    }
                     switch (flag) {//0front 1back 2last
                         case 0:
                             SharedPreferences sharedPreferences = getSharedPreferences("mySP", Context.MODE_PRIVATE);
@@ -1865,13 +1863,28 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
 //                                    }
                                     break;
                                 case "1"://扫描
-                                    SharedPreferences sharedPreferences3 = getSharedPreferences("mySP", Context.MODE_PRIVATE);
-                                    SharedPreferences.Editor editor3 = sharedPreferences3.edit();
-                                    editor3.putString("photo3", path);
-                                    editor3.commit();
-                                    file_two = path;
-                                    selectPath = path;
-                                    disPlayImage(path);
+                                    if (requestCode == 110) {
+
+                                    }
+                                    if (bundle != null) {
+                                        ResultMessage resultMessage=(ResultMessage) bundle.getSerializable("resultMessage");
+
+                                        String[] picPath=bundle.getStringArray("picpath");
+                                        //数据的封装
+                                        String result=ManageIDCardRecogResult.managerSucessRecogResult(resultMessage,getApplicationContext());
+                                        file_two = picPath[0];
+                                        selectPath = picPath[0];
+                                        spit(result);
+                                        etName.setText(splite_Result[1].substring(3));
+                                        etAddress.setText(splite_Result[5].substring(3));
+                                        etId.setText(splite_Result[6].substring(7));
+                                        disPlayImage(picPath[1]);
+                                    } else {
+                                        String error=data.getStringExtra("error");
+                                        ToastUtils.s(this, error);
+
+                                    }
+
 //                                    if (reqeustCode == 110) {
 //
 //                                    } else {
@@ -1901,7 +1914,12 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
     }
 
     public void spit(String str) {
-        splite_Result = str.split(",");
+        Log.i("result", str);
+        if (str.contains(",")) {
+            splite_Result = str.split(",");
+        } else {
+            splite_Result = str.split("#");
+        }
         for (int i = 0; i < splite_Result.length; i++) {
             if (result.equals("")) {
                 result = splite_Result[i] + "\n";
@@ -1909,7 +1927,6 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                 result = result + splite_Result[i] + "\n";
             }
             Log.d("ccc", splite_Result[i]);
-            Log.d("ccc", "ccc");
         }
     }
 
@@ -2513,6 +2530,18 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                     imgBackRemove.setVisibility(View.INVISIBLE);
                 }
                 break;
+            case 21:
+                imgIdBackLast.setImageBitmap(bitmap);
+                if (capturePath != null) {
+                    bitmap_three = bitmap;
+                    state_three = 1;
+                    imgIdBackLasRemove.setVisibility(View.VISIBLE);
+                } else {
+                    state_three = 0;
+                    bitmap_three = null;
+                    imgIdBackLasRemove.setVisibility(View.INVISIBLE);
+                }
+                break;
             case 2:
                 imgIdLast.setImageBitmap(bitmap);
                 if (capturePath != null) {
@@ -2623,6 +2652,9 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("reco", handleUri);
                         editor.commit();
+                        break;
+                    case 21:
+                        file_three = handleUri;
                         break;
                 }
                 showPic0(handleUri);

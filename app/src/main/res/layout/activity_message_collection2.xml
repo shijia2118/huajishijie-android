@@ -14,10 +14,11 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/colorGray7" />
-    <!--<ScrollView-->
-    <!--android:id="@+id/scrollView"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent">-->
+    <ScrollView
+    android:id="@+id/scrollView"
+    android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1">
 
 
     <LinearLayout
@@ -709,65 +710,66 @@
                 android:background="@color/colorGray13" />
 
         </LinearLayout>
+        <TextView
+          android:id="@+id/tvBuy"
+          android:layout_width="170dp"
+          android:layout_height="40dp"
+          android:layout_gravity="center_horizontal"
+          android:layout_marginTop="10dp"
+          android:layout_marginBottom="10dp"
+          android:background="@drawable/shape_bt_background_new"
+          android:gravity="center"
+          android:text="提交"
+          android:textColor="@color/colorWhite"
+          android:textSize="16dp"
+          android:visibility="gone" />
+
+        <TextView
+          android:id="@+id/tvOpen"
+          android:layout_width="170dp"
+          android:layout_height="40dp"
+          android:layout_gravity="center_horizontal"
+          android:layout_marginTop="10dp"
+          android:layout_marginBottom="10dp"
+          android:background="@drawable/shape_bt_background_new"
+          android:gravity="center"
+          android:text="开户"
+          android:textColor="@color/colorWhite"
+          android:textSize="14dp"
+          android:visibility="gone" />
+
+        <TextView
+          android:id="@+id/tvNext"
+          android:layout_width="170dp"
+          android:layout_height="40dp"
+          android:layout_gravity="center_horizontal"
+          android:layout_marginTop="39dp"
+          android:layout_marginBottom="10dp"
+          android:background="@drawable/shape_bt_background_new"
+          android:gravity="center"
+          android:text="下一步"
+          android:textColor="@color/colorWhite"
+          android:textSize="14dp"
+          android:visibility="gone" />
+
+        <TextView
+          android:id="@+id/tvFace"
+          android:layout_width="170dp"
+          android:layout_height="40dp"
+          android:layout_gravity="center_horizontal"
+          android:layout_marginTop="39dp"
+          android:layout_marginBottom="10dp"
+          android:background="@drawable/shape_bt_background_new"
+          android:gravity="center"
+          android:text="下一步"
+          android:textColor="@color/colorWhite"
+          android:textSize="14dp"
+          android:visibility="gone" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvBuy"
-        android:layout_width="170dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/shape_bt_background_new"
-        android:gravity="center"
-        android:text="提交"
-        android:textColor="@color/colorWhite"
-        android:textSize="16dp"
-        android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/tvOpen"
-        android:layout_width="170dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/shape_bt_background_new"
-        android:gravity="center"
-        android:text="开户"
-        android:textColor="@color/colorWhite"
-        android:textSize="14dp"
-        android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/tvNext"
-        android:layout_width="170dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="39dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/shape_bt_background_new"
-        android:gravity="center"
-        android:text="下一步"
-        android:textColor="@color/colorWhite"
-        android:textSize="14dp"
-        android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/tvFace"
-        android:layout_width="170dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="39dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/shape_bt_background_new"
-        android:gravity="center"
-        android:text="下一步"
-        android:textColor="@color/colorWhite"
-        android:textSize="14dp"
-        android:visibility="gone" />
 
 
-    <!--</ScrollView>-->
+
+    </ScrollView>
 </LinearLayout>
 

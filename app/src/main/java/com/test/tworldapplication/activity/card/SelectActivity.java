@@ -27,6 +27,7 @@ import com.test.tworldapplication.http.AdminRequest;
 import com.test.tworldapplication.http.CardHttp;
 import com.test.tworldapplication.http.CardRequest;
 import com.test.tworldapplication.inter.SuccessValue;
+import com.test.tworldapplication.utils.Constants;
 import com.test.tworldapplication.utils.Util;
 
 import butterknife.BindView;
@@ -76,6 +77,8 @@ public class SelectActivity extends BaseActivity {
                 editor.putInt("pattern", value.getPattern());
                 editor.putInt("modes", value.getModes());
                 editor.putInt("readModes", value.getReadModes());
+                editor.putInt(Constants.SHOOTMODES, value.getShootModes());
+                editor.putInt(Constants.SHOOTSWITCH, value.getShootSwitch());
                 editor.commit();
 
                 if (value.getPattern() == 1) {
@@ -220,7 +223,7 @@ public class SelectActivity extends BaseActivity {
                 break;
             case "1":
                 /*baika*/
-                final Intent intent0 = new Intent(this, MessageCollectionNewActivity.class);
+                final Intent intent0 = new Intent(this, MessageCollectionNewActivity2.class);
                 Bundle bundle0 = new Bundle();
                 intent0.putExtra("phone", phone);
                 intent0.putExtra("iccid", iccid);
@@ -233,7 +236,7 @@ public class SelectActivity extends BaseActivity {
                 break;
             case "2":
                 /*jihuo*/
-                Intent intent2 = new Intent(this, MessageCollectionNewActivity.class);
+                Intent intent2 = new Intent(this, MessageCollectionNewActivity2.class);
                 intent2.putExtra("number", number);
                 intent2.putExtra("preStore", preStore);
                 intent2.putExtra("detail", detail);

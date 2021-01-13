@@ -4,6 +4,8 @@ public class RequestOpenPower {
     private Integer pattern;
     private Integer modes;
     private Integer readModes;
+    private Integer shootSwitch;
+    private Integer shootModes;
 
     public Integer getPattern() {
         return pattern;
@@ -27,5 +29,21 @@ public class RequestOpenPower {
 
     public void setReadModes(Integer readModes) {
         this.readModes = readModes;
+    }
+
+    public Integer getShootSwitch() {
+        return shootSwitch;
+    }
+
+    public void setShootSwitch(Integer shootSwitch) {
+        this.shootSwitch = shootSwitch;
+    }
+
+    public Integer getShootModes() {
+        return shootModes;
+    }
+
+    public void setShootModes(Integer shootModes) {
+        this.shootModes = shootModes;
     }
 }

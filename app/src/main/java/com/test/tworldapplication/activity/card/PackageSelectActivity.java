@@ -144,7 +144,7 @@ public class PackageSelectActivity extends BaseActivity {
 
 //                                final Intent intent1 = new Intent(PackageSelectActivity.this, SelectActivity.class);
 
-                        final Intent intent1 = new Intent(PackageSelectActivity.this, MessageCollectionNewActivity.class);
+                        final Intent intent1 = new Intent(PackageSelectActivity.this, MessageCollectionNewActivity2.class);
                         Bundle bundle1 = new Bundle();
                         bundle1.putSerializable("requestCheck", requestCheck);
                         bundle1.putSerializable("mPackage", mPackage);

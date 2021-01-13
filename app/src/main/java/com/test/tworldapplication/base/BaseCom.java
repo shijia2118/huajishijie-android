@@ -12,8 +12,8 @@ import com.test.tworldapplication.entity.RequestLogin;
 public class BaseCom {
     public static Integer authority = 0;
     public static final long DEFAULT_TIMEOUT = 2000000;
-    public static final String BASE_URL = "http://121.46.26.224:8080/newagency/AgencyInterface/";//正式
-    //    public static final String BASE_URL = "http://121.46.26.224:8088/newagency/AgencyInterface/";//测试
+    //public static final String BASE_URL = "http://121.46.26.224:8080/newagency/AgencyInterface/";//正式
+    public static final String BASE_URL = "http://121.46.26.224:8088/newagency/AgencyInterface/";//测试
     public static final String APP_KEY = "2370E0E98942B9A1";
     public static final String APP_PWD = "205304643532A79F";
     public static final String PASSWORD0 = "HJSJ";

@@ -66,6 +66,7 @@ import com.test.tworldapplication.http.OtherRequest;
 import com.test.tworldapplication.http.RequestLiangPay;
 import com.test.tworldapplication.inter.SuccessValue;
 import com.test.tworldapplication.utils.BitmapUtil;
+import com.test.tworldapplication.utils.Constants;
 import com.test.tworldapplication.utils.Util;
 
 import java.io.ByteArrayOutputStream;
@@ -96,7 +97,7 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     //UI
-    private ImageView mRecordControl, mRecordControl0, mRecordControl1, mRecordControl2;
+    private ImageView mRecordControl, mRecordControl0, mRecordControl1, mRecordControl2, cameraSwitchIv;
     //    private ImageView mPauseRecord;
     private SurfaceView surfaceView;
     private SurfaceHolder mSurfaceHolder;
@@ -186,6 +187,7 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
     AgentsLiangNumber agentsLiangNumber;
     RequestLiangPay requestLiangPay;
     String preStore, detail, number;
+    private int cameraFacing = Camera.CameraInfo.CAMERA_FACING_FRONT;
 
 
     private MediaRecorder.OnErrorListener OnErrorListener = new MediaRecorder.OnErrorListener() {
@@ -220,7 +222,8 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
         mRecordControl0 = (ImageView) findViewById(R.id.record_control0);
         mRecordControl1 = (ImageView) findViewById(R.id.record_control1);
         mRecordControl2 = (ImageView) findViewById(R.id.record_control2);
-
+        cameraSwitchIv =  findViewById(R.id.cameraSwitchIv);
+        cameraSwitchIv.setOnClickListener(this);
         mRecordControl.setOnClickListener(this);
         mRecordControl0.setOnClickListener(this);
         mRecordControl1.setOnClickListener(this);
@@ -348,6 +351,53 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
 
     private void initView() {
 
+        SharedPreferences sharedPreferences = getSharedPreferences("mySP", Context.MODE_PRIVATE);
+        int switchFlag = sharedPreferences.getInt(Constants.SHOOTSWITCH, 2);
+        cameraSwitchIv.setVisibility(switchFlag == 2 ? View.GONE : View.VISIBLE);
+        int shootMode = sharedPreferences.getInt(Constants.SHOOTMODES, 1);
+        cameraFacing = shootMode == 1 ? Camera.CameraInfo.CAMERA_FACING_FRONT : Camera.CameraInfo.CAMERA_FACING_BACK;
+
+        mSurfaceCallBack = new SurfaceHolder.Callback() {
+            @Override
+            public void surfaceCreated(SurfaceHolder surfaceHolder) {
+                initCamera(cameraFacing);
+            }
+
+            @Override
+            public void surfaceChanged(SurfaceHolder surfaceHolder, int format, int width, int height) {
+                //            if (mSurfaceHolder.getSurface() == null) {
+                //                return;
+                //            }
+
+                if (mCamera == null) {
+                    return;
+                }
+                Camera.Parameters parameters = mCamera.getParameters();
+
+                // 设置拍摄照片格式
+                parameters.setPictureFormat(PixelFormat.JPEG);
+                mCamera.setDisplayOrientation(90);
+                mCamera.setParameters(parameters);
+
+                try {
+                    //通过startPreview方法告知可以在surface上进行绘制操作
+                    mCamera.startPreview();
+                } catch (Exception e) {
+                    Log.e(TAG, "Start preview failed", e);
+                    mCamera.release();
+                    mCamera = null;
+                }
+
+            }
+
+            @Override
+            public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
+                if (mCamera != null) {
+                    releaseCamera();
+                    mCamera = null;
+                }
+            }
+        };
 
         //配置SurfaceHolder
         mSurfaceHolder = surfaceView.getHolder();
@@ -364,47 +414,7 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
     }
 
 
-    private SurfaceHolder.Callback mSurfaceCallBack = new SurfaceHolder.Callback() {
-        @Override
-        public void surfaceCreated(SurfaceHolder surfaceHolder) {
-            initCamera();
-        }
-
-        @Override
-        public void surfaceChanged(SurfaceHolder surfaceHolder, int format, int width, int height) {
-//            if (mSurfaceHolder.getSurface() == null) {
-//                return;
-//            }
-
-            if (mCamera == null) {
-                return;
-            }
-            Camera.Parameters parameters = mCamera.getParameters();
-
-            // 设置拍摄照片格式
-            parameters.setPictureFormat(PixelFormat.JPEG);
-            mCamera.setDisplayOrientation(90);
-            mCamera.setParameters(parameters);
-
-            try {
-                //通过startPreview方法告知可以在surface上进行绘制操作
-                mCamera.startPreview();
-            } catch (Exception e) {
-                Log.e(TAG, "Start preview failed", e);
-                mCamera.release();
-                mCamera = null;
-            }
-
-        }
-
-        @Override
-        public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
-            if (mCamera != null) {
-                releaseCamera();
-                mCamera = null;
-            }
-        }
-    };
+    private SurfaceHolder.Callback mSurfaceCallBack;
 
     public Camera.Size getOptimalPreviewSize(int w, int h) {
 
@@ -452,14 +462,15 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
      * @throws IOException
      * @author liuzhongjun
      */
-    private void initCamera() {
+    private void initCamera(int cameraFacing) {
 
         if (mCamera != null) {
             releaseCamera();
         }
 
 //        mCamera = Camera.open();
-        mCamera = Camera.open(Camera.CameraInfo.CAMERA_FACING_FRONT);
+
+        mCamera = Camera.open(cameraFacing);
 
 
         if (mCamera == null) {
@@ -532,7 +543,7 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
      */
     public boolean startRecord() {
 
-        initCamera();
+        initCamera(cameraFacing);
         //录制视频前必须先解锁Camera
         mCamera.unlock();
         configMediaRecorder();
@@ -586,6 +597,11 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.cameraSwitchIv:
+                cameraFacing = cameraFacing == Camera.CameraInfo.CAMERA_FACING_FRONT ? Camera.CameraInfo.CAMERA_FACING_BACK :
+                    Camera.CameraInfo.CAMERA_FACING_FRONT;
+                initCamera(cameraFacing);
+                break;
             case R.id.record_control:
                 getPreViewImage();
 

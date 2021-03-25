@@ -16,7 +16,7 @@ public class HttpPost<T> {
     private T parameter;
 
     public HttpPost() {
-        this.version = "4.7.0";
+        this.version = "4.8.0";
     }
 
     public String getVersion() {

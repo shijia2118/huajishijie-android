@@ -3,9 +3,11 @@ package com.test.tworldapplication.http;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.test.tworldapplication.activity.admin.WriteInActivity;
+import com.test.tworldapplication.activity.admin.WriteInNewActivity;
 import com.test.tworldapplication.activity.main.LoginActivity;
 import com.test.tworldapplication.base.BaseCom;
 import com.test.tworldapplication.entity.CheckInfo;
@@ -82,7 +84,7 @@ public class AdminRequest {
                         AppManager.getAppManager().finishActivity();
                         Intent intent = new Intent();
 //                        intent.putExtra("from", "0");
-                        intent.setClass(context, WriteInActivity.class);
+                        intent.setClass(context, WriteInNewActivity.class);
                         context.startActivity(intent);
 //                        onSuccess.onSuccess();
                     } else if (loginResult.getData().getIsLogin().equals("N")) {
@@ -148,7 +150,31 @@ public class AdminRequest {
 
             @Override
             public void onNext(HttpRequest<RequestCode> requestCodeHttpRequest) {
+
                 Log.d("aaa", requestCodeHttpRequest.getMes());
+            }
+        };
+        return subscriber;
+    }
+
+    public static Subscriber<HttpRequest<RequestCode>> getCode(Activity activity, final CheckResultDialog dialog) {
+        Subscriber<HttpRequest<RequestCode>> subscriber = new Subscriber<HttpRequest<RequestCode>>() {
+            @Override
+            public void onCompleted() {
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onNext(HttpRequest<RequestCode> requestCodeHttpRequest) {
+                if (!TextUtils.isEmpty(requestCodeHttpRequest.getMes())) {
+                    Util.createToast(activity, requestCodeHttpRequest.getMes());
+                    Log.d("aaa", requestCodeHttpRequest.getMes());
+                }
             }
         };
         return subscriber;
@@ -193,6 +219,7 @@ public class AdminRequest {
                 if (requestCaptchaHttpRequest.getCode() == BaseCom.NORMAL) {
                     OnSuccess.onSuccess();
                 }
+
 
 
             }

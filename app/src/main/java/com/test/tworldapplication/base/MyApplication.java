@@ -15,9 +15,11 @@ import com.alibaba.sdk.android.oss.OSS;
 import com.alibaba.sdk.android.oss.OSSClient;
 import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
 import com.alibaba.sdk.android.oss.common.auth.OSSPlainTextAKSKCredentialProvider;
+import com.baidu.mapapi.SDKInitializer;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.test.tworldapplication.entity.MessageEvent;
 import com.test.tworldapplication.galleryfinal.UILImageLoader;
 import com.test.tworldapplication.galleryfinal.UILPauseOnScrollListener;
@@ -50,8 +52,9 @@ public class MyApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         context = MyApplication.this;
+        SDKInitializer.initialize(this);
 //        Bugly.init(getApplicationContext(), "70b1f0463b", true);
-
+        CrashReport.initCrashReport(getApplicationContext(), "46086ea2c5", true);
         x.Ext.init(this);
         x.Ext.setDebug(true);
         initGalleryFinal();
@@ -77,6 +80,10 @@ public class MyApplication extends MultiDexApplication {
 
     }
 
+    public static Application getInstance() {
+        return context;
+    }
+
     ActivityLifecycleCallbacks activityLifecycleCallbacks = new ActivityLifecycleCallbacks() {
         @Override
         public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
@@ -88,13 +95,11 @@ public class MyApplication extends MultiDexApplication {
             if (activityAount == 0 && !isForeground) {
                 //app回到前台
                 isForeground = true;
-                Log.d("ttttttt", "重回");
                 EventBus.getDefault().post(new MessageEvent(MessageEvent.START_LOCATE, ""));
 
             }
             activityAount++;
 
-            Log.d("ttttttt", "start+" + activityAount);
 
         }
 
@@ -109,7 +114,6 @@ public class MyApplication extends MultiDexApplication {
         @Override
         public void onActivityStopped(Activity activity) {
             activityAount--;
-            Log.d("ttttttt", "stop+" + activityAount);
 
             if (activityAount == 0) {
                 isForeground = false;

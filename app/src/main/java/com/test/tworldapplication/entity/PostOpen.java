@@ -23,6 +23,7 @@ public class PostOpen {
     private String photoFront;
     private String photoBack;
     private String memo4;
+    private String memo11;
     private Integer org_number_poolsId;
 
     private String renDistinguish;
@@ -204,5 +205,13 @@ public class PostOpen {
 
     public void setVideoPhotos2(String videoPhotos2) {
         this.videoPhotos2 = videoPhotos2;
+    }
+
+    public String getMemo11() {
+        return memo11;
+    }
+
+    public void setMemo11(String memo11) {
+        this.memo11 = memo11;
     }
 }

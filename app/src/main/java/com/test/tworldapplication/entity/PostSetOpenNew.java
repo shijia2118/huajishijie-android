@@ -15,9 +15,19 @@ public class PostSetOpenNew {
     private String photoFront;
     private String photoBack;
     private String memo4;
+    private String memo11;
     private String agreementFront;
     private String renDistinguish;
     private String videoPhotos1;
+
+    public String getMemo11() {
+        return memo11;
+    }
+
+    public void setMemo11(String memo11) {
+        this.memo11 = memo11;
+    }
+
     private String videoPhotos2;
 
     public String getSession_token() {

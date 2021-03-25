@@ -169,6 +169,18 @@
             android:visibility="gone" />
 
         <ImageView
+          android:id="@+id/cameraSwitchIv"
+          android:layout_width="26dp"
+          android:layout_height="22dp"
+          android:onClick="stopRecord"
+          android:layout_alignParentRight="true"
+          android:layout_alignTop="@id/record_control"
+          android:layout_marginEnd="15dp"
+          android:visibility="gone"
+          android:layout_alignBottom="@id/record_control"
+          android:src="@mipmap/camera_switch" />
+
+        <ImageView
             android:id="@+id/result_iv"
             android:layout_width="100dp"
             android:layout_height="100dp"

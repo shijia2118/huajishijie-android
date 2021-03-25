@@ -79,6 +79,7 @@
         <activity android:name=".activity.home.HuiyuanActivity" />
         <activity android:name=".activity.home.LiuliangActivity" />
         <activity android:name=".activity.home.YewubanliActivity" />
+        <activity android:name=".activity.TestOrcActivity" />
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
@@ -90,14 +91,24 @@
             android:process=":remote" />
 
         <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="com.test.tworldapplication.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
+          android:authorities="${applicationId}.fileprovider"
+          android:name="androidx.core.content.FileProvider"
+          android:grantUriPermissions="true"
+          android:exported="false">
             <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_path" />
-        </provider> <!-- <activity -->
+              android:name="android.support.FILE_PROVIDER_PATHS"
+              android:resource="@xml/filepaths"/>
+        </provider>
+<!--        <provider-->
+<!--            android:name="androidx.core.content.FileProvider"-->
+<!--            android:authorities="com.test.tworldapplication.fileprovider"-->
+<!--            android:exported="false"-->
+<!--            android:grantUriPermissions="true">-->
+<!--            <meta-data-->
+<!--                android:name="android.support.FILE_PROVIDER_PATHS"-->
+<!--                android:resource="@xml/file_path" />-->
+<!--        </provider>-->
+        <!-- <activity -->
         <!-- android:name="com.tencent.bugly.beta.ui.BetaActivity" -->
         <!-- android:configChanges="keyboardHidden|orientation|screenSize|locale" -->
         <!-- android:theme="@android:style/Theme.Translucent" /> -->
@@ -134,8 +145,8 @@
         <activity android:name=".activity.card.PackageSelectActivity" />
         <activity android:name=".activity.card.MessageCollectionActivity" />
         <activity android:name=".activity.card.MessageCollectionNewActivity">
-
         </activity>
+        <activity android:name=".activity.card.MessageCollectionNewActivity2" android:screenOrientation="portrait"></activity>
         <activity android:name=".activity.card.NewCardActivity" />
         <activity android:name=".activity.order.OrderKhDetailActivity" />
         <activity android:name=".activity.order.OrderGhDetailActivity" />
@@ -153,6 +164,7 @@
         <activity android:name=".activity.admin.PayPassReviseActivity" />
         <activity android:name=".activity.admin.FeedbackMainActivity" />
         <activity android:name=".activity.admin.AboutUsActivity" />
+        <activity android:name=".activity.SelectAddressActivity" />
         <activity android:name=".activity.main.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -201,6 +213,11 @@
         <activity android:name=".activity.order.OrderKHDetailNewActivity" />
         <activity android:name=".activity.card.QudaoWhitePhoneDetailActivity" />
         <activity android:name=".activity.card.HuajiCuteActivity" />
+        <activity android:name=".activity.admin.WriteInNewActivity"
+          android:screenOrientation="portrait"
+          android:configChanges="orientation|keyboardHidden|screenSize"
+
+          />
         <activity
             android:name=".activity.card.ProductBusinessActivity"
             android:launchMode="singleTask" />
@@ -260,27 +277,6 @@
         <service
             android:name="com.plk.bluetoothlesdk.PlkBluetoothLeService"
             android:enabled="true" />
-        <service
-            android:name="wintone.idcard.android.AuthService"
-            android:enabled="true">
-            <intent-filter>
-                <action android:name="wintone.idcard.authService" />
-            </intent-filter>
-        </service>
-        <service
-            android:name="wintone.idcard.android.RecogService"
-            android:enabled="true">
-            <intent-filter>
-                <action android:name="wintone.idcard.recogService" />
-            </intent-filter>
-        </service>
-        <service
-            android:name="wintone.idcard.android.TimeService"
-            android:enabled="true">
-            <intent-filter>
-                <action android:name="wintone.idcard.TimeService" />
-            </intent-filter>
-        </service>
     </application>
 
 </manifest>

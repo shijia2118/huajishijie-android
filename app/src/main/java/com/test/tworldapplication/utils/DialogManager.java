@@ -98,6 +98,10 @@ public class DialogManager {
         });
     }
     public static void changeAvatar(Context context, final SuccessNull successNull, final GalleryFinal.OnHanlderResultCallback mOnHanlderResultCallback) {
+       changeAvatar(context, successNull, mOnHanlderResultCallback, -1);
+    }
+
+    public static void changeAvatar(Context context, final SuccessNull successNull, final GalleryFinal.OnHanlderResultCallback mOnHanlderResultCallback, int mode) {
         final Dialog dialog = new Dialog(context, R.style.Theme_Light_Dialog);
         View dialogView = LayoutInflater.from(context).inflate(R.layout.inflate_dialog_click_avatar, null);
         //获得dialog的window窗口
@@ -127,6 +131,9 @@ public class DialogManager {
 
         SharedPreferences sharedPreferences0 = context.getSharedPreferences( "mySP", Context.MODE_PRIVATE );
         int readModes = sharedPreferences0.getInt( "readModes", -1 );
+        if (mode != -1) {
+            readModes = mode;
+        }
         if(readModes==1){
             btnCamera.setVisibility( View.VISIBLE );
             btnAlbum.setVisibility( View.GONE );

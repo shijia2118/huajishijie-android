@@ -79,6 +79,7 @@
         <activity android:name=".activity.home.HuiyuanActivity" />
         <activity android:name=".activity.home.LiuliangActivity" />
         <activity android:name=".activity.home.YewubanliActivity" />
+        <activity android:name=".activity.TestOrcActivity" />
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
@@ -163,6 +164,7 @@
         <activity android:name=".activity.admin.PayPassReviseActivity" />
         <activity android:name=".activity.admin.FeedbackMainActivity" />
         <activity android:name=".activity.admin.AboutUsActivity" />
+        <activity android:name=".activity.SelectAddressActivity" />
         <activity android:name=".activity.main.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -211,6 +213,11 @@
         <activity android:name=".activity.order.OrderKHDetailNewActivity" />
         <activity android:name=".activity.card.QudaoWhitePhoneDetailActivity" />
         <activity android:name=".activity.card.HuajiCuteActivity" />
+        <activity android:name=".activity.admin.WriteInNewActivity"
+          android:screenOrientation="portrait"
+          android:configChanges="orientation|keyboardHidden|screenSize"
+
+          />
         <activity
             android:name=".activity.card.ProductBusinessActivity"
             android:launchMode="singleTask" />

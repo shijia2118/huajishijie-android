@@ -311,7 +311,7 @@ public class RefillInfoActivity extends BaseActivity {
 
 
     protected boolean checkPhone(String str) {
-        String pattern = "0?(13|14|15|17|18)[0-9]{9}";
+        String pattern = "0?[0-9]{11}";
         Pattern r = Pattern.compile(pattern);
         Matcher m = r.matcher(str);
         return m.matches();

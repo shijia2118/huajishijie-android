@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:orientation="vertical"
+  android:layout_height="wrap_content"
+  android:paddingHorizontal="15dp"
+  android:paddingTop="15dp"
+  >
+
+  <TextView
+    android:id="@+id/nameTv"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:text="乐清市白石街道岐元村居民中心"
+    android:textColor="#ff333333"
+    android:textSize="14sp"
+    />
+
+  <TextView
+    android:id="@+id/subNameTv"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingTop="4dp"
+    tools:text="温州白中线中雁北路"
+    android:textColor="#ffbdbdbd"
+    android:textSize="12sp"
+    />
+
+  <View
+    android:layout_width="match_parent"
+    android:background="#E2E2E2"
+    android:layout_marginTop="15dp"
+    android:layout_height="1px" />
+
+</LinearLayout>

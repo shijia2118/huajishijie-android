@@ -4,6 +4,7 @@ public class RequestOpenPower {
     private Integer pattern;
     private Integer modes;
     private Integer readModes;
+    private Integer readModesTwo;
     private Integer shootSwitch;
     private Integer shootModes;
 
@@ -45,5 +46,13 @@ public class RequestOpenPower {
 
     public void setShootModes(Integer shootModes) {
         this.shootModes = shootModes;
+    }
+
+    public Integer getReadModesTwo() {
+        return readModesTwo;
+    }
+
+    public void setReadModesTwo(Integer readModesTwo) {
+        this.readModesTwo = readModesTwo;
     }
 }

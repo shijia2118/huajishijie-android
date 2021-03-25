@@ -252,6 +252,7 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
 
     int indextime = 0;
     String number, preStore, detail;
+    private int readModesTwo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -260,6 +261,7 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
 
         SharedPreferences sharedPreferences0 = getSharedPreferences("mySP", Context.MODE_PRIVATE);
         modes = sharedPreferences0.getInt("modes", -1);
+        readModesTwo = sharedPreferences0.getInt( "readModesTwo", -1 );
         if (modes == 1) {
 
         } else if (modes == 2) {
@@ -267,6 +269,7 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
         } else if (modes == 3) {
 
         }
+
 
 
         ButterKnife.bind(this);
@@ -597,8 +600,8 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                                     selectPath = path;
                                     disPlayImage(path);
                                     SharedPreferences sharedPreferences = getSharedPreferences("mySP", Context.MODE_PRIVATE);
-                                    String reco = sharedPreferences.getString("reco", "");
-                                    selectPath = reco;
+//                                    String reco = sharedPreferences.getString("reco", "");
+//                                    selectPath = reco;
 //                                    }
                                 }
 
@@ -640,6 +643,7 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
     }
 
     public  void showCamera(int requestCode) {
+        tempFile = null;
         CardOcrRecogConfigure.getInstance()
             .initLanguage(getApplicationContext())
             .setSaveCut(true)
@@ -684,7 +688,7 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                             showCamera(MessageCollectionNewActivity2.this, tempFile, REQUEST_CODE_CAMERA);
 
                         }
-                    }, mOnHanlderResultCallback);
+                    }, mOnHanlderResultCallback, readModesTwo);
                     break;
                 case R.id.imgIdBack:
                     DialogManager.changeAvatar(MessageCollectionNewActivity2.this, new SuccessNull() {
@@ -712,7 +716,12 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                                         fileDir = new File(fileDir, "bqt");
                                         if (!fileDir.exists()) fileDir.mkdirs();
                                         tempFile = new File(fileDir, "temp_last.jpg");
-                                        showCamera(REQUEST_CODE_CAMERA);
+
+                                        if (modes == 1 || toBlueTooth.getVisibility() == View.VISIBLE) {
+                                            showCamera(REQUEST_CODE_CAMERA);
+                                        } else {
+                                            showCamera(MessageCollectionNewActivity2.this, tempFile, REQUEST_CODE_CAMERA);
+                                        }
 
                                     }
                                 }, mOnHanlderResultCallback);
@@ -733,7 +742,18 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
 //                                        intent.putExtra("flag", 0);
 //                                        startActivityForResult(intent, 10);
 //                                        overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
-                                        showCamera(REQUEST_CODE_CAMERA);
+//                                        showCamera(REQUEST_CODE_CAMERA);
+                                        File fileDir = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ? getFilesDir() : Environment.getExternalStorageDirectory();
+                                        fileDir = new File(fileDir, "bqt");
+                                        if (!fileDir.exists()) fileDir.mkdirs();
+                                        tempFile = new File(fileDir, "temp_last.jpg");
+
+                                        if (modes == 1 || toBlueTooth.getVisibility() == View.VISIBLE) {
+                                            showCamera(REQUEST_CODE_CAMERA);
+                                        } else {
+                                            showCamera(MessageCollectionNewActivity2.this, tempFile, REQUEST_CODE_CAMERA);
+                                        }
+
                                     }
                                 }, mOnHanlderResultCallback);
                                 break;
@@ -954,7 +974,7 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
 
 
                         } else {
-                            BaseCom.photoThree = bitmap_two;
+
                             Intent intent = new Intent(this, AccountClosingActivity.class);
                             Bundle bundle = new Bundle();
                             intent.putStringArrayListExtra("urlList", urlList);
@@ -988,6 +1008,8 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                             intent.putExtra("remark", strRemark);
                             BaseCom.photoOne = bitmap_zero;
                             BaseCom.photoTwo = bitmap_one;
+                            BaseCom.photoThree = bitmap_two;
+                            BaseCom.photoFour = bitmap_three;
                             startActivity(intent);
                             overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
                         }
@@ -1160,7 +1182,7 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                         final String strAddress = etAddress.getText().toString();
                         final String strRemark = etRemark.getText().toString();
 
-                        if (bitmap_zero == null || bitmap_one == null || bitmap_two == null || strName.equals("") || strId.equals("") || strAddress.equals("")) {
+                        if (bitmap_zero == null || bitmap_one == null || bitmap_two == null || bitmap_three == null || strName.equals("") || strId.equals("") || strAddress.equals("")) {
                             Util.createToast(MessageCollectionNewActivity2.this, "请将信息填写完整");
                         } else if (strName.length() > 30) {
                             Util.createToast(MessageCollectionNewActivity2.this, "用户名过长!");
@@ -1168,7 +1190,7 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                             Util.createToast(MessageCollectionNewActivity2.this, "请输入正确的身份证号!");
                         } else {
 
-                            BaseCom.photoThree = bitmap_two;
+
                             Intent intent = new Intent(this, FaceRecordingActivity.class);
                             Bundle bundle = new Bundle();
                             intent.putStringArrayListExtra("urlList", urlList);
@@ -1204,6 +1226,8 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                             intent.putExtra("face", "1");
                             BaseCom.photoOne = bitmap_zero;
                             BaseCom.photoTwo = bitmap_one;
+                            BaseCom.photoThree = bitmap_two;
+                            BaseCom.photoFour = bitmap_three;
                             startActivity(intent);
                             overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
 
@@ -1706,7 +1730,13 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
 //            mUri=mUri.substring( mUri.lastIndexOf( "." ));
 //            String[] filename= capturePath.split( "." );
 //            handleUri = filename [0]+"_tmp"+filename[1];
-            handleUri = mUri.substring(0, mUri.lastIndexOf(".")) + "_tmp" + mUri.substring(mUri.lastIndexOf("."));
+            if (!TextUtils.isEmpty(capturePath) && mUri.lastIndexOf(".") > 0) {
+                handleUri = mUri.substring(0, mUri.lastIndexOf(".")) + "_tmp" + mUri.substring(mUri.lastIndexOf("."));
+            } else {
+                ToastUtils.s(this, "图片异常：" + mUri);
+                handleUri = "";
+            }
+
             if (handleUri.equals("")) {
             } else {
                 copyFile(capturePath, handleUri, handler);
@@ -1807,7 +1837,11 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                 break;
             case REQUEST_CODE_CAMERA:
                 if (resultCode == Activity.RESULT_OK) {
-                    Bundle bundle=data.getBundleExtra("resultbundle");
+                    Bundle bundle = null;
+                    if (data != null) {
+                        bundle=data.getBundleExtra("resultbundle");
+                    }
+
                     String path = "";
                     if (tempFile != null) {
                         path = tempFile.getAbsolutePath();
@@ -1831,6 +1865,14 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
 //                                file_zero = path;
 //                                disPlayImage0(path);
 //                            }
+                            break;
+                        case 21:
+                            SharedPreferences sharedPreferences3 = getSharedPreferences("mySP", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor3 = sharedPreferences3.edit();
+                            editor3.putString("photo3", path);
+                            editor3.commit();
+                            file_three = path;
+                            disPlayImage(path);
                             break;
                         case 1:
                             SharedPreferences sharedPreferences1 = getSharedPreferences("mySP", Context.MODE_PRIVATE);
@@ -1872,9 +1914,13 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                                         String[] picPath=bundle.getStringArray("picpath");
                                         //数据的封装
                                         String result=ManageIDCardRecogResult.managerSucessRecogResult(resultMessage,getApplicationContext());
+                                        spit(result);
+                                        if (splite_Result == null || splite_Result.length < 7) {
+                                            ToastUtils.s(this, "证件识别错误");
+                                            return;
+                                        }
                                         file_two = picPath[0];
                                         selectPath = picPath[0];
-                                        spit(result);
                                         etName.setText(splite_Result[1].substring(3));
                                         etAddress.setText(splite_Result[5].substring(3));
                                         etId.setText(splite_Result[6].substring(7));
@@ -2005,6 +2051,16 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                     dialog.dismiss();
 
                 } else {
+                    flag = 2;
+                    etName.setText("");
+                    etId.setText("");
+                    etAddress.setText("");
+                    etRemark.setText("");
+                    showPic0(null);
+                    imgIdLast.setImageResource(R.mipmap.firstid);
+
+                    indextime = 0;
+
                     dialog.dismiss();
                     String string = "";
                     if (resultMessage.ReturnAuthority == -100000) {
@@ -2028,6 +2084,7 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                                     + resultMessage.ReturnLoadImageToMemory;
                         }
                     } else if (resultMessage.ReturnRecogIDCard <= 0) {
+
                         if (resultMessage.ReturnRecogIDCard == -6) {
                             string = getString(R.string.exception9);
                         } else {
@@ -2039,6 +2096,16 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
 
                 }
             } catch (Exception e) {
+                flag = 2;
+                etName.setText("");
+                etId.setText("");
+                etAddress.setText("");
+                etRemark.setText("");
+                showPic0(null);
+                imgIdLast.setImageResource(R.mipmap.firstid);
+
+                indextime = 0;
+
                 e.printStackTrace();
                 Toast.makeText(getApplicationContext(),
                         getString(R.string.recognized_failed),
@@ -2052,6 +2119,18 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
 
         }
     };
+
+//    private void test() {
+//        com.sunrise.icardreader.model.IdentityCardZ identityCard = new com.sunrise.icardreader.model.IdentityCardZ();
+////        etName.setText(identityCard.name.trim());
+////        etId.setText(identityCard.cardNo.trim());
+////        etAddress.setText(identityCard.address.trim());
+////        etName.setSelection(etName.getText().toString().length());
+//        identityCard.name = "test";
+//        identityCard.cardNo = "123456";
+//        identityCard.address = "测试地址";
+//        readCardSuccess0(identityCard);
+//    }
 
 
     private final String SPNAME = "Addressmac";
@@ -2196,6 +2275,7 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
             etId.setText(identityCard.cardNo.trim());
             etAddress.setText(identityCard.address.trim());
             etName.setSelection(etName.getText().toString().length());
+            modes = 2;
         }
     }
 
@@ -2310,6 +2390,7 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
             etId.setText(identityCard.cardNo.trim());
             etAddress.setText(identityCard.address.trim());
             etName.setSelection(etName.getText().toString().length());
+            modes = 2;
             try {
 
 //                bitmap_two = BitmapFactory.decodeByteArray(identityCard.avatar,
@@ -2407,9 +2488,10 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                         etName.setText(ReadCardAPI.Name().trim());
                         etId.setText(ReadCardAPI.CardNo().trim());
                         etAddress.setText(ReadCardAPI.Address().trim());
+                        modes = 2;
                         try {
                             bitmap_two = BitmapFactory.decodeByteArray(ReadCardAPI.GetImage(), 0, ReadCardAPI.GetImage().length);
-                            imgIdLast.setImageBitmap(bitmap_one);
+                            imgIdLast.setImageBitmap(bitmap_two);
                             flag = 2;
                             state_two = 3;
                             imgIdLasRemove.setVisibility(View.VISIBLE);
@@ -2431,6 +2513,7 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                         RecogService.isRecogByPath = true;
                         Intent recogIntent = new Intent(MessageCollectionNewActivity2.this,
                                 RecogService.class);
+
                         bindService(recogIntent, recogConn, Service.BIND_AUTO_CREATE);
 
                         Log.d("mmm", indextime + "");

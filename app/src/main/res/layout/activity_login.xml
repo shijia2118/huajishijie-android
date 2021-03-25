@@ -8,6 +8,17 @@
     android:orientation="vertical"
     tools:context="com.test.tworldapplication.activity.main.LoginActivity">
 
+    <TextView
+        android:id="@+id/testOrg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/red"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:padding="30dp"
+        android:visibility="gone"
+        android:text="测试orc"
+        />
 
     <LinearLayout
         android:id="@+id/llCenter"

@@ -1,5 +1,6 @@
 package com.test.tworldapplication.utils;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.baidu.location.BDAbstractLocationListener;
@@ -119,6 +120,15 @@ public class LocationHelper {
 
             int errorCode = location.getLocType();
             //获取定位类型、定位错误返回码，具体信息可参照类参考中BDLocation类中的说明
+            if (!TextUtils.isEmpty(province) && province.endsWith("省")) {
+                province = province.substring(0, province.length() - 1);
+            }
+            if (!TextUtils.isEmpty(province) && province.endsWith("市")) {
+                province = province.substring(0, province.length() - 1);
+            }
+            if (!TextUtils.isEmpty(city) && city.endsWith("市")) {
+                city = city.substring(0, city.length() - 1);
+            }
 
             EventBus.getDefault().post(new MessageEvent(MessageEvent.LOCATION_MESSAGE, province + "," + city));
             Log.d("rrr", province + "," + city);

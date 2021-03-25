@@ -7,4 +7,13 @@ package com.test.tworldapplication.utils;
 public interface Constants {
   String SHOOTMODES = "shootModes";
   String SHOOTSWITCH = "shootSwitch";
+  String PHOTOONE = "photoOne";
+  String PHOTOTWO = "photoTwo";
+  String PHOTOTHREE = "photoThree";
+  String PHOTOFOUR = "photoFour";
+  String BITMAPTERMINATE = "bitmapTerminate";
+  String VIDEOPICONE = "videoPicOne";
+  String VIDEOPICTWO = "videoPicTwo";
+  String LICENCE = "LICENCE";
+  String GRID = "grid";
 }

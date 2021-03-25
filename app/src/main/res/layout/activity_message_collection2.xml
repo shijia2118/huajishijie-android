@@ -295,7 +295,9 @@
                         android:layout_width="16dp"
                         android:layout_height="16dp"
                         android:layout_marginLeft="95dp"
+                      android:layout_alignParentRight="true"
                         android:src="@drawable/remove"
+                      android:layout_marginRight="15dp"
                         android:visibility="invisible" />
                 </RelativeLayout>
 
@@ -494,6 +496,8 @@
                       android:layout_width="16dp"
                       android:layout_height="16dp"
                       android:layout_marginLeft="95dp"
+                      android:layout_alignParentRight="true"
+                      android:layout_marginRight="15dp"
                       android:src="@drawable/remove"
                       android:visibility="invisible" />
                 </RelativeLayout>
@@ -576,6 +580,8 @@
                       android:id="@+id/imgIdFrontRemove"
                       android:layout_width="16dp"
                       android:layout_height="16dp"
+                      android:layout_alignParentRight="true"
+                      android:layout_marginRight="15dp"
                       android:layout_marginLeft="95dp"
                       android:src="@drawable/remove"
                       android:visibility="invisible" />

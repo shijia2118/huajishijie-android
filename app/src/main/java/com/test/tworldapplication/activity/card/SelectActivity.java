@@ -77,6 +77,7 @@ public class SelectActivity extends BaseActivity {
                 editor.putInt("pattern", value.getPattern());
                 editor.putInt("modes", value.getModes());
                 editor.putInt("readModes", value.getReadModes());
+                editor.putInt("readModesTwo", value.getReadModesTwo());
                 editor.putInt(Constants.SHOOTMODES, value.getShootModes());
                 editor.putInt(Constants.SHOOTSWITCH, value.getShootSwitch());
                 editor.commit();

@@ -135,14 +135,18 @@ public class OtherRequest {
         Subscriber<HttpRequest<RequestPictureUpload>> subscriber = new Subscriber<HttpRequest<RequestPictureUpload>>() {
             @Override
             public void onCompleted() {
-                dialog.dismiss();
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
 
             }
 
             @Override
             public void onError(Throwable e) {
                 Log.d("ccc", e.toString());
-                dialog.dismiss();
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
             }
 
             @Override

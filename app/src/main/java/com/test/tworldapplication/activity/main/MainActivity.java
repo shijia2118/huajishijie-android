@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -122,30 +123,30 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             case MessageEvent.LOCATION_MESSAGE:
                 String content = messageEvent.getMessage();
                 if (!content.equals("null,null")) {
-                    String provinceCode = "";
-                    String cityCode = "";
+//                    String provinceCode = "";
+//                    String cityCode = "";
                     String province = content.split(",")[0];
                     String city = content.split(",")[1];
-                    Area area = BaseUtils.getArea(MainActivity.this);
-                    List<Province> provinces = area.getList();
-                    Province province1 = new Province(province);
-                    if (provinces.contains(province1)) {
-                        int index = provinces.indexOf(province1);
-                        provinceCode = provinces.get(index).getP_id();
-                        List<City> cities = provinces.get(index).getP_list();
-                        City city1 = new City(city);
-                        if (cities.contains(city1)) {
-                            int index0 = cities.indexOf(city1);
-                            cityCode = cities.get(index0).getC_id();
-                        }
-                    }
-                    if (!provinceCode.equals("") && !cityCode.equals("")) {
+//                    Area area = BaseUtils.getArea(MainActivity.this);
+//                    List<Province> provinces = area.getList();
+//                    Province province1 = new Province(province);
+//                    if (provinces.contains(province1)) {
+//                        int index = provinces.indexOf(province1);
+//                        provinceCode = provinces.get(index).getP_id();
+//                        List<City> cities = provinces.get(index).getP_list();
+//                        City city1 = new City(city);
+//                        if (cities.contains(city1)) {
+//                            int index0 = cities.indexOf(city1);
+//                            cityCode = cities.get(index0).getC_id();
+//                        }
+//                    }
+                    if (!TextUtils.isEmpty(province)) {
 
                         HttpPost<PostLocationEntity> httpPost = new HttpPost<>();
                         PostLocationEntity postLocationEntity = new PostLocationEntity();
                         postLocationEntity.setSession_token(Util.getLocalAdmin(MainActivity.this)[0]);
-                        postLocationEntity.setProvinceCode(provinceCode);
-                        postLocationEntity.setCityCode(cityCode);
+                        postLocationEntity.setProvinceCode(province);
+                        postLocationEntity.setCityCode(city);
                         httpPost.setApp_key(Util.encode(BaseCom.APP_KEY));
                         httpPost.setParameter(postLocationEntity);
                         httpPost.setApp_sign(Util.encode(BaseCom.APP_PWD + gson.toJson(postLocationEntity) + BaseCom.APP_PWD));

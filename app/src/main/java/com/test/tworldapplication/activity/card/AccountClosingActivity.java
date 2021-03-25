@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.test.tworldapplication.R;
+import com.test.tworldapplication.activity.admin.WriteInNewActivity;
 import com.test.tworldapplication.activity.main.LoginActivity;
 import com.test.tworldapplication.activity.main.MainNewActivity;
 import com.test.tworldapplication.activity.other.WebViewActivity;
@@ -57,9 +58,20 @@ import com.test.tworldapplication.http.OtherRequest;
 import com.test.tworldapplication.inter.SuccessNull;
 import com.test.tworldapplication.inter.SuccessValue;
 import com.test.tworldapplication.utils.BitmapUtil;
+import com.test.tworldapplication.utils.Constants;
 import com.test.tworldapplication.utils.Util;
 import com.test.tworldapplication.utils.signature.SignatureView;
 
+import io.reactivex.Flowable;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.schedulers.Schedulers;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
@@ -137,6 +149,8 @@ public class AccountClosingActivity extends BaseActivity {
     int showLocal = 0;
     int showApi = 0;
     String detail, preStore;
+    int totalPic;//需要上传的图片总数
+    AtomicInteger uploadSuccessCount = new AtomicInteger(0);
 
 //    String certificatesNo, iccid, certificatesType = "Idcode", certificatesAddress, cardType = "ESIM", number, customerName, orderAmount, payAmount;
 
@@ -414,6 +428,7 @@ public class AccountClosingActivity extends BaseActivity {
                     if (face.equals("1")) {
                         AppManager.getAppManager().finishActivity(FaceRecordingActivity.class);
                     }
+
                 }
             }
         });
@@ -595,397 +610,493 @@ public class AccountClosingActivity extends BaseActivity {
 
         dialog.getTvTitle().setText("正在上传图片");
         dialog.show();
+        //HttpPost<PostPictureUpload> httpPost = new HttpPost<>();
+        //PostPictureUpload postPictureUpload = new PostPictureUpload();
+        //postPictureUpload.setSession_token(Util.getLocalAdmin(AccountClosingActivity.this)[0]);
+        //postPictureUpload.setType("0");
+        //final Photo photo = new Photo();
+        //photo.setPhoto1(BitmapUtil.bitmapToBase64(photoOne));
+        //photo.setPhoto2(BitmapUtil.bitmapToBase64X(photoTwo));
+        //photo.setPhoto3(BitmapUtil.bitmapToBase64X(BaseCom.photoThree));
+        //photo.setPhoto4(BitmapUtil.bitmapToBase64(bitmapTerminate));
+        totalPic = 0;
+        uploadSuccessCount.set(0);
+        if (photoOne != null) {
+            totalPic++;
+        }
+        if (photoTwo != null) {
+            totalPic++;
+        }
+        if (BaseCom.photoThree != null) {
+            totalPic++;
+        }
+        if (BaseCom.photoFour != null) {
+            totalPic++;
+        }
+        if (bitmapTerminate != null) {
+            totalPic++;
+        }
+        if (face.equals("1")) {
+            totalPic++;
+            totalPic++;
+            //photo.setPhoto5(BitmapUtil.bitmapToBase64(videoPicOne));
+            //photo.setPhoto6(BitmapUtil.bitmapToBase64X(videoPicTwo));
+        }
+        if (photoOne != null) {
+            uploadImage(photoOne, Constants.PHOTOONE);
+        }
+        if (BaseCom.photoFour != null) {
+            uploadImage(BaseCom.photoFour, Constants.PHOTOFOUR);
+        }
+        if (photoTwo != null) {
+            uploadImage(photoTwo, Constants.PHOTOTWO);
+        }
+        if (BaseCom.photoThree != null) {
+            uploadImage(BaseCom.photoThree, Constants.PHOTOTHREE);
+        }
+
+        if (bitmapTerminate != null) {
+            uploadImage(bitmapTerminate, Constants.BITMAPTERMINATE);
+        }
+        if (face.equals("1")) {
+            uploadImage(videoPicOne, Constants.VIDEOPICONE);
+            uploadImage(videoPicTwo, Constants.VIDEOPICTWO);
+        }
+    }
+
+    Map<String, String> imgMap = new HashMap<>();
+
+    private void uploadImage(Bitmap bitmap, String key) {
+        if (bitmap == null) return;
         HttpPost<PostPictureUpload> httpPost = new HttpPost<>();
         PostPictureUpload postPictureUpload = new PostPictureUpload();
         postPictureUpload.setSession_token(Util.getLocalAdmin(AccountClosingActivity.this)[0]);
         postPictureUpload.setType("0");
-        final Photo photo = new Photo();
-        photo.setPhoto1(BitmapUtil.bitmapToBase64(photoOne));
-        photo.setPhoto2(BitmapUtil.bitmapToBase64X(photoTwo));
-        photo.setPhoto3(BitmapUtil.bitmapToBase64X(BaseCom.photoThree));
-        photo.setPhoto4(BitmapUtil.bitmapToBase64(bitmapTerminate));
-
-        if (face.equals("1")) {
-            photo.setPhoto5(BitmapUtil.bitmapToBase64(videoPicOne));
-            photo.setPhoto6(BitmapUtil.bitmapToBase64X(videoPicTwo));
-        }
-
+        Photo photo = new Photo();
+        photo.setPhoto1(BitmapUtil.bitmapToBase64(bitmap));
         httpPost.setPhoto(photo);
         httpPost.setApp_key(Util.encode(BaseCom.APP_KEY));
         httpPost.setParameter(postPictureUpload);
         httpPost.setApp_sign(Util.encode(BaseCom.APP_PWD + gson.toJson(postPictureUpload) + BaseCom.APP_PWD));
-
-        new OtherHttp().pictureUpload(new OtherRequest().pictureUpload(AccountClosingActivity.this, dialog, new SuccessValue<RequestPictureUpload>() {
-            @Override
-            public void OnSuccess(RequestPictureUpload value) {
-                if (urlList != null && urlList.size() > 0) {
-                    for (int i = 0; i < urlList.size(); i++)
-                        deletePic(AccountClosingActivity.this, urlList.get(i));
-                }
-                Log.d("ccc", value.getPhoto1());
-                Log.d("ccc", value.getPhoto2());
-                Log.d("ccc", value.getPhoto3());
-
-//                if(face.equals( "1" )){
-//                Log.d("ccc", value.getVideoPic1());
-//                Log.d("ccc", value.getVideoPic2());}
-
-                dialog.getTvTitle().setText("正在提交");
-                dialog.show();
-                HttpPost<PostOpen> httpPost = new HttpPost<>();
-                PostOpen postOpen = new PostOpen();
-                postOpen.setSession_token(Util.getLocalAdmin(AccountClosingActivity.this)[0]);
-                postOpen.setNumber(requestCheck.getNumber());
-                switch (type) {
-                    case "0":
-                        if (face.equals("1")) {
-                            postOpen.setAuthenticationType("App人脸识别");
-                        } else {
-                            postOpen.setAuthenticationType("App识别仪");
-                        }
-                        /*lanya*/
-                        break;
-                    case "1":
-                        if (face.equals("1")) {
-                            postOpen.setAuthenticationType("App人脸识别");
-                        } else {
-                            postOpen.setAuthenticationType("App扫描");
-                        }
-                        /*saomiao*/
-                        break;
-                }
-
-                postOpen.setCustomerName(name);
-                postOpen.setCertificatesType("Idcode");
-                postOpen.setCertificatesNo(cardId);
-                postOpen.setAddress(address);
-                postOpen.setDescription(remark);
-                postOpen.setCardType("SIM");
-                postOpen.setSimId(String.valueOf(requestCheck.getSimId()));
-                postOpen.setSimICCID(String.valueOf(requestCheck.getSimICCID()));
-                postOpen.setPackageId(mPackage.getId());
-                postOpen.setPromotionsId(mPromotion.getId());
-                postOpen.setOrderAmount(sum);
-                postOpen.setAgreementFront(value.getPhoto4());
-                postOpen.setPhotoFront(value.getPhoto1());
-                postOpen.setPhotoBack(value.getPhoto2());
-                postOpen.setMemo4(value.getPhoto3());
-
-                if (face.equals("1")) {
-                    postOpen.setVideoPhotos1(value.getPhoto5());
-                    postOpen.setVideoPhotos2(value.getPhoto6());
-                }
-
-
-                postOpen.setOrg_number_poolsId(requestCheck.getOrg_number_poolsId());
-                httpPost.setApp_key(Util.GetMD5Code(BaseCom.APP_KEY));
-                httpPost.setParameter(postOpen);
-                httpPost.setApp_sign(Util.GetMD5Code(BaseCom.APP_PWD + gson.toJson(postOpen) + BaseCom.APP_PWD));
-                new CardHttp().open(CardRequest.open(AccountClosingActivity.this, dialog, new SuccessValue<HttpRequest<RequestOpen>>() {
-                    @Override
-                    public void OnSuccess(final HttpRequest<RequestOpen> value) {
-                        Util.createToast(AccountClosingActivity.this, value.getMes());
-                        Log.d("aaa", value.getMes());
-                        Log.d("aaa", value.getCode() + "");
-                        if (value.getCode() == BaseCom.LOSELOG || value.getCode() == BaseCom.VERSIONINCORRENT)
-                            Util.gotoActy(AccountClosingActivity.this, LoginActivity.class);
-                        else {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(AccountClosingActivity.this);
-                            builder.setCancelable(false);
-                            switch (value.getCode()) {
-                                case BaseCom.NORMAL:
-                                    builder.setMessage("订单提交成功");
-                                    builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface alertDialog, int which) {
-                                            alertDialog.dismiss();
-//                                            Util.gotoActy(AccountClosingActivity.this, MainNewActivity.class);
-//                                            AppManager.getAppManager().finishActivity();
-//                                            AppManager.getAppManager().finishActivity(MessageCollectionActivity.class);
-//                                            AppManager.getAppManager().finishActivity(SelectActivity.class);
-//                                            AppManager.getAppManager().finishActivity(PackageSelectActivity.class);
-//                                            AppManager.getAppManager().finishActivity(RenewCardActivity.class);
-//                                            AppManager.getAppManager().finishActivity(FaceRecordingActivity.class);
-
-
-                                            SharedPreferences sharedPreferences = getSharedPreferences("mySP", MODE_PRIVATE);
-                                            String uri0 = sharedPreferences.getString("pic0", "");
-                                            String uri1 = sharedPreferences.getString("pic1", "");
-                                            String photo1 = sharedPreferences.getString("photo1", "");
-                                            String photo2 = sharedPreferences.getString("photo2", "");
-                                            String photo3 = sharedPreferences.getString("photo3", "");
-                                            String witonePic = sharedPreferences.getString("witonePic", "");
-                                            String witonePicTmp = sharedPreferences.getString("witonePicTmp", "");
-
-                                            String path = sharedPreferences.getString("witonpath", "");//camera
-                                            String dir = sharedPreferences.getString("toworldpic", "");//face
-
-
-//                                            if(face.equals( "1" )) {
-//                                                deleteSingleFile( uri0 );
-//                                                deleteSingleFile( uri1 );
-                                            deletePic(AccountClosingActivity.this, photo1);
-                                            deletePic(AccountClosingActivity.this, photo2);
-                                            deletePic(AccountClosingActivity.this, photo3);
-                                            deletePic(AccountClosingActivity.this, uri0);
-                                            deletePic(AccountClosingActivity.this, uri1);
-                                            deletePic(AccountClosingActivity.this, witonePic);
-                                            deletePic(AccountClosingActivity.this, witonePicTmp);
-
-                                            deleteDir(Environment.getExternalStorageDirectory().toString() + "/toworldpic");
-//                                                deleteDir( Environment.getExternalStorageDirectory().toString()+"/DCIM/GalleryFinal" );
-//                                            }
-//                                            deleteSingleFile( photo1 );
-//                                            deleteSingleFile( photo2 );
-//                                            deleteSingleFile( photo3 );
-
-                                            deleteDir(Environment.getExternalStorageDirectory().toString() + "/DCIM/GalleryFinal");
-
-//                                            if (type.equals( "1" )){
-//                                                deleteSingleFile( witonePic );
-//                                                deleteSingleFile( witonePicTmp );
-                                            deleteDir(Environment.getExternalStorageDirectory().toString() + "/wtimage");
-//                                            }
-                                            handler.sendEmptyMessageDelayed(3, 500);
-
-                                        }
-                                    });
-                                    break;
-                                default:
-                                    builder.setMessage(value.getMes() + "\n" + "是否重新提交该订单?");
-                                    builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface alertDialog, int which) {
-                                            alertDialog.dismiss();
-                                            new Thread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    try {
-                                                        Thread.sleep(1500);
-                                                        android.os.Message message = new android.os.Message();
-                                                        message.what = 0;
-                                                        handler.sendMessage(message); //告诉主线程执行任务
-
-                                                    } catch (InterruptedException e) {
-                                                        e.printStackTrace();
-                                                    }
-                                                }
-                                            }).start();
-                                        }
-                                    });
-                                    builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface alertDialog, int which) {
-                                            alertDialog.dismiss();
-                                            handler.sendEmptyMessageDelayed(3, 500);
-
-//                                            AppManager.getAppManager().finishActivityBesides(MainNewActivity.class);
-//                                            Util.gotoActy(AccountClosingActivity.this, MainNewActivity.class);
-//                                            AppManager.getAppManager().finishActivity();
-//                                            AppManager.getAppManager().finishActivity(MessageCollectionActivity.class);
-//                                            AppManager.getAppManager().finishActivity(SelectActivity.class);
-//                                            AppManager.getAppManager().finishActivity(PackageSelectActivity.class);
-//                                            AppManager.getAppManager().finishActivity(RenewCardActivity.class);
-//                                            AppManager.getAppManager().finishActivity(FaceRecordingActivity.class);
-
-                                        }
-                                    });
-                                    break;
-                                case INNORMAL:
-                                    Toast.makeText(AccountClosingActivity.this, "图片解析错误", Toast.LENGTH_SHORT).show();
-                                    break;
-                            }
-
-                            builder.create().show();
-
-
-                        }
-                    }
-                }), httpPost);
+        new OtherHttp().pictureUpload(new OtherRequest().pictureUpload(AccountClosingActivity.this, null, value -> {
+            uploadSuccessCount.incrementAndGet();
+            imgMap.put(key, value.getPhoto1());
+            if (uploadSuccessCount.get() == totalPic) {
+                dialog.dismiss();
+                finalUpload();
             }
         }), httpPost);
-
-
     }
-
-    public void preOpen() {
-
-
-        dialog.getTvTitle().setText("正在上传图片");
-        dialog.show();
+    private void uploadImage2(Bitmap bitmap, String key) {
+        if (bitmap == null) return;
         HttpPost<PostPictureUpload> httpPost = new HttpPost<>();
         PostPictureUpload postPictureUpload = new PostPictureUpload();
         postPictureUpload.setSession_token(Util.getLocalAdmin(AccountClosingActivity.this)[0]);
-        postPictureUpload.setType("5");
-        final Photo photo = new Photo();
-        photo.setPhoto1(BitmapUtil.bitmapToBase64(photoOne));
-        photo.setPhoto2(BitmapUtil.bitmapToBase64X(photoTwo));
-        photo.setPhoto3(BitmapUtil.bitmapToBase64X(BaseCom.photoThree));
-        photo.setPhoto4(BitmapUtil.bitmapToBase64(bitmapTerminate));
-
-        if (face.equals("1")) {
-            photo.setPhoto5(BitmapUtil.bitmapToBase64(videoPicOne));
-            photo.setPhoto6(BitmapUtil.bitmapToBase64X(videoPicTwo));
-        }
-
+        postPictureUpload.setType("0");
+        Photo photo = new Photo();
+        photo.setPhoto1(BitmapUtil.bitmapToBase64(bitmap));
         httpPost.setPhoto(photo);
         httpPost.setApp_key(Util.encode(BaseCom.APP_KEY));
         httpPost.setParameter(postPictureUpload);
         httpPost.setApp_sign(Util.encode(BaseCom.APP_PWD + gson.toJson(postPictureUpload) + BaseCom.APP_PWD));
-
-        new OtherHttp().pictureUpload(new OtherRequest().pictureUpload(AccountClosingActivity.this, dialog, new SuccessValue<RequestPictureUpload>() {
-            @Override
-            public void OnSuccess(RequestPictureUpload value) {
-                if (urlList != null && urlList.size() > 0) {
-                    for (int i = 0; i < urlList.size(); i++)
-                        deletePic(AccountClosingActivity.this, urlList.get(i));
-                }
-
-
-                dialog.getTvTitle().setText("正在提交");
-                dialog.show();
-
-                HttpPost<PostSetOpenNew> httpPost = new HttpPost<>();
-                PostSetOpenNew postOpen = new PostSetOpenNew();
-                postOpen.setSession_token(Util.getLocalAdmin(AccountClosingActivity.this)[0]);
-                postOpen.setNumber(number);
-                switch (type) {
-                    case "0":
-                        if (face.equals("1")) {
-                            postOpen.setAuthenticationType("App人脸识别");
-                        } else {
-                            postOpen.setAuthenticationType("App识别仪");
-                        }
-                        /*lanya*/
-                        break;
-                    case "1":
-                        if (face.equals("1")) {
-                            postOpen.setAuthenticationType("App人脸识别");
-                        } else {
-                            postOpen.setAuthenticationType("App扫描");
-                        }
-                        /*saomiao*/
-                        break;
-                }
-
-                postOpen.setCustomerName(name);
-                postOpen.setCertificatesType("Idcode");
-                postOpen.setCertificatesNo(cardId);
-                postOpen.setAddress(address);
-                postOpen.setAgreementFront(value.getPhoto4());
-                postOpen.setPhotoFront(value.getPhoto2());
-                postOpen.setPhotoBack(value.getPhoto1());
-                postOpen.setMemo4(value.getPhoto3());
-
-                if (face.equals("1")) {
-                    postOpen.setVideoPhotos1(value.getPhoto5());
-                    postOpen.setVideoPhotos2(value.getPhoto6());
-                }
-
-
-                httpPost.setApp_key(Util.GetMD5Code(BaseCom.APP_KEY));
-                httpPost.setParameter(postOpen);
-                httpPost.setApp_sign(Util.GetMD5Code(BaseCom.APP_PWD + gson.toJson(postOpen) + BaseCom.APP_PWD));
-                new CardHttp().setOpen(new Subscriber<HttpRequest<RequestSetOpenNew>>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(HttpRequest<RequestSetOpenNew> stringHttpRequest) {
-                        Util.createToast(AccountClosingActivity.this, stringHttpRequest.getMes());
-                        if (stringHttpRequest.getCode() == BaseCom.LOSELOG)
-                            Util.gotoActy(AccountClosingActivity.this, LoginActivity.class);
-                        else {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(AccountClosingActivity.this);
-                            builder.setCancelable(false);
-                            switch (stringHttpRequest.getCode()) {
-                                case BaseCom.NORMAL:
-                                    builder.setMessage("订单提交成功");
-                                    builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface alertDialog, int which) {
-                                            alertDialog.dismiss();
-
-                                            SharedPreferences sharedPreferences = getSharedPreferences("mySP", MODE_PRIVATE);
-                                            String uri0 = sharedPreferences.getString("pic0", "");
-                                            String uri1 = sharedPreferences.getString("pic1", "");
-                                            String photo1 = sharedPreferences.getString("photo1", "");
-                                            String photo2 = sharedPreferences.getString("photo2", "");
-                                            String photo3 = sharedPreferences.getString("photo3", "");
-                                            String witonePic = sharedPreferences.getString("witonePic", "");
-                                            String witonePicTmp = sharedPreferences.getString("witonePicTmp", "");
-
-                                            String path = sharedPreferences.getString("witonpath", "");//camera
-                                            String dir = sharedPreferences.getString("toworldpic", "");//face
-
-                                            deletePic(AccountClosingActivity.this, photo1);
-                                            deletePic(AccountClosingActivity.this, photo2);
-                                            deletePic(AccountClosingActivity.this, photo3);
-                                            deletePic(AccountClosingActivity.this, uri0);
-                                            deletePic(AccountClosingActivity.this, uri1);
-                                            deletePic(AccountClosingActivity.this, witonePic);
-                                            deletePic(AccountClosingActivity.this, witonePicTmp);
-
-                                            deleteDir(Environment.getExternalStorageDirectory().toString() + "/toworldpic");
-//
-                                            deleteDir(Environment.getExternalStorageDirectory().toString() + "/DCIM/GalleryFinal");
-
-                                            deleteDir(Environment.getExternalStorageDirectory().toString() + "/wtimage");
-                                            handler.sendEmptyMessageDelayed(3, 500);
-
-                                        }
-                                    });
-                                    break;
-                                case INNORMAL:
-                                    Toast.makeText(AccountClosingActivity.this, "图片解析错误", Toast.LENGTH_SHORT).show();
-                                    break;
-                                default:
-                                    builder.setMessage(stringHttpRequest.getMes() + "\n" + "是否重新提交该订单?");
-                                    builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface alertDialog, int which) {
-                                            alertDialog.dismiss();
-                                            new Thread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    try {
-                                                        Thread.sleep(1500);
-                                                        android.os.Message message = new android.os.Message();
-                                                        message.what = 1;
-                                                        handler.sendMessage(message); //告诉主线程执行任务
-
-                                                    } catch (InterruptedException e) {
-                                                        e.printStackTrace();
-                                                    }
-                                                }
-                                            }).start();
-                                        }
-                                    });
-                                    builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface alertDialog, int which) {
-                                            alertDialog.dismiss();
-                                            handler.sendEmptyMessageDelayed(3, 500);
-
-//                                            Util.gotoActy(AccountClosingActivity.this, MainNewActivity.class);
-
-                                        }
-                                    });
-                                    break;
-                            }
-                            builder.create().show();
-                        }
-                    }
-                }, httpPost);
+        new OtherHttp().pictureUpload(new OtherRequest().pictureUpload(AccountClosingActivity.this, null, value -> {
+            uploadSuccessCount.incrementAndGet();
+            imgMap.put(key, value.getPhoto1());
+            if (uploadSuccessCount.get() == totalPic) {
+                finalUpload2();
+                dialog.dismiss();
             }
         }), httpPost);
+    }
+    private boolean uploading;
+
+    private void finalUpload() {
+        if (uploading) return;
+        uploading = true;
+        if (urlList != null && urlList.size() > 0) {
+            for (int i = 0; i < urlList.size(); i++)
+                deletePic(AccountClosingActivity.this, urlList.get(i));
+        }
+
+        dialog.getTvTitle().setText("正在提交");
+        dialog.show();
+        HttpPost<PostOpen> httpPost = new HttpPost<>();
+        PostOpen postOpen = new PostOpen();
+        postOpen.setSession_token(Util.getLocalAdmin(AccountClosingActivity.this)[0]);
+        postOpen.setNumber(requestCheck.getNumber());
+        switch (type) {
+            case "0":
+                if (face.equals("1")) {
+                    postOpen.setAuthenticationType("App人脸识别");
+                } else {
+                    postOpen.setAuthenticationType("App识别仪");
+                }
+                /*lanya*/
+                break;
+            case "1":
+                if (face.equals("1")) {
+                    postOpen.setAuthenticationType("App人脸识别");
+                } else {
+                    postOpen.setAuthenticationType("App扫描");
+                }
+                /*saomiao*/
+                break;
+        }
+
+        postOpen.setCustomerName(name);
+        postOpen.setCertificatesType("Idcode");
+        postOpen.setCertificatesNo(cardId);
+        postOpen.setAddress(address);
+        postOpen.setDescription(remark);
+        postOpen.setCardType("SIM");
+        postOpen.setSimId(String.valueOf(requestCheck.getSimId()));
+        postOpen.setSimICCID(String.valueOf(requestCheck.getSimICCID()));
+        postOpen.setPackageId(mPackage.getId());
+        postOpen.setPromotionsId(mPromotion.getId());
+        postOpen.setOrderAmount(sum);
+        postOpen.setAgreementFront(imgMap.get(Constants.BITMAPTERMINATE));
+        postOpen.setPhotoFront(imgMap.get(Constants.PHOTOONE));
+        postOpen.setPhotoBack(imgMap.get(Constants.PHOTOTWO));
+        postOpen.setMemo4(imgMap.get(Constants.PHOTOTHREE));
+        postOpen.setMemo11(imgMap.get(Constants.PHOTOFOUR));
+        for (Map.Entry<String, String> entry: imgMap.entrySet()) {
+            Log.i("imgUrl", entry.getKey() + ":" + entry.getValue());
+        }
+
+        if (face.equals("1")) {
+            postOpen.setVideoPhotos1(imgMap.get(Constants.VIDEOPICONE));
+            postOpen.setVideoPhotos2(imgMap.get(Constants.VIDEOPICTWO));
+        }
+
+
+        postOpen.setOrg_number_poolsId(requestCheck.getOrg_number_poolsId());
+        httpPost.setApp_key(Util.GetMD5Code(BaseCom.APP_KEY));
+        httpPost.setParameter(postOpen);
+        httpPost.setApp_sign(Util.GetMD5Code(BaseCom.APP_PWD + gson.toJson(postOpen) + BaseCom.APP_PWD));
+        new CardHttp().open(CardRequest.open(AccountClosingActivity.this, dialog, new SuccessValue<HttpRequest<RequestOpen>>() {
+            @Override
+            public void OnSuccess(final HttpRequest<RequestOpen> value) {
+                uploading = false;
+                Util.createToast(AccountClosingActivity.this, value.getMes());
+                Log.d("aaa", value.getMes());
+                Log.d("aaa", value.getCode() + "");
+                if (value.getCode() == BaseCom.LOSELOG || value.getCode() == BaseCom.VERSIONINCORRENT)
+                    Util.gotoActy(AccountClosingActivity.this, LoginActivity.class);
+                else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(AccountClosingActivity.this);
+                    builder.setCancelable(false);
+                    switch (value.getCode()) {
+                        case BaseCom.NORMAL:
+                            builder.setMessage("订单提交成功");
+                            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface alertDialog, int which) {
+                                    alertDialog.dismiss();
+                                    //                                            Util.gotoActy(AccountClosingActivity.this, MainNewActivity.class);
+                                    //                                            AppManager.getAppManager().finishActivity();
+                                    //                                            AppManager.getAppManager().finishActivity(MessageCollectionActivity.class);
+                                    //                                            AppManager.getAppManager().finishActivity(SelectActivity.class);
+                                    //                                            AppManager.getAppManager().finishActivity(PackageSelectActivity.class);
+                                    //                                            AppManager.getAppManager().finishActivity(RenewCardActivity.class);
+                                    //                                            AppManager.getAppManager().finishActivity(FaceRecordingActivity.class);
+
+
+                                    SharedPreferences sharedPreferences = getSharedPreferences("mySP", MODE_PRIVATE);
+                                    String uri0 = sharedPreferences.getString("pic0", "");
+                                    String uri1 = sharedPreferences.getString("pic1", "");
+                                    String photo1 = sharedPreferences.getString("photo1", "");
+                                    String photo2 = sharedPreferences.getString("photo2", "");
+                                    String photo3 = sharedPreferences.getString("photo3", "");
+                                    String witonePic = sharedPreferences.getString("witonePic", "");
+                                    String witonePicTmp = sharedPreferences.getString("witonePicTmp", "");
+
+                                    String path = sharedPreferences.getString("witonpath", "");//camera
+                                    String dir = sharedPreferences.getString("toworldpic", "");//face
+
+
+                                    //                                            if(face.equals( "1" )) {
+                                    //                                                deleteSingleFile( uri0 );
+                                    //                                                deleteSingleFile( uri1 );
+                                    deletePic(AccountClosingActivity.this, photo1);
+                                    deletePic(AccountClosingActivity.this, photo2);
+                                    deletePic(AccountClosingActivity.this, photo3);
+                                    deletePic(AccountClosingActivity.this, uri0);
+                                    deletePic(AccountClosingActivity.this, uri1);
+                                    deletePic(AccountClosingActivity.this, witonePic);
+                                    deletePic(AccountClosingActivity.this, witonePicTmp);
+
+                                    deleteDir(Environment.getExternalStorageDirectory().toString() + "/toworldpic");
+                                    //                                                deleteDir( Environment.getExternalStorageDirectory().toString()+"/DCIM/GalleryFinal" );
+                                    //                                            }
+                                    //                                            deleteSingleFile( photo1 );
+                                    //                                            deleteSingleFile( photo2 );
+                                    //                                            deleteSingleFile( photo3 );
+
+                                    deleteDir(Environment.getExternalStorageDirectory().toString() + "/DCIM/GalleryFinal");
+
+                                    //                                            if (type.equals( "1" )){
+                                    //                                                deleteSingleFile( witonePic );
+                                    //                                                deleteSingleFile( witonePicTmp );
+                                    deleteDir(Environment.getExternalStorageDirectory().toString() + "/wtimage");
+                                    //                                            }
+                                    handler.sendEmptyMessageDelayed(3, 500);
+
+                                }
+                            });
+                            break;
+                        default:
+                            builder.setMessage(value.getMes() + "\n" + "是否重新提交该订单?");
+                            builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface alertDialog, int which) {
+                                    alertDialog.dismiss();
+                                    new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            try {
+                                                Thread.sleep(1500);
+                                                android.os.Message message = new android.os.Message();
+                                                message.what = 0;
+                                                handler.sendMessage(message); //告诉主线程执行任务
+
+                                            } catch (InterruptedException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    }).start();
+                                }
+                            });
+                            builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface alertDialog, int which) {
+                                    alertDialog.dismiss();
+                                    handler.sendEmptyMessageDelayed(3, 500);
+
+                                    //                                            AppManager.getAppManager().finishActivityBesides(MainNewActivity.class);
+                                    //                                            Util.gotoActy(AccountClosingActivity.this, MainNewActivity.class);
+                                    //                                            AppManager.getAppManager().finishActivity();
+                                    //                                            AppManager.getAppManager().finishActivity(MessageCollectionActivity.class);
+                                    //                                            AppManager.getAppManager().finishActivity(SelectActivity.class);
+                                    //                                            AppManager.getAppManager().finishActivity(PackageSelectActivity.class);
+                                    //                                            AppManager.getAppManager().finishActivity(RenewCardActivity.class);
+                                    //                                            AppManager.getAppManager().finishActivity(FaceRecordingActivity.class);
+
+                                }
+                            });
+                            break;
+                        case INNORMAL:
+                            Toast.makeText(AccountClosingActivity.this, "图片解析错误", Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+
+                    builder.create().show();
+
+
+                }
+            }
+        }), httpPost);
+    }
+
+    private void finalUpload2() {
+        if (uploading) return;
+        uploading = true;
+        if (urlList != null && urlList.size() > 0) {
+            for (int i = 0; i < urlList.size(); i++)
+                deletePic(AccountClosingActivity.this, urlList.get(i));
+        }
+
+        dialog.getTvTitle().setText("正在提交");
+        dialog.show();
+        HttpPost<PostSetOpenNew> httpPost = new HttpPost<>();
+        PostSetOpenNew postOpen = new PostSetOpenNew();
+        postOpen.setSession_token(Util.getLocalAdmin(AccountClosingActivity.this)[0]);
+        postOpen.setNumber(number);
+        switch (type) {
+            case "0":
+                if (face.equals("1")) {
+                    postOpen.setAuthenticationType("App人脸识别");
+                } else {
+                    postOpen.setAuthenticationType("App识别仪");
+                }
+                /*lanya*/
+                break;
+            case "1":
+                if (face.equals("1")) {
+                    postOpen.setAuthenticationType("App人脸识别");
+                } else {
+                    postOpen.setAuthenticationType("App扫描");
+                }
+                /*saomiao*/
+                break;
+        }
+
+        postOpen.setCustomerName(name);
+        postOpen.setCertificatesType("Idcode");
+        postOpen.setCertificatesNo(cardId);
+        postOpen.setAddress(address);
+        postOpen.setAgreementFront(imgMap.get(Constants.BITMAPTERMINATE));
+        postOpen.setPhotoFront(imgMap.get(Constants.PHOTOTWO));
+        postOpen.setPhotoBack(imgMap.get(Constants.PHOTOONE));
+
+        postOpen.setMemo11(imgMap.get(Constants.PHOTOFOUR));
+        postOpen.setMemo4(imgMap.get(Constants.PHOTOTHREE));
+
+        if (face.equals("1")) {
+            postOpen.setVideoPhotos1(imgMap.get(Constants.VIDEOPICONE));
+            postOpen.setVideoPhotos2(imgMap.get(Constants.VIDEOPICTWO));
+        }
+
+
+        httpPost.setApp_key(Util.GetMD5Code(BaseCom.APP_KEY));
+        httpPost.setParameter(postOpen);
+        httpPost.setApp_sign(Util.GetMD5Code(BaseCom.APP_PWD + gson.toJson(postOpen) + BaseCom.APP_PWD));
+        new CardHttp().setOpen(new Subscriber<HttpRequest<RequestSetOpenNew>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(HttpRequest<RequestSetOpenNew> stringHttpRequest) {
+                uploading = false;
+                Util.createToast(AccountClosingActivity.this, stringHttpRequest.getMes());
+                if (stringHttpRequest.getCode() == BaseCom.LOSELOG)
+                    Util.gotoActy(AccountClosingActivity.this, LoginActivity.class);
+                else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(AccountClosingActivity.this);
+                    builder.setCancelable(false);
+                    switch (stringHttpRequest.getCode()) {
+                        case BaseCom.NORMAL:
+                            builder.setMessage("订单提交成功");
+                            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface alertDialog, int which) {
+                                    alertDialog.dismiss();
+
+                                    SharedPreferences sharedPreferences = getSharedPreferences("mySP", MODE_PRIVATE);
+                                    String uri0 = sharedPreferences.getString("pic0", "");
+                                    String uri1 = sharedPreferences.getString("pic1", "");
+                                    String photo1 = sharedPreferences.getString("photo1", "");
+                                    String photo2 = sharedPreferences.getString("photo2", "");
+                                    String photo3 = sharedPreferences.getString("photo3", "");
+                                    String witonePic = sharedPreferences.getString("witonePic", "");
+                                    String witonePicTmp = sharedPreferences.getString("witonePicTmp", "");
+
+                                    String path = sharedPreferences.getString("witonpath", "");//camera
+                                    String dir = sharedPreferences.getString("toworldpic", "");//face
+
+                                    deletePic(AccountClosingActivity.this, photo1);
+                                    deletePic(AccountClosingActivity.this, photo2);
+                                    deletePic(AccountClosingActivity.this, photo3);
+                                    deletePic(AccountClosingActivity.this, uri0);
+                                    deletePic(AccountClosingActivity.this, uri1);
+                                    deletePic(AccountClosingActivity.this, witonePic);
+                                    deletePic(AccountClosingActivity.this, witonePicTmp);
+
+                                    deleteDir(Environment.getExternalStorageDirectory().toString() + "/toworldpic");
+                                    //
+                                    deleteDir(Environment.getExternalStorageDirectory().toString() + "/DCIM/GalleryFinal");
+
+                                    deleteDir(Environment.getExternalStorageDirectory().toString() + "/wtimage");
+                                    handler.sendEmptyMessageDelayed(3, 500);
+
+                                }
+                            });
+                            break;
+                        case INNORMAL:
+                            Toast.makeText(AccountClosingActivity.this, "图片解析错误", Toast.LENGTH_SHORT).show();
+                            break;
+                        default:
+                            builder.setMessage(stringHttpRequest.getMes() + "\n" + "是否重新提交该订单?");
+                            builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface alertDialog, int which) {
+                                    alertDialog.dismiss();
+                                    new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            try {
+                                                Thread.sleep(1500);
+                                                android.os.Message message = new android.os.Message();
+                                                message.what = 1;
+                                                handler.sendMessage(message); //告诉主线程执行任务
+
+                                            } catch (InterruptedException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    }).start();
+                                }
+                            });
+                            builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface alertDialog, int which) {
+                                    alertDialog.dismiss();
+                                    handler.sendEmptyMessageDelayed(3, 500);
+
+                                    //                                            Util.gotoActy(AccountClosingActivity.this, MainNewActivity.class);
+
+                                }
+                            });
+                            break;
+                    }
+                    builder.create().show();
+                }
+            }
+        }, httpPost);
+    }
+
+    public void preOpen() {
+        uploadSuccessCount.set(0);
+        dialog.getTvTitle().setText("正在上传图片");
+        dialog.show();
+        totalPic = 0;
+        if (photoOne != null) {
+            totalPic++;
+        }
+        if (photoTwo != null) {
+            totalPic++;
+        }
+        if (BaseCom.photoThree != null) {
+            totalPic++;
+        }
+        if (BaseCom.photoFour != null) {
+            totalPic++;
+        }
+        if (bitmapTerminate != null) {
+            totalPic++;
+        }
+        if (face.equals("1")) {
+            totalPic++;
+            totalPic++;
+            //photo.setPhoto5(BitmapUtil.bitmapToBase64(videoPicOne));
+            //photo.setPhoto6(BitmapUtil.bitmapToBase64X(videoPicTwo));
+        }
+        if (photoOne != null) {
+            uploadImage2(photoOne, Constants.PHOTOONE);
+        }
+        if (BaseCom.photoFour != null) {
+            uploadImage2(BaseCom.photoFour, Constants.PHOTOFOUR);
+        }
+        if (photoTwo != null) {
+            uploadImage2(photoTwo, Constants.PHOTOTWO);
+        }
+        if (BaseCom.photoThree != null) {
+            uploadImage2(BaseCom.photoThree, Constants.PHOTOTHREE);
+        }
+
+        if (bitmapTerminate != null) {
+            uploadImage2(bitmapTerminate, Constants.BITMAPTERMINATE);
+        }
+        if (face.equals("1")) {
+            uploadImage2(videoPicOne, Constants.VIDEOPICONE);
+            uploadImage2(videoPicTwo, Constants.VIDEOPICTWO);
+        }
 
 
     }

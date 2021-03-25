@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="wrap_content"
+  android:layout_height="wrap_content"
+  android:layout_marginHorizontal="20dp"
+  android:orientation="vertical"
+  >
+
+  <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="24dp"
+    android:layout_marginVertical="40dp"
+    android:text="尊敬的用户，您好！\n
+       根据工信部文件要求，所有渠道工号必须实名认证。未实名认证工号无法使用，请完善相关资料。\n
+       为防止工号和设备被滥用，开户工号需在网点使用。完善信息时，请保证渠道信息准确。渠道地址和渠道详细地址指的是网点地址。使用App时请打开定位功能。"
+    android:textColor="#ff3a3a3a"
+    android:textSize="14sp"
+    />
+
+  <View
+    android:layout_width="match_parent"
+    android:background="#4D4D4D"
+    android:layout_height="1px" />
+
+  <TextView
+    android:id="@+id/readTv"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="已阅读"
+    android:textColor="#ffbdbdbd"
+    android:enabled="false"
+    android:paddingVertical="11dp"
+    android:gravity="center"
+    android:textSize="17sp"
+    />
+
+</LinearLayout>

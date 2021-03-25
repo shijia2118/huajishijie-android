@@ -8,6 +8,7 @@
     android:background="@color/colorBackground"
     android:orientation="vertical"
     tools:context="com.test.tworldapplication.activity.admin.WriteInActivity">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="44dp"
@@ -57,6 +58,19 @@
                 layout="@layout/layout_background_two"
                 android:visibility="gone" />
 
+
+            <TextView
+              android:layout_width="match_parent"
+              android:layout_height="44dp"
+              android:text="用户信息"
+              android:background="#ED6C00"
+              android:paddingLeft="15dp"
+              android:gravity="center_vertical"
+              android:textColor="#ffffffff"
+              android:textSize="16sp"
+              />
+
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -93,7 +107,8 @@
                     android:layout_marginRight="15dp"
                     android:background="@null"
                     android:gravity="right"
-                    android:hint="请输入姓名"
+                  android:editable="false"
+                    android:hint="由证件扫描获取"
                     android:maxLength="5"
                     android:text=""
                     android:textColor="#666666"
@@ -136,7 +151,8 @@
                     android:layout_marginRight="15dp"
                     android:background="@null"
                     android:gravity="right"
-                    android:hint="请输入身份证号码"
+                    android:hint="由证件扫描获取"
+                  android:editable="false"
                     android:maxLength="18"
                     android:text=""
                     android:textColor="#666666"
@@ -179,7 +195,8 @@
                     android:layout_marginRight="15dp"
                     android:background="@null"
                     android:gravity="right"
-                    android:hint="请输入证件地址"
+                  android:editable="false"
+                    android:hint="由证件扫描获取"
                     android:maxLength="18"
                     android:text=""
                     android:textColor="#666666"
@@ -192,244 +209,146 @@
                 android:layout_height="1dp"
                 android:background="#FAFAFA" />
 
-            <RelativeLayout
-                android:id="@+id/province_layout"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:background="@color/colorWhite"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="11dp"
-                    android:text="* "
-                    android:textColor="@color/red"
-                    android:textSize="16dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginLeft="15dp"
-                    android:text="渠道省市"
-                    android:textColor="#FF333333"
-                    android:textSize="16dp" />
-
-                <TextView
-                    android:id="@+id/user_provience"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toStartOf="@+id/address_img"
-                    android:background="@null"
-                    android:gravity="right"
-                    android:inputType="text"
-                    android:text="请输入"
-                    android:textColor="#666666"
-                    android:textSize="16dp" />
-
-
-                <ImageView
-                    android:id="@+id/address_img"
-                    android:layout_width="15dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="15dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginBottom="15dp"
-                    app:srcCompat="@mipmap/arr_right" />
-
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#FAFAFA" />
-
             <LinearLayout
-                android:id="@+id/address_layout"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:background="@color/colorWhite"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+              android:id="@+id/numb_layout"
+              android:layout_width="match_parent"
+              android:layout_height="44dp"
+              android:background="@color/colorWhite"
+              android:gravity="center_vertical"
+              android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:text="* "
-                    android:textColor="@color/red"
-                    android:textSize="16dp" />
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="15dp"
+                  android:text="* "
+                  android:textColor="@color/red"
+                  android:textSize="16dp" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="渠道详细地址"
-                    android:textColor="#FF333333"
-                    android:textSize="16dp" />
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="手机号"
+                  android:textColor="#FF333333"
+                  android:textSize="16dp" />
 
                 <EditText
-                    android:id="@+id/user_address"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="15dp"
-                    android:background="@null"
-                    android:gravity="right"
-                    android:hint="请输入详细地址"
-                    android:text=""
-                    android:textColor="#666666"
-                    android:textColorHint="#666666"
-                    android:textSize="16dp" />
-            </LinearLayout>
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#FAFAFA" />
-
-            <LinearLayout
-                android:id="@+id/numb_layout"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:background="@color/colorWhite"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:text="* "
-                    android:textColor="@color/red"
-                    android:textSize="16dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="手机号"
-                    android:textColor="#FF333333"
-                    android:textSize="16dp" />
-
-                <EditText
-                    android:id="@+id/user_numb"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="15dp"
-                    android:background="@null"
-                    android:gravity="right"
-                    android:hint="请输入手机号码"
-                    android:inputType="phone"
-                    android:maxLength="11"
-                    android:text=""
-                    android:textColor="#666666"
-                    android:textColorHint="#666666"
-                    android:textSize="16dp" />
+                  android:id="@+id/user_numb"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginRight="15dp"
+                  android:background="@null"
+                  android:gravity="right"
+                  android:hint="请输入手机号码"
+                  android:inputType="phone"
+                  android:maxLength="11"
+                  android:text=""
+                  android:textColor="#666666"
+                  android:textColorHint="#666666"
+                  android:textSize="16dp" />
             </LinearLayout>
 
             <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#FAFAFA" />
+              android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:background="#FAFAFA" />
 
             <LinearLayout
-                android:id="@+id/ll_code"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:background="@color/colorWhite"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+              android:id="@+id/ll_code"
+              android:layout_width="match_parent"
+              android:layout_height="44dp"
+              android:background="@color/colorWhite"
+              android:gravity="center_vertical"
+              android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:text="* "
-                    android:textColor="@color/red"
-                    android:textSize="16dp" />
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="15dp"
+                  android:text="* "
+                  android:textColor="@color/red"
+                  android:textSize="16dp" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="验证码"
-                    android:textColor="#FF333333"
-                    android:textSize="16dp" />
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="验证码"
+                  android:textColor="#FF333333"
+                  android:textSize="16dp" />
 
                 <EditText
-                    android:id="@+id/phone_code"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:gravity="right"
-                    android:hint="请输入验证码"
-                    android:text=""
-                    android:textColor="#666666"
-                    android:textColorHint="#666666"
-                    android:textSize="16dp" />
+                  android:id="@+id/phone_code"
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:background="@null"
+                  android:gravity="right"
+                  android:hint="请输入验证码"
+                  android:text=""
+                  android:textColor="#666666"
+                  android:textColorHint="#666666"
+                  android:textSize="16dp" />
 
                 <TextView
-                    android:id="@+id/tvGetCode"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="7dp"
-                    android:layout_marginRight="15dp"
-                    android:text="获取验证码"
-                    android:textColor="@color/colorOrange"
-                    android:textSize="16sp" />
+                  android:id="@+id/tvGetCode"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="7dp"
+                  android:layout_marginRight="15dp"
+                  android:text="获取验证码"
+                  android:textColor="@color/colorOrange"
+                  android:textSize="16sp" />
 
             </LinearLayout>
 
             <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#FAFAFA" />
+              android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:background="#FAFAFA" />
+
 
             <LinearLayout
-                android:id="@+id/e_mail_layout"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:background="@color/colorWhite"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+              android:id="@+id/e_mail_layout"
+              android:layout_width="match_parent"
+              android:layout_height="44dp"
+              android:background="@color/colorWhite"
+              android:gravity="center_vertical"
+              android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:text="电子邮箱"
-                    android:textColor="#FF333333"
-                    android:textSize="16dp" />
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="15dp"
+                  android:text="电子邮箱"
+                  android:textColor="#FF333333"
+                  android:textSize="16dp" />
 
                 <EditText
-                    android:id="@+id/user_e_mail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="15dp"
-                    android:background="@null"
-                    android:gravity="right"
-                    android:hint="请输入电子邮箱"
-                    android:inputType="text"
-                    android:text=""
-                    android:textColor="#666666"
-                    android:textColorHint="#666666"
-                    android:textSize="16dp" />
+                  android:id="@+id/user_e_mail"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginRight="15dp"
+                  android:background="@null"
+                  android:gravity="right"
+                  android:hint="请输入电子邮箱"
+                  android:inputType="text"
+                  android:text=""
+                  android:textColor="#666666"
+                  android:textColorHint="#666666"
+                  android:textSize="16dp" />
             </LinearLayout>
 
             <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#FAFAFA" />
+              android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:background="#FAFAFA" />
+
+
+
+
+
+
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -566,6 +485,123 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
+
+            <TextView
+              android:layout_width="match_parent"
+              android:layout_height="44dp"
+              android:text="渠道信息"
+              android:background="#ED6C00"
+              android:paddingLeft="15dp"
+              android:gravity="center_vertical"
+              android:textColor="#ffffffff"
+              android:textSize="16sp"
+              />
+
+            <RelativeLayout
+              android:id="@+id/province_layout"
+              android:layout_width="match_parent"
+              android:layout_height="44dp"
+              android:background="@color/colorWhite"
+              android:gravity="center_vertical"
+              android:orientation="horizontal">
+
+                <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="15dp"
+                  android:layout_marginTop="11dp"
+                  android:text="* "
+                  android:textColor="@color/red"
+                  android:textSize="16dp" />
+
+                <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentStart="true"
+                  android:layout_alignParentLeft="true"
+                  android:layout_centerVertical="true"
+                  android:layout_marginStart="24dp"
+                  android:layout_marginLeft="15dp"
+                  android:text="渠道省市"
+                  android:textColor="#FF333333"
+                  android:textSize="16dp" />
+
+                <TextView
+                  android:id="@+id/user_provience"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerVertical="true"
+                  android:layout_toStartOf="@+id/address_img"
+                  android:background="@null"
+                  android:gravity="right"
+                  android:inputType="text"
+                  android:text="请输入"
+                  android:textColor="#666666"
+                  android:textSize="16dp" />
+
+
+                <ImageView
+                  android:id="@+id/address_img"
+                  android:layout_width="15dp"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentEnd="true"
+                  android:layout_alignParentRight="true"
+                  android:layout_centerVertical="true"
+                  android:layout_marginEnd="15dp"
+                  android:layout_marginRight="15dp"
+                  android:layout_marginBottom="15dp"
+                  app:srcCompat="@mipmap/arr_right" />
+
+
+            </RelativeLayout>
+
+            <View
+              android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:background="#FAFAFA" />
+
+            <LinearLayout
+              android:id="@+id/address_layout"
+              android:layout_width="match_parent"
+              android:layout_height="44dp"
+              android:background="@color/colorWhite"
+              android:gravity="center_vertical"
+              android:orientation="horizontal">
+
+                <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="15dp"
+                  android:text="* "
+                  android:textColor="@color/red"
+                  android:textSize="16dp" />
+
+                <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="渠道详细地址"
+                  android:textColor="#FF333333"
+                  android:textSize="16dp" />
+
+                <EditText
+                  android:id="@+id/user_address"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginRight="15dp"
+                  android:background="@null"
+                  android:gravity="right"
+                  android:hint="请输入详细地址"
+                  android:text=""
+                  android:textColor="#666666"
+                  android:textColorHint="#666666"
+                  android:textSize="16dp" />
+            </LinearLayout>
+
+
+            <View
+              android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:background="#FAFAFA" />
 
             <TextView
                 android:layout_marginLeft="15dp"

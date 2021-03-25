@@ -41,9 +41,12 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.rxbus2.RxUtils;
 import com.luck.picture.lib.tools.ToastUtils;
+import com.test.tworldapplication.BuildConfig;
 import com.test.tworldapplication.R;
 import com.test.tworldapplication.activity.SplashActivity;
+import com.test.tworldapplication.activity.TestOrcActivity;
 import com.test.tworldapplication.activity.admin.WriteInActivity;
+import com.test.tworldapplication.activity.admin.WriteInNewActivity;
 import com.test.tworldapplication.activity.card.MessageCollectionNewActivity;
 import com.test.tworldapplication.activity.order.OrderBkDetailActivity;
 import com.test.tworldapplication.base.BaseActivity;
@@ -299,6 +302,15 @@ public class LoginActivity extends BaseActivity implements SuccessNull {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+//        if (BuildConfig.DEBUG) {
+//
+//            TextView testORg = findViewById(R.id.testOrg);
+//            testORg.setVisibility(View.VISIBLE);
+//            testORg.setOnClickListener(view -> {
+//                Intent intent = new Intent(LoginActivity.this, TestOrcActivity.class);
+//                startActivity(intent);
+//            });
+//        }
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
@@ -345,7 +357,10 @@ public class LoginActivity extends BaseActivity implements SuccessNull {
                     Intent intent = new Intent();
                     intent.putExtra("from", "0");
                     intent.putExtra("isCompare", msg.obj.toString());
-                    intent.setClass(LoginActivity.this, WriteInActivity.class);
+                    if (_requestLoginHttpRequest != null && _requestLoginHttpRequest.getData() != null) {
+                        intent.putExtra("data", _requestLoginHttpRequest.getData());
+                    }
+                    intent.setClass(LoginActivity.this, WriteInNewActivity.class);
                     LogUtils.setAppendFile("startActivity:WriteInActivity");
                     startActivity(intent);
                     break;

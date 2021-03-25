@@ -12,6 +12,17 @@ public class Photo {
 
     private String photo5;
     private String photo6;
+    private String photo7;
+
+    public String getMemo11() {
+        return memo11;
+    }
+
+    public void setMemo11(String memo11) {
+        this.memo11 = memo11;
+    }
+
+    private String memo11;
 
     public String getPhoto1() {
         return photo1;
@@ -59,5 +70,13 @@ public class Photo {
 
     public void setPhoto6(String photo6) {
         this.photo6 = photo6;
+    }
+
+    public String getPhoto7() {
+        return photo7;
+    }
+
+    public void setPhoto7(String photo7) {
+        this.photo7 = photo7;
     }
 }

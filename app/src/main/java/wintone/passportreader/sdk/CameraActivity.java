@@ -57,9 +57,9 @@ import java.util.StringTokenizer;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import wintone.idcard.android.RecogParameterMessage;
-import wintone.idcard.android.RecogService;
-import wintone.idcard.android.ResultMessage;
+import kernal.idcard.android.RecogParameterMessage;
+import kernal.idcard.android.RecogService;
+import kernal.idcard.android.ResultMessage;
 import wintone.passport.sdk.utils.AppManager;
 import wintone.passport.sdk.utils.CameraParametersUtils;
 import wintone.passport.sdk.utils.Devcode;

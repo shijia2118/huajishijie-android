@@ -17,6 +17,45 @@ public class PostReSubmit implements Serializable {
     private String photo3;
     private String photo4;
     private String photo5;
+    private String branchPic;
+    private String branchName;
+
+    public String getDistrictCode() {
+        return districtCode;
+    }
+
+    public void setDistrictCode(String districtCode) {
+        this.districtCode = districtCode;
+    }
+
+    private String districtCode;
+
+    public String getBranchPic() {
+        return branchPic;
+    }
+
+    public String getBranchName() {
+        return branchName;
+    }
+
+    public void setBranchName(String branchName) {
+        this.branchName = branchName;
+    }
+
+    public void setBranchPic(String branchPic) {
+        this.branchPic = branchPic;
+    }
+
+    public String getLicensePic() {
+        return licensePic;
+    }
+
+    public void setLicensePic(String licensePic) {
+        this.licensePic = licensePic;
+    }
+
+    private String licensePic;
+
 
 
     public String getPhoto4() {

@@ -339,7 +339,8 @@
                                 style="@style/textSmall"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="身份证正面照" />
+                                android:gravity="center_horizontal"
+                                android:text="身份证人像面\n+卡板合照" />
 
                         </LinearLayout>
 
@@ -451,7 +452,7 @@
                                 style="@style/textSmall"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="身份证正面照" />
+                                android:text="身份证人像面" />
 
                         </LinearLayout>
 
@@ -524,7 +525,7 @@
                 android:layout_marginTop="39dp"
                 android:background="@drawable/shape_bt_background_new"
                 android:gravity="center"
-                android:text="提交"
+                android:text="下一步"
                 android:textColor="@color/colorWhite"
                 android:textSize="14dp" />
         </LinearLayout>

@@ -31,20 +31,37 @@
             android:textColor="@color/colorGray"
             android:textSize="14dp" />
 
-        <GridView
+<!--        <GridView-->
+<!--            android:id="@+id/gvSelect"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@color/colorWhite"-->
+<!--            android:cacheColorHint="@color/colorWhite"-->
+<!--            android:horizontalSpacing="10dp"-->
+<!--            android:verticalSpacing="10dp"-->
+<!--            android:listSelector="@drawable/shape_recharge"-->
+<!--            android:numColumns="@integer/animation_default_duration"-->
+<!--            android:paddingLeft="15dp"-->
+<!--            android:paddingRight="15dp"-->
+<!--            android:paddingTop="15dp"-->
+<!--            android:stretchMode="columnWidth"-->
+<!--             />-->
+
+        <com.test.tworldapplication.view.AutoGridView
             android:id="@+id/gvSelect"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorWhite"
             android:cacheColorHint="@color/colorWhite"
             android:horizontalSpacing="10dp"
+            android:verticalSpacing="10dp"
             android:listSelector="@drawable/shape_recharge"
-            android:numColumns="3"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:paddingTop="15dp"
-            android:stretchMode="columnWidth"
-            android:verticalSpacing="10dp" />
+            android:numColumns="@integer/grid_columns"
+            android:stretchMode="columnWidth" />
+
     </LinearLayout>
 
     <LinearLayout

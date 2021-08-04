@@ -22,7 +22,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.kernal.passportreader.sdk.utils.CardScreenUtil;
 import com.kernal.passportreader.sdk.view.ScanCardsView;
-import com.kernal.passportreader.sdk.view.ViewfinderView;
 
 import kernal.idcard.android.ResultMessage;
 import kernal.idcard.camera.IScanReturnMessage;

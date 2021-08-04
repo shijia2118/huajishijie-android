@@ -2,28 +2,21 @@ package com.test.tworldapplication.activity.account;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.test.tworldapplication.R;
-import com.test.tworldapplication.activity.card.TransferCardActivity;
 import com.test.tworldapplication.activity.main.LoginActivity;
 import com.test.tworldapplication.base.BaseActivity;
 import com.test.tworldapplication.base.BaseCom;
 import com.test.tworldapplication.entity.HttpPost;
 import com.test.tworldapplication.entity.HttpRequest;
-import com.test.tworldapplication.entity.PostCaptcha;
 import com.test.tworldapplication.entity.PostQueryBalance;
 import com.test.tworldapplication.entity.RequestQueryBalance;
 import com.test.tworldapplication.http.AccountHttp;
 import com.test.tworldapplication.http.AccountRequest;
 import com.test.tworldapplication.inter.SuccessValue;
 import com.test.tworldapplication.utils.Util;
-import com.test.tworldapplication.view.CheckResultDialog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

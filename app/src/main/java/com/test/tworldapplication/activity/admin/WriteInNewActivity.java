@@ -9,7 +9,6 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -21,10 +20,8 @@ import android.os.Message;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -41,7 +38,6 @@ import cn.finalteam.galleryfinal.GalleryFinal;
 import cn.finalteam.galleryfinal.model.PhotoInfo;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.baidu.mapapi.cloud.CloudRgcResult;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.PoiInfo;
 import com.baidu.mapapi.search.core.SearchResult;
@@ -56,12 +52,10 @@ import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.google.gson.Gson;
 import com.kernal.passportreader.sdk.CardsCameraActivity;
 import com.kernal.passportreader.sdk.utils.DefaultPicSavePath;
-import com.kernal.passportreader.sdk.utils.ManageIDCardRecogResult;
 import com.luck.picture.lib.tools.ToastUtils;
 import com.squareup.picasso.Picasso;
 import com.test.tworldapplication.R;
 import com.test.tworldapplication.activity.SelectAddressActivity;
-import com.test.tworldapplication.activity.card.AccountClosingActivity;
 import com.test.tworldapplication.activity.card.FaceRecordingActivity;
 import com.test.tworldapplication.base.BaseActivity;
 import com.test.tworldapplication.base.BaseCom;
@@ -94,6 +88,9 @@ import com.test.tworldapplication.utils.LogUtils;
 import com.test.tworldapplication.utils.SPUtil;
 import com.test.tworldapplication.utils.Util;
 import com.test.tworldapplication.view.WheelView;
+import com.wildma.idcardcamera.camera.CameraActivity;
+import com.wildma.idcardcamera.camera.IDCardCamera;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -108,7 +105,6 @@ import kernal.idcard.android.ResultMessage;
 import kernal.idcard.camera.CardOcrRecogConfigure;
 import org.json.JSONArray;
 import rx.Observable;
-import rx.Scheduler;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -683,8 +679,6 @@ public class WriteInNewActivity extends BaseActivity {
   }
 
 
-  //    Uri imageUri;
-
   public void showCamera(int requestCode) {
     CardOcrRecogConfigure.getInstance()
         .initLanguage(getApplicationContext())
@@ -699,8 +693,13 @@ public class WriteInNewActivity extends BaseActivity {
         .setFlag(0)
         .setnCropType(0)
         .setSavePath(new DefaultPicSavePath(this, true));
-    Intent intent = new Intent(this, CardsCameraActivity.class);
-    startActivityForResult(intent, requestCode);
+//    这是另一种识别方式,好处是识别成功后,带振动效果.劣势是没有头像
+//    Intent intent = new Intent(this,CardsCameraActivity.class);
+//    startActivityForResult(intent,requestCode);
+
+    //带头像的身份证识别方式
+    IDCardCamera.create(WriteInNewActivity.this).openCamera(IDCardCamera.TYPE_IDCARD_FRONT);
+
   }
 
   public void showCamera(Activity activity, File file, int requestCode) {
@@ -752,39 +751,58 @@ public class WriteInNewActivity extends BaseActivity {
       if (tempFile == null) return;
       String path = tempFile.getAbsolutePath();
       showPic(path);
-    } else if (requestCode == 111) {
-      if (resultCode == Activity.RESULT_OK) {
-        Bundle bundle = data.getBundleExtra("resultbundle");
-        String path = "";
-        if (bundle != null) {
-          ResultMessage resultMessage = (ResultMessage) bundle.getSerializable("resultMessage");
-
-          String[] picPath = bundle.getStringArray("picpath");
-          //数据的封装
-          String result = ManageIDCardRecogResult.managerSucessRecogResult(resultMessage,
-              getApplicationContext());
-
-          spit(result);
-          if (splite_Result == null || splite_Result.length < 7) {
-            ToastUtils.s(this, "证件识别错误");
-            return;
-          }
-          path_front = picPath[0];
-          selectPath = picPath[0];
-          if (!(requestLogin != null && !TextUtils.isEmpty(requestLogin.getCardId()))) {
-            etName.setText(splite_Result[1].substring(3));
-            etIdAddress.setText(splite_Result[5].substring(3));
-            etId.setText(splite_Result[6].substring(7));
-          }
-
+    }
+    else if (requestCode == IDCardCamera.TYPE_IDCARD_FRONT){
+      if (resultCode == IDCardCamera.RESULT_CODE) {
+        String path = IDCardCamera.getImagePath(data);
+        if (path != null) {
+          path_front = path;
           imgFrontRemove.setVisibility(View.VISIBLE);
           selectPath = path_front;
           Picasso.with(this).invalidate(new File(selectPath));
           Picasso.with(this).load(new File(path_front)).into(imgFront);
+
+          Message message = new Message();
+          message.what = STARTSCAN;
+          mHandler.sendMessageDelayed(message, 500);
         } else {
           String error = data.getStringExtra("error");
           ToastUtils.s(this, error);
         }
+        //这是另外一种方式,无头像,但是识别成功后,带振动效果
+        //else if (requestCode == 111){
+//      if (resultCode == Activity.RESULT_OK) {
+//        Bundle bundle = data.getBundleExtra("resultbundle");
+//        String path = "";
+//        if (bundle != null) {
+//          ResultMessage resultMessage = (ResultMessage) bundle.getSerializable("resultMessage");
+//
+//          String[] picPath = bundle.getStringArray("picpath");
+//          //数据的封装
+//          String result = ManageIDCardRecogResult.managerSucessRecogResult(resultMessage,
+//              getApplicationContext());
+//
+//          spit(result);
+//          if (splite_Result == null || splite_Result.length < 7) {
+//            ToastUtils.s(this, "证件识别错误");
+//            return;
+//          }
+//          path_front = picPath[0];
+//          selectPath = picPath[0];
+//          if (!(requestLogin != null && !TextUtils.isEmpty(requestLogin.getCardId()))) {
+//            etName.setText(splite_Result[1].substring(3));
+//            etIdAddress.setText(splite_Result[5].substring(3));
+//            etId.setText(splite_Result[6].substring(7));
+//          }
+//
+//          imgFrontRemove.setVisibility(View.VISIBLE);
+//          selectPath = path_front;
+//          Picasso.with(this).invalidate(new File(selectPath));
+//          Picasso.with(this).load(new File(path_front)).into(imgFront);
+//        } else {
+//          String error = data.getStringExtra("error");
+//          ToastUtils.s(this, error);
+//        }
       }
     } else if (requestCode == 99) {
       if (resultCode == Activity.RESULT_OK) {
@@ -802,9 +820,14 @@ public class WriteInNewActivity extends BaseActivity {
           tvProvince.setText(pro_city + (TextUtils.isEmpty(poiInfo.area) ? "" : poiInfo.area));
           etAddress.setText(poiInfo.getAddress() + poiInfo.getName() );
         }
-
+      }
+    }else if(requestCode==IDCardCamera.TYPE_IDCARD_BACK){ //身份证背面照扫描结果
+      if(resultCode==IDCardCamera.RESULT_CODE){
+        String path = IDCardCamera.getImagePath(data);
+        showPic(path);
       }
     }
+
   }
 
   private GalleryFinal.OnHanlderResultCallback mOnHanlderResultCallback =
@@ -915,7 +938,8 @@ public class WriteInNewActivity extends BaseActivity {
             fileDir = new File(fileDir, "bqt");
             if (!fileDir.exists()) fileDir.mkdirs();
             tempFile = new File(fileDir, "temp_front.jpg");
-            showCamera(111);
+//            showCamera(111);
+            showCamera(IDCardCamera.TYPE_IDCARD_FRONT);
           }
         }, mOnHanlderResultCallback);
         break;
@@ -928,7 +952,8 @@ public class WriteInNewActivity extends BaseActivity {
             fileDir = new File(fileDir, "bqt");
             if (!fileDir.exists()) fileDir.mkdirs();
             tempFile = new File(fileDir, "temp_back.jpg");
-            showCamera(WriteInNewActivity.this, tempFile, REQUEST_CODE_CAMERA);
+//            showCamera(WriteInNewActivity.this, tempFile, REQUEST_CODE_CAMERA);
+            IDCardCamera.create(WriteInNewActivity.this).openCamera(IDCardCamera.TYPE_IDCARD_BACK);
           }
         }, mOnHanlderResultCallback);
         break;

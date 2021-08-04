@@ -7,12 +7,14 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +54,7 @@ import com.test.tworldapplication.utils.BitmapUtil;
 import com.test.tworldapplication.utils.DialogManager;
 import com.test.tworldapplication.utils.DisplayUtil;
 import com.test.tworldapplication.utils.Util;
+import com.wildma.idcardcamera.camera.IDCardCamera;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -125,9 +128,7 @@ public class TransferCardActivity extends BaseActivity implements DialogInterfac
         setContentView(R.layout.activity_transfer_card);
         ButterKnife.bind(this);
         setBackGroundTitle("过户", true);
-
         initView();
-
     }
 
     private void initView() {
@@ -282,8 +283,6 @@ public class TransferCardActivity extends BaseActivity implements DialogInterfac
                         int[] location = new int[2];
                         imgNewIdFront.getLocationOnScreen(location);
                         Util.turnToPhotoDetailActivity(TransferCardActivity.this, file_two, DisplayUtil.dp2px(TransferCardActivity.this, 60), DisplayUtil.dp2px(TransferCardActivity.this, 60), location[0], location[1]);
-
-
                         break;
                 }
                 break;
@@ -399,20 +398,22 @@ public class TransferCardActivity extends BaseActivity implements DialogInterfac
                     switch (flag) {
                         case 0:
                             tempFile = new File(fileDir, "temp_gh0.jpg");
+                            showCamera(TransferCardActivity.this, tempFile, REQUEST_CODE_CAMERA);
                             break;
                         case 1:
                             tempFile = new File(fileDir, "temp_gh1.jpg");
+                            showCamera(TransferCardActivity.this, tempFile, REQUEST_CODE_CAMERA);
                             break;
                         case 2:
                             tempFile = new File(fileDir, "temp_gh2.jpg");
+                            IDCardCamera.create(TransferCardActivity.this).openCamera(IDCardCamera.TYPE_IDCARD_FRONT);
                             break;
                         case 3:
                             tempFile = new File(fileDir, "temp_gh3.jpg");
+                            showCamera(TransferCardActivity.this, tempFile, REQUEST_CODE_CAMERA);
                             break;
 
                     }
-
-                    showCamera(TransferCardActivity.this, tempFile, REQUEST_CODE_CAMERA);
                 }
             }, mOnHanlderResultCallback);
         } else
@@ -436,20 +437,22 @@ public class TransferCardActivity extends BaseActivity implements DialogInterfac
                                 switch (flag) {
                                     case 0:
                                         tempFile = new File(fileDir, "temp_gh0.jpg");
+                                        showCamera(TransferCardActivity.this, tempFile, REQUEST_CODE_CAMERA);
                                         break;
                                     case 1:
                                         tempFile = new File(fileDir, "temp_gh1.jpg");
+                                        showCamera(TransferCardActivity.this, tempFile, REQUEST_CODE_CAMERA);
                                         break;
                                     case 2:
                                         tempFile = new File(fileDir, "temp_gh2.jpg");
+                                        IDCardCamera.create(TransferCardActivity.this).openCamera(IDCardCamera.TYPE_IDCARD_FRONT);
                                         break;
                                     case 3:
                                         tempFile = new File(fileDir, "temp_gh3.jpg");
+                                        showCamera(TransferCardActivity.this, tempFile, REQUEST_CODE_CAMERA);
                                         break;
 
                                 }
-
-                                showCamera(TransferCardActivity.this, tempFile, REQUEST_CODE_CAMERA);
                             }
                         }, mOnHanlderResultCallback);
                     }
@@ -507,11 +510,17 @@ public class TransferCardActivity extends BaseActivity implements DialogInterfac
 
                     }
                     break;
+                }else if(resultCode==IDCardCamera.RESULT_CODE){  //身份证识别页返回的数据
+                    file_two=IDCardCamera.getImagePath(data);
+                    disPlayImage(file_two);
+                    Log.d("aaa", ">>>>>>filetow>>>>"+file_two);
 
                 }
             case REQUEST_CODE_CAMERA:
                 if (resultCode == Activity.RESULT_OK) {
                     String path = tempFile.getAbsolutePath();
+                    Log.d("aaa", ">>>>>>flat>>>>"+path);
+
                     switch (flag) {
                         case 0:
                             file_zero = path;
@@ -533,6 +542,20 @@ public class TransferCardActivity extends BaseActivity implements DialogInterfac
 
                 }
                 break;
+//                if (resultCode == IDCardCamera.RESULT_CODE) {
+//                    //获取图片路径，显示图片
+//                    final String path = IDCardCamera.getImagePath(data);
+//                    if (!TextUtils.isEmpty(path)) {
+//                        if (requestCode == IDCardCamera.TYPE_IDCARD_FRONT) { //身份证正面
+//                            imgNewIdFront.setImageBitmap(BitmapFactory.decodeFile(path));
+//                        } else if (requestCode == IDCardCamera.TYPE_IDCARD_BACK) {  //身份证反面
+//                            imgNewIdBack.setImageBitmap(BitmapFactory.decodeFile(path));
+//                        }
+//
+//                        //实际开发中将图片上传到服务器成功后需要删除全部缓存图片
+////                FileUtils.clearCache(this);
+//                    }
+//                }
         }
     }
 
@@ -557,61 +580,78 @@ public class TransferCardActivity extends BaseActivity implements DialogInterfac
             } else if (state_zere == 0 || state_one == 0 || state_two == 0 || state_three == 0) {
                 Util.createToast(TransferCardActivity.this, "请将图片上传完整!");
             } else {
-                dialog.getTvTitle().setText("正在上传图片");
-                dialog.show();
-                HttpPost<PostPictureUpload> httpPost = new HttpPost<>();
-                PostPictureUpload postPictureUpload = new PostPictureUpload();
-                postPictureUpload.setSession_token(Util.getLocalAdmin(TransferCardActivity.this)[0]);
-                postPictureUpload.setType("2");
-                Photo photo = new Photo();
-                photo.setPhoto1(BitmapUtil.compressitmapToBase64(bitmap_zero));
-                photo.setPhoto2(BitmapUtil.compressitmapToBase64(bitmap_one));
-                photo.setPhoto3(BitmapUtil.compressitmapToBase64(bitmap_two));
-                photo.setPhoto4(BitmapUtil.compressitmapToBase64(bitmap_three));
-                httpPost.setPhoto(photo);
-                httpPost.setApp_key(Util.encode(BaseCom.APP_KEY));
-                httpPost.setParameter(postPictureUpload);
-                httpPost.setApp_sign(Util.encode(BaseCom.APP_PWD + gson.toJson(postPictureUpload) + BaseCom.APP_PWD));
-                new OtherHttp().pictureUpload(new OtherRequest().pictureUpload(TransferCardActivity.this, dialog, new SuccessValue<RequestPictureUpload>() {
-                    @Override
-                    public void OnSuccess(RequestPictureUpload value) {
-                        Log.d("aaa", value.getPhoto1());
-                        Log.d("aaa", value.getPhoto2());
-                        Log.d("aaa", value.getPhoto3());
-                        Log.d("aaa", value.getPhoto4());
-                        dialog.getTvTitle().setText("正在提交");
-                        dialog.show();
-                        HttpPost<PostTransfer> httpPost = new HttpPost<>();
-                        PostTransfer postTransfer = new PostTransfer();
-                        postTransfer.setSession_token(Util.getLocalAdmin(TransferCardActivity.this)[0]);
-                        postTransfer.setNumber(strNumber);
-                        postTransfer.setName(strName);
-                        postTransfer.setCardId(strId);
-                        postTransfer.setPhotoOne(value.getPhoto4());
-                        postTransfer.setPhotoTwo(value.getPhoto2());
-                        postTransfer.setPhotoThree(value.getPhoto3());
-                        postTransfer.setPhotoFour(value.getPhoto1());
-                        postTransfer.setTel(strPhone);
-                        postTransfer.setAddress(strAddress);
-                        postTransfer.setNumOne(strLast0);
-                        postTransfer.setNumTwo(strLast1);
-                        postTransfer.setNumThree(strLast2);
-                        httpPost.setApp_key(Util.encode(BaseCom.APP_KEY));
-                        httpPost.setParameter(postTransfer);
-                        httpPost.setApp_sign(Util.encode(BaseCom.APP_PWD + gson.toJson(postTransfer) + BaseCom.APP_PWD));
-                        new CardHttp().transfer(CardRequest.transfer(new SuccessValue<HttpRequest<RequestTransfer>>() {
-                            @Override
-                            public void OnSuccess(HttpRequest<RequestTransfer> value) {
-                                Log.d("aaa", value.getMes());
-                                Util.createToast(TransferCardActivity.this, value.getMes());
-                                if (value.getCode() == BaseCom.NORMAL) {
-                                    AppManager.getAppManager().finishActivity();
-                                } else if (value.getCode() == BaseCom.LOSELOG || value.getCode() == BaseCom.VERSIONINCORRENT)
-                                    Util.gotoActy(TransferCardActivity.this, LoginActivity.class);
-                            }
-                        }, dialog), httpPost);
-                    }
-                }), httpPost);
+                Intent intent = new Intent(this, FaceRecordingActivity.class);
+                Bundle bundle = new Bundle();
+//                intent.putStringArrayListExtra("urlList", urlList);
+//                bundle.putSerializable("mPackage", mPackage);
+//                bundle.putSerializable("mPromotion", mPromotion);
+
+//                intent.putExtra("name", strName);
+//                intent.putExtra("cardId", strId);
+//                intent.putExtra("address", strAddress);
+//                intent.putExtra("remark", strRemark);
+//                intent.putExtra("face", "1");
+
+                startActivity(intent);
+                overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
+
+
+
+//                dialog.getTvTitle().setText("正在上传图片");
+//                dialog.show();
+//                HttpPost<PostPictureUpload> httpPost = new HttpPost<>();
+//                PostPictureUpload postPictureUpload = new PostPictureUpload();
+//                postPictureUpload.setSession_token(Util.getLocalAdmin(TransferCardActivity.this)[0]);
+//                postPictureUpload.setType("2");
+//                Photo photo = new Photo();
+//                photo.setPhoto1(BitmapUtil.compressitmapToBase64(bitmap_zero));
+//                photo.setPhoto2(BitmapUtil.compressitmapToBase64(bitmap_one));
+//                photo.setPhoto3(BitmapUtil.compressitmapToBase64(bitmap_two));
+//                photo.setPhoto4(BitmapUtil.compressitmapToBase64(bitmap_three));
+//                httpPost.setPhoto(photo);
+//                httpPost.setApp_key(Util.encode(BaseCom.APP_KEY));
+//                httpPost.setParameter(postPictureUpload);
+//                httpPost.setApp_sign(Util.encode(BaseCom.APP_PWD + gson.toJson(postPictureUpload) + BaseCom.APP_PWD));
+//                new OtherHttp().pictureUpload(new OtherRequest().pictureUpload(TransferCardActivity.this, dialog, new SuccessValue<RequestPictureUpload>() {
+//                    @Override
+//                    public void OnSuccess(RequestPictureUpload value) {
+//                        Log.d("aaa", value.getPhoto1());
+//                        Log.d("aaa", value.getPhoto2());
+//                        Log.d("aaa", value.getPhoto3());
+//                        Log.d("aaa", value.getPhoto4());
+//                        dialog.getTvTitle().setText("正在提交");
+//                        dialog.show();
+//                        HttpPost<PostTransfer> httpPost = new HttpPost<>();
+//                        PostTransfer postTransfer = new PostTransfer();
+//                        postTransfer.setSession_token(Util.getLocalAdmin(TransferCardActivity.this)[0]);
+//                        postTransfer.setNumber(strNumber);
+//                        postTransfer.setName(strName);
+//                        postTransfer.setCardId(strId);
+//                        postTransfer.setPhotoOne(value.getPhoto1());
+//                        postTransfer.setPhotoTwo(value.getPhoto2());
+//                        postTransfer.setPhotoThree(value.getPhoto3());
+//                        postTransfer.setPhotoFour(value.getPhoto4());
+//                        postTransfer.setTel(strPhone);
+//                        postTransfer.setAddress(strAddress);
+//                        postTransfer.setNumOne(strLast0);
+//                        postTransfer.setNumTwo(strLast1);
+//                        postTransfer.setNumThree(strLast2);
+//                        httpPost.setApp_key(Util.encode(BaseCom.APP_KEY));
+//                        httpPost.setParameter(postTransfer);
+//                        httpPost.setApp_sign(Util.encode(BaseCom.APP_PWD + gson.toJson(postTransfer) + BaseCom.APP_PWD));
+//                        new CardHttp().transfer(CardRequest.transfer(new SuccessValue<HttpRequest<RequestTransfer>>() {
+//                            @Override
+//                            public void OnSuccess(HttpRequest<RequestTransfer> value) {
+//                                Log.d("aaa", value.getMes());
+//                                Util.createToast(TransferCardActivity.this, value.getMes());
+//                                if (value.getCode() == BaseCom.NORMAL) {
+//                                    AppManager.getAppManager().finishActivity();
+//                                } else if (value.getCode() == BaseCom.LOSELOG || value.getCode() == BaseCom.VERSIONINCORRENT)
+//                                    Util.gotoActy(TransferCardActivity.this, LoginActivity.class);
+//                            }
+//                        }, dialog), httpPost);
+//                    }
+//                }), httpPost);
 
 
             }

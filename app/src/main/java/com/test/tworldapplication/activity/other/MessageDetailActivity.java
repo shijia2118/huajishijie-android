@@ -6,7 +6,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.test.tworldapplication.R;
-import com.test.tworldapplication.activity.card.TransferCardActivity;
 import com.test.tworldapplication.base.BaseActivity;
 import com.test.tworldapplication.base.BaseCom;
 import com.test.tworldapplication.entity.HttpPost;

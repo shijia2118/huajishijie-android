@@ -89,6 +89,8 @@ import com.test.tworldapplication.utils.BlueReaderHelper;
 import com.test.tworldapplication.utils.DialogManager;
 import com.test.tworldapplication.utils.DisplayUtil;
 import com.test.tworldapplication.utils.Util;
+import com.wildma.idcardcamera.camera.IDCardCamera;
+
 import io.reactivex.Flowable;
 import java.io.File;
 import java.io.FileInputStream;
@@ -673,7 +675,6 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
     }
 
     private void requestPermission() {
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             /*所有权限都被允许   初始化界面*/
             switch (clickView.getId()) {
@@ -705,8 +706,7 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                     break;
                 case R.id.imgIdLast:
                     if (!Util.isFastDoubleClick()) {
-
-                        switch (type) {
+                        switch (type) { //成卡开户
                             case "0":
 //                                DialogManager.changeAvatar(MessageCollectionNewActivity.this, mOnHanlderResultCallback);
                                 DialogManager.changeAvatar(MessageCollectionNewActivity2.this, new SuccessNull() {
@@ -720,7 +720,8 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                                         if (modes == 1 || toBlueTooth.getVisibility() == View.VISIBLE) {
                                             showCamera(REQUEST_CODE_CAMERA);
                                         } else {
-                                            showCamera(MessageCollectionNewActivity2.this, tempFile, REQUEST_CODE_CAMERA);
+//                                            showCamera(MessageCollectionNewActivity2.this, tempFile, REQUEST_CODE_CAMERA);
+                                            IDCardCamera.create(MessageCollectionNewActivity2.this).openCamera(IDCardCamera.TYPE_IDCARD_FRONT);
                                         }
 
                                     }
@@ -769,7 +770,8 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                             fileDir = new File(fileDir, "bqt");
                             if (!fileDir.exists()) fileDir.mkdirs();
                             tempFile = new File(fileDir, "temp_idback.jpg");
-                            showCamera(MessageCollectionNewActivity2.this, tempFile, REQUEST_CODE_CAMERA);
+//                            showCamera(MessageCollectionNewActivity2.this, tempFile, REQUEST_CODE_CAMERA);
+                            IDCardCamera.create(MessageCollectionNewActivity2.this).openCamera(IDCardCamera.TYPE_IDCARD_BACK);
 
                         }
                     }, mOnHanlderResultCallback);
@@ -1519,8 +1521,8 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                                             fileDir = new File(fileDir, "bqt");
                                             if (!fileDir.exists()) fileDir.mkdirs();
                                             tempFile = new File(fileDir, "temp_last.jpg");
-                                            showCamera(MessageCollectionNewActivity2.this, tempFile, REQUEST_CODE_CAMERA);
-
+//                                            showCamera(MessageCollectionNewActivity2.this, tempFile, REQUEST_CODE_CAMERA);
+                                            IDCardCamera.create(MessageCollectionNewActivity2.this).openCamera(IDCardCamera.TYPE_IDCARD_FRONT);
                                         }
                                     }, mOnHanlderResultCallback);
                                     break;
@@ -1782,6 +1784,13 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
 
                 } else if (resultCode == RESULT_CANCELED) {
                     Util.createToast(MessageCollectionNewActivity2.this, "请开启蓝牙!");
+                } else if(resultCode == IDCardCamera.RESULT_CODE){ //身份证正面照(集成身份证国徽框后)
+                    file_three = IDCardCamera.getImagePath(data);
+                    SharedPreferences sharedPreferences3 = getSharedPreferences("mySP", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor3 = sharedPreferences3.edit();
+                    editor3.putString("photo3", file_three);
+                    editor3.commit();
+                    disPlayImage(file_three);
                 }
                 break;
             case SETTING_BT:
@@ -1848,7 +1857,7 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                         Log.d("bqt", tempFile.getAbsolutePath());//【data/user/0/包名/files/bqt/temp】或【/storage/emulated/0/bqt/temp】
                     }
                     switch (flag) {//0front 1back 2last
-                        case 0:
+                        case 0: //免冠照片
                             SharedPreferences sharedPreferences = getSharedPreferences("mySP", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("photo1", path);
@@ -1866,7 +1875,7 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
 //                                disPlayImage0(path);
 //                            }
                             break;
-                        case 21:
+                        case 21: //身份证背面
                             SharedPreferences sharedPreferences3 = getSharedPreferences("mySP", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor3 = sharedPreferences3.edit();
                             editor3.putString("photo3", path);
@@ -1874,7 +1883,7 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                             file_three = path;
                             disPlayImage(path);
                             break;
-                        case 1:
+                        case 1://身份证正面照+卡板号码照片
                             SharedPreferences sharedPreferences1 = getSharedPreferences("mySP", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor1 = sharedPreferences1.edit();
                             editor1.putString("photo2", path);
@@ -1888,7 +1897,7 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
 //                                disPlayImage(path);
 //                            }
                             break;
-                        case 2:
+                        case 2://身份证正面照(集成身份证人像框前)
                             switch (type) {
                                 case "0"://蓝牙
                                     SharedPreferences sharedPreferences2 = getSharedPreferences("mySP", Context.MODE_PRIVATE);
@@ -1952,6 +1961,15 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                     }
 
                 }
+                break;
+            case IDCardCamera.TYPE_IDCARD_FRONT: //身份证正面照(集成身份证人像框后)
+                String path = IDCardCamera.getImagePath(data);
+                SharedPreferences sharedPreferences2 = getSharedPreferences("mySP", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor2 = sharedPreferences2.edit();
+                editor2.putString("photo3", path);
+                editor2.commit();
+                file_two = path;
+                disPlayImage(path);
                 break;
 
         }

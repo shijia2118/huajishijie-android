@@ -91,7 +91,6 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="15dp"
                 android:background="@null"
-                android:enabled="false"
                 android:digits="0123456789xX"
                 android:gravity="right"
                 android:hint="请输入证件号码"

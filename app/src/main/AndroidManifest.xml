@@ -72,9 +72,8 @@
         android:supportsRtl="true"
         android:theme="@style/title_bg2"
         tools:replace="android:icon,android:theme,android:label">
-        <activity android:name=".activity.SplashActivity">
-
-        </activity>
+        <activity android:name="wintone.idcard.sdk.CameraActivity2"></activity>
+        <activity android:name=".activity.SplashActivity"></activity>
         <activity android:name=".activity.home.YewuListActivity" />
         <activity android:name=".activity.home.HuiyuanActivity" />
         <activity android:name=".activity.home.LiuliangActivity" />
@@ -91,23 +90,22 @@
             android:process=":remote" />
 
         <provider
-          android:authorities="${applicationId}.fileprovider"
-          android:name="androidx.core.content.FileProvider"
-          android:grantUriPermissions="true"
-          android:exported="false">
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
-              android:name="android.support.FILE_PROVIDER_PATHS"
-              android:resource="@xml/filepaths"/>
-        </provider>
-<!--        <provider-->
-<!--            android:name="androidx.core.content.FileProvider"-->
-<!--            android:authorities="com.test.tworldapplication.fileprovider"-->
-<!--            android:exported="false"-->
-<!--            android:grantUriPermissions="true">-->
-<!--            <meta-data-->
-<!--                android:name="android.support.FILE_PROVIDER_PATHS"-->
-<!--                android:resource="@xml/file_path" />-->
-<!--        </provider>-->
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider> <!-- <provider -->
+        <!-- android:name="androidx.core.content.FileProvider" -->
+        <!-- android:authorities="com.test.tworldapplication.fileprovider" -->
+        <!-- android:exported="false" -->
+        <!-- android:grantUriPermissions="true"> -->
+        <!-- <meta-data -->
+        <!-- android:name="android.support.FILE_PROVIDER_PATHS" -->
+        <!-- android:resource="@xml/file_path" /> -->
+        <!-- </provider> -->
         <!-- <activity -->
         <!-- android:name="com.tencent.bugly.beta.ui.BetaActivity" -->
         <!-- android:configChanges="keyboardHidden|orientation|screenSize|locale" -->
@@ -144,14 +142,15 @@
         <activity android:name=".activity.card.ProgressQueryActivity" />
         <activity android:name=".activity.card.PackageSelectActivity" />
         <activity android:name=".activity.card.MessageCollectionActivity" />
-        <activity android:name=".activity.card.MessageCollectionNewActivity">
-        </activity>
-        <activity android:name=".activity.card.MessageCollectionNewActivity2" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.card.MessageCollectionNewActivity"></activity>
+        <activity
+            android:name=".activity.card.MessageCollectionNewActivity2"
+            android:screenOrientation="portrait" />
         <activity android:name=".activity.card.NewCardActivity" />
         <activity android:name=".activity.order.OrderKhDetailActivity" />
         <activity android:name=".activity.order.OrderGhDetailActivity" />
         <activity android:name=".activity.order.OrderBkDetailActivity" />
-        <activity android:name=".activity.card.AccountClosingActivity"></activity>
+        <activity android:name=".activity.card.AccountClosingActivity" />
         <activity android:name=".activity.card.CardReadingActivity" />
         <activity android:name=".activity.admin.AdminActivity" />
         <activity android:name=".activity.admin.PersonInformationActivity" />
@@ -213,11 +212,10 @@
         <activity android:name=".activity.order.OrderKHDetailNewActivity" />
         <activity android:name=".activity.card.QudaoWhitePhoneDetailActivity" />
         <activity android:name=".activity.card.HuajiCuteActivity" />
-        <activity android:name=".activity.admin.WriteInNewActivity"
-          android:screenOrientation="portrait"
-          android:configChanges="orientation|keyboardHidden|screenSize"
-
-          />
+        <activity
+            android:name=".activity.admin.WriteInNewActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.card.ProductBusinessActivity"
             android:launchMode="singleTask" />
@@ -262,7 +260,7 @@
         <activity android:name=".activity.order.BkOrderListActivity" />
         <activity android:name=".activity.order.BkApplyOrderActivity" />
         <activity android:name=".activity.card.BkApplyActivity" />
-        <activity android:name=".activity.card.FaceRecordingActivity"></activity>
+        <activity android:name=".activity.card.FaceRecordingActivity" />
         <activity android:name=".activity.admin.RefillInfoActivity" />
         <activity android:name=".activity.order.OrderYKHDetailNewActivity" />
         <activity android:name=".activity.order.QrCodeActivity" />

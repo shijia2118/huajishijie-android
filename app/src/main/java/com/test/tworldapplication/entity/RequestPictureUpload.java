@@ -12,6 +12,8 @@ public class RequestPictureUpload {
 
     private String photo5;
     private String photo6;
+    private String photo7;
+
 
 
     public String getPhoto1() {
@@ -61,5 +63,13 @@ public class RequestPictureUpload {
 
     public void setPhoto6(String photo6) {
         this.photo6 = photo6;
+    }
+
+    public String getPhoto7() {
+        return photo7;
+    }
+
+    public void setPhoto7(String photo6) {
+        this.photo7 = photo7;
     }
 }

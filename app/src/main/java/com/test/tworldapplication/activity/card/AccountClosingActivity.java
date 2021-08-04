@@ -607,61 +607,99 @@ public class AccountClosingActivity extends BaseActivity {
 
 
     public void reNewCard() {
-
         dialog.getTvTitle().setText("正在上传图片");
         dialog.show();
-        //HttpPost<PostPictureUpload> httpPost = new HttpPost<>();
-        //PostPictureUpload postPictureUpload = new PostPictureUpload();
-        //postPictureUpload.setSession_token(Util.getLocalAdmin(AccountClosingActivity.this)[0]);
-        //postPictureUpload.setType("0");
-        //final Photo photo = new Photo();
-        //photo.setPhoto1(BitmapUtil.bitmapToBase64(photoOne));
-        //photo.setPhoto2(BitmapUtil.bitmapToBase64X(photoTwo));
-        //photo.setPhoto3(BitmapUtil.bitmapToBase64X(BaseCom.photoThree));
-        //photo.setPhoto4(BitmapUtil.bitmapToBase64(bitmapTerminate));
-        totalPic = 0;
-        uploadSuccessCount.set(0);
-        if (photoOne != null) {
-            totalPic++;
-        }
-        if (photoTwo != null) {
-            totalPic++;
-        }
-        if (BaseCom.photoThree != null) {
-            totalPic++;
-        }
-        if (BaseCom.photoFour != null) {
-            totalPic++;
-        }
-        if (bitmapTerminate != null) {
-            totalPic++;
-        }
-        if (face.equals("1")) {
-            totalPic++;
-            totalPic++;
-            //photo.setPhoto5(BitmapUtil.bitmapToBase64(videoPicOne));
-            //photo.setPhoto6(BitmapUtil.bitmapToBase64X(videoPicTwo));
-        }
-        if (photoOne != null) {
-            uploadImage(photoOne, Constants.PHOTOONE);
-        }
-        if (BaseCom.photoFour != null) {
-            uploadImage(BaseCom.photoFour, Constants.PHOTOFOUR);
-        }
-        if (photoTwo != null) {
-            uploadImage(photoTwo, Constants.PHOTOTWO);
-        }
-        if (BaseCom.photoThree != null) {
-            uploadImage(BaseCom.photoThree, Constants.PHOTOTHREE);
-        }
 
-        if (bitmapTerminate != null) {
-            uploadImage(bitmapTerminate, Constants.BITMAPTERMINATE);
-        }
+        HttpPost<PostPictureUpload> httpPost = new HttpPost<>();
+        PostPictureUpload postPictureUpload = new PostPictureUpload();
+        postPictureUpload.setSession_token(Util.getLocalAdmin(AccountClosingActivity.this)[0]);
+        postPictureUpload.setType("0");
+        final Photo photo = new Photo();
+        if(photoOne!=null) photo.setPhoto1(BitmapUtil.bitmapToBase64(photoOne));
+        if(photoTwo!=null) photo.setPhoto2(BitmapUtil.bitmapToBase64X(photoTwo));
+        if(BaseCom.photoThree!=null)  photo.setPhoto3(BitmapUtil.bitmapToBase64X(BaseCom.photoThree));
+        if(BaseCom.photoFour!=null)  photo.setPhoto4(BitmapUtil.bitmapToBase64X(BaseCom.photoFour));
+        if(bitmapTerminate!=null)  photo.setPhoto5(BitmapUtil.bitmapToBase64(bitmapTerminate));
         if (face.equals("1")) {
-            uploadImage(videoPicOne, Constants.VIDEOPICONE);
-            uploadImage(videoPicTwo, Constants.VIDEOPICTWO);
+            photo.setPhoto6(BitmapUtil.bitmapToBase64(videoPicOne));
+            photo.setPhoto7(BitmapUtil.bitmapToBase64X(videoPicTwo));
         }
+        httpPost.setPhoto(photo);
+        httpPost.setApp_key(Util.encode(BaseCom.APP_KEY));
+        httpPost.setParameter(postPictureUpload);
+        httpPost.setApp_sign(Util.encode(BaseCom.APP_PWD + gson.toJson(postPictureUpload) + BaseCom.APP_PWD));
+        new OtherHttp().pictureUpload(new OtherRequest().pictureUpload(AccountClosingActivity.this, null, value -> {
+            for(int i=1;i<=7;i++){
+                switch (i){
+                    case 1:
+                     if(value.getPhoto1()!=null)   imgMap.put(Constants.PHOTOONE,value.getPhoto1());
+                     break;
+                    case 2:
+                        if(value.getPhoto2()!=null) imgMap.put(Constants.PHOTOTWO,value.getPhoto2());
+                        break;
+                    case 3:
+                        if(value.getPhoto3()!=null) imgMap.put(Constants.PHOTOTHREE,value.getPhoto3());
+                        break;
+                    case 4:
+                        if(value.getPhoto4()!=null) imgMap.put(Constants.PHOTOFOUR,value.getPhoto4());
+                    case 5:
+                        if(value.getPhoto5()!=null) imgMap.put(Constants.BITMAPTERMINATE,value.getPhoto5());
+                        break;
+                    case 6:
+                        if(value.getPhoto6()!=null) imgMap.put(Constants.VIDEOPICONE,value.getPhoto6());
+                        break;
+                    case  7:
+                        if(value.getPhoto7()!=null) imgMap.put(Constants.VIDEOPICTWO,value.getPhoto7());
+                        break;
+                }
+            }
+            dialog.dismiss();
+            finalUpload();
+        }), httpPost);
+
+//        totalPic = 0;
+//        uploadSuccessCount.set(0);
+//        if (photoOne != null) {
+//            totalPic++;
+//        }
+//        if (photoTwo != null) {
+//            totalPic++;
+//        }
+//        if (BaseCom.photoThree != null) {
+//            totalPic++;
+//        }
+//        if (BaseCom.photoFour != null) {
+//            totalPic++;
+//        }
+//        if (bitmapTerminate != null) {
+//            totalPic++;
+//        }
+//        if (face.equals("1")) {
+//            totalPic++;
+//            totalPic++;
+//            //photo.setPhoto5(BitmapUtil.bitmapToBase64(videoPicOne));
+//            //photo.setPhoto6(BitmapUtil.bitmapToBase64X(videoPicTwo));
+//        }
+//        if (photoOne != null) {
+//            uploadImage(photoOne, Constants.PHOTOONE);
+//        }
+//        if (BaseCom.photoFour != null) {
+//            uploadImage(BaseCom.photoFour, Constants.PHOTOFOUR);
+//        }
+//        if (photoTwo != null) {
+//            uploadImage(photoTwo, Constants.PHOTOTWO);
+//        }
+//        if (BaseCom.photoThree != null) {
+//            uploadImage(BaseCom.photoThree, Constants.PHOTOTHREE);
+//        }
+//
+//        if (bitmapTerminate != null) {
+//            uploadImage(bitmapTerminate, Constants.BITMAPTERMINATE);
+//        }
+//        if (face.equals("1")) {
+//            uploadImage(videoPicOne, Constants.VIDEOPICONE);
+//            uploadImage(videoPicTwo, Constants.VIDEOPICTWO);
+//        }
     }
 
     Map<String, String> imgMap = new HashMap<>();

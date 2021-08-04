@@ -1191,8 +1191,6 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                         } else if (strId.length() != 15 && strId.length() != 18) {
                             Util.createToast(MessageCollectionNewActivity2.this, "请输入正确的身份证号!");
                         } else {
-
-
                             Intent intent = new Intent(this, FaceRecordingActivity.class);
                             Bundle bundle = new Bundle();
                             intent.putStringArrayListExtra("urlList", urlList);
@@ -1230,6 +1228,8 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                             BaseCom.photoTwo = bitmap_one;
                             BaseCom.photoThree = bitmap_two;
                             BaseCom.photoFour = bitmap_three;
+                            Log.i("bitmap",">>>>>"+bitmap_zero);
+
                             startActivity(intent);
                             overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
 
@@ -1277,6 +1277,7 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                 MessageCollectionNewActivity2.this, dialog, new SuccessValue<RequestPictureUpload>() {
                 @Override
                 public void OnSuccess(RequestPictureUpload value) {
+                    Log.i("photo",value.getPhoto1());
                     if (urlList != null && urlList.size() > 0) {
                         for (int i = 0; i < urlList.size(); i++) {
                             deletePic(MessageCollectionNewActivity2.this, urlList.get(i));

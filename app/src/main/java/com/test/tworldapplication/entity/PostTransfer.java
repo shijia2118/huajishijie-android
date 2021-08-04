@@ -18,6 +18,9 @@ public class PostTransfer {
     private String numOne;
     private String numTwo;
     private String numThree;
+    private String memo2;
+    private String memo3;
+
 
     public String getSession_token() {
         return session_token;
@@ -122,4 +125,16 @@ public class PostTransfer {
     public void setNumThree(String numThree) {
         this.numThree = numThree;
     }
+
+    public String getMemo2() {
+        return memo2;
+    }
+
+    public void setMemo2(String memo2) {
+        this.memo2 = memo2;
+    }
+
+    public String getMemo3() {return memo3; }
+
+    public void  setMemo3(String memo3) {this.memo3 = memo3;}
 }

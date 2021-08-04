@@ -44,6 +44,7 @@ import com.test.tworldapplication.R;
 import com.test.tworldapplication.activity.admin.WriteInActivity;
 import com.test.tworldapplication.activity.admin.WriteInNewActivity;
 import com.test.tworldapplication.activity.main.LoginActivity;
+import com.test.tworldapplication.activity.main.MainNewActivity;
 import com.test.tworldapplication.activity.other.DialogActivity;
 import com.test.tworldapplication.base.BaseActivity;
 import com.test.tworldapplication.base.BaseCom;
@@ -55,12 +56,15 @@ import com.test.tworldapplication.entity.Photo;
 import com.test.tworldapplication.entity.PostPictureUpload;
 import com.test.tworldapplication.entity.PostReSubmit;
 import com.test.tworldapplication.entity.PostSetOpen;
+import com.test.tworldapplication.entity.PostTransfer;
 import com.test.tworldapplication.entity.Promotion;
 import com.test.tworldapplication.entity.RequestCheck;
 import com.test.tworldapplication.entity.RequestImsi;
 import com.test.tworldapplication.entity.RequestPictureUpload;
 import com.test.tworldapplication.entity.RequestSetOpen;
+import com.test.tworldapplication.entity.RequestTransfer;
 import com.test.tworldapplication.http.CardHttp;
+import com.test.tworldapplication.http.CardRequest;
 import com.test.tworldapplication.http.OtherHttp;
 import com.test.tworldapplication.http.OtherRequest;
 import com.test.tworldapplication.http.RequestLiangPay;
@@ -142,6 +146,10 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
   RequestImsi requestImsi = null;
   PostReSubmit postReSubmit = null;
   String phone = "";
+  String numOne = ""; //预留电话1
+  String numTwo = ""; //预留电话2
+  String numThree = ""; //预留电话3
+
   String iccid = "";
   String strName = "";
   String strId = "";
@@ -342,6 +350,30 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
 
         postReSubmit = (PostReSubmit) getIntent().getExtras().getSerializable("postReSubmit");
         break;
+      case "7":
+        /*过户*/
+        mRecordControl.setVisibility(View.VISIBLE);
+        mRecordControl0.setVisibility(View.GONE);
+        mRecordControl1.setVisibility(View.GONE);
+        mRecordControl2.setVisibility(View.GONE);
+
+        strName = getIntent().getStringExtra("name"); //姓名
+        strId = getIntent().getStringExtra("cardId"); //证件号码
+        strAddress = getIntent().getStringExtra("address"); //证件地址
+        number = getIntent().getStringExtra("number"); //过户号码
+        phone = getIntent().getStringExtra("phone");//联系人电话
+        numOne=getIntent().getStringExtra("numOne");//预留电话1
+        numTwo=getIntent().getStringExtra("numTwo");//预留电话2
+        numThree=getIntent().getStringExtra("numThree");//预留电话3
+
+
+//        mPackage = (Package) getIntent().getExtras().getSerializable("mPackage");
+//        mPromotion = (Promotion) getIntent().getExtras().getSerializable("mPromotion");
+//        requestCheck = (RequestCheck) getIntent().getExtras().getSerializable("requestCheck");
+//        iccid = getIntent().getStringExtra("iccid");
+//        type = getIntent().getStringExtra("type");
+        break;
+
     }
 
     initView();
@@ -604,6 +636,7 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
 
         //                Toast.makeText( FaceRecordingActivity.this,"请注视屏幕", Toast.LENGTH_SHORT).show();
         Util.createToast(FaceRecordingActivity.this, "请注视屏幕");
+
         mTimer = new CountDownTimer(savetime, 1000L) {
           @Override
           public void onTick(long millisUntilFinished) {
@@ -621,16 +654,79 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
 
             mRecordTime.stop();
             startRecord = false;
-            final HttpPost<PostPictureUpload> httpPost = new HttpPost<>();
-            PostPictureUpload postPictureUpload = new PostPictureUpload();
-            postPictureUpload.setSession_token(Util.getLocalAdmin(FaceRecordingActivity.this)[0]);
-            postPictureUpload.setType("1");
-            Photo photo = new Photo();
-            photo.setPhoto1(BitmapUtil.bitmapToBase64(video_one));
-            photo.setPhoto2(BitmapUtil.bitmapToBase64(video_two));
-            httpPost.setPhoto(photo);
 
-            Intent intent = new Intent(FaceRecordingActivity.this, AccountClosingActivity.class);
+            /**
+             *  过户
+             */
+            String from = getIntent().getStringExtra ("from");
+           if(from.equals("7")){
+             dialog.getTvTitle().setText("正在上传图片");
+             dialog.show();
+             HttpPost<PostPictureUpload> httpPost = new HttpPost<>();
+             PostPictureUpload postPictureUpload = new PostPictureUpload();
+             postPictureUpload.setSession_token(Util.getLocalAdmin(FaceRecordingActivity.this)[0]);
+             postPictureUpload.setType("2");
+             Photo photo = new Photo();
+             photo.setPhoto1(BitmapUtil.bitmapToBase64(video_one));
+             photo.setPhoto2(BitmapUtil.bitmapToBase64(video_two));
+             photo.setPhoto3(BitmapUtil.compressitmapToBase64(BaseCom.photoOne));
+             photo.setPhoto4(BitmapUtil.compressitmapToBase64(BaseCom.photoTwo));
+             photo.setPhoto5(BitmapUtil.compressitmapToBase64(BaseCom.photoThree));
+             photo.setPhoto6(BitmapUtil.compressitmapToBase64(BaseCom.photoFour));
+             httpPost.setPhoto(photo);
+             httpPost.setApp_key(Util.encode(BaseCom.APP_KEY));
+             httpPost.setParameter(postPictureUpload);
+             httpPost.setApp_sign(Util.encode(BaseCom.APP_PWD + gson.toJson(postPictureUpload) + BaseCom.APP_PWD));
+             new OtherHttp().pictureUpload(new OtherRequest().pictureUpload(FaceRecordingActivity.this, dialog, new SuccessValue<RequestPictureUpload>() {
+                    @Override
+                    public void OnSuccess(RequestPictureUpload value) {
+                      dialog.getTvTitle().setText("正在提交");
+                        dialog.show();
+
+                        HttpPost<PostTransfer> httpPost = new HttpPost<>();
+                        PostTransfer postTransfer = new PostTransfer();
+                        postTransfer.setSession_token(Util.getLocalAdmin(FaceRecordingActivity.this)[0]);
+                        postTransfer.setNumber(number);//过户号码
+                        postTransfer.setName(strName); //姓名
+                        postTransfer.setCardId(strId); //证件号码
+                        postTransfer.setPhotoOne(value.getPhoto3());//新用户照片名称
+                        postTransfer.setPhotoTwo(value.getPhoto4());//老用户照片名称
+                        postTransfer.setPhotoThree(value.getPhoto5());//手持用户照片名称
+                        postTransfer.setPhotoFour(value.getPhoto6());//手持老用户照片名称
+                        postTransfer.setTel(phone); //联系人电话
+                        postTransfer.setAddress(strAddress);
+                        postTransfer.setNumOne(numOne); //预留号码1
+                        postTransfer.setNumTwo(numTwo);//预留号码2
+                        postTransfer.setNumThree(numThree);//预留号码3
+                        httpPost.setApp_key(Util.encode(BaseCom.APP_KEY));
+                        httpPost.setParameter(postTransfer);
+                        httpPost.setApp_sign(Util.encode(BaseCom.APP_PWD + gson.toJson(postTransfer) + BaseCom.APP_PWD));
+                        new CardHttp().transfer(CardRequest.transfer(new SuccessValue<HttpRequest<RequestTransfer>>() {
+                            @Override
+                            public void OnSuccess(HttpRequest<RequestTransfer> value) {
+                                Log.d("aaa", value.getMes());
+                                Util.createToast(FaceRecordingActivity.this, value.getMes());
+                                if (value.getCode() == BaseCom.NORMAL) {
+                                  Intent intent = new Intent(FaceRecordingActivity.this, MainNewActivity.class);
+                                  intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                  startActivity(intent);
+                                } else if (value.getCode() == BaseCom.LOSELOG || value.getCode() == BaseCom.VERSIONINCORRENT)
+                                    Util.gotoActy(FaceRecordingActivity.this, LoginActivity.class);
+                            }
+                        }, dialog), httpPost);
+                    }
+                }), httpPost);
+           }else{
+             final HttpPost<PostPictureUpload> httpPost = new HttpPost<>();
+             PostPictureUpload postPictureUpload = new PostPictureUpload();
+             postPictureUpload.setSession_token(Util.getLocalAdmin(FaceRecordingActivity.this)[0]);
+             postPictureUpload.setType("1");
+             Photo photo = new Photo();
+             photo.setPhoto1(BitmapUtil.bitmapToBase64(video_one));
+             photo.setPhoto2(BitmapUtil.bitmapToBase64(video_two));
+             httpPost.setPhoto(photo);
+
+             Intent intent = new Intent(FaceRecordingActivity.this, AccountClosingActivity.class);
             Bundle bundle = new Bundle();
             intent.putStringArrayListExtra("urlList", urlList);
             bundle.putSerializable("mPackage", mPackage);
@@ -658,6 +754,7 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
             Log.d("aaa", "goact");
             startActivity(intent);
             overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
+           }
           }
         }.start();
 

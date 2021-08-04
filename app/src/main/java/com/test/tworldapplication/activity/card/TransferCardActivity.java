@@ -582,19 +582,23 @@ public class TransferCardActivity extends BaseActivity implements DialogInterfac
             } else {
                 Intent intent = new Intent(this, FaceRecordingActivity.class);
                 Bundle bundle = new Bundle();
-//                intent.putStringArrayListExtra("urlList", urlList);
-//                bundle.putSerializable("mPackage", mPackage);
-//                bundle.putSerializable("mPromotion", mPromotion);
+                intent.putExtra("from", "7");
+                intent.putExtra("name",strName);
+                intent.putExtra("number",strNumber);
+                intent.putExtra("cardId",strId);
+                intent.putExtra("phone",strPhone);
+                intent.putExtra("address",strAddress);
+                intent.putExtra("numOne",strLast0);
+                intent.putExtra("numTwo",strLast1);
+                intent.putExtra("numThree",strLast2);
 
-//                intent.putExtra("name", strName);
-//                intent.putExtra("cardId", strId);
-//                intent.putExtra("address", strAddress);
-//                intent.putExtra("remark", strRemark);
-//                intent.putExtra("face", "1");
+                BaseCom.photoOne = bitmap_two;
+                BaseCom.photoTwo = bitmap_zero;
+                BaseCom.photoThree = bitmap_three;
+                BaseCom.photoFour = bitmap_one;
 
                 startActivity(intent);
                 overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
-
 
 
 //                dialog.getTvTitle().setText("正在上传图片");

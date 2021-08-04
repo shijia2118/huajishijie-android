@@ -180,8 +180,9 @@ public class AccountClosingActivity extends BaseActivity {
                 // llAgreement.setVisibility(View.VISIBLE);
                 //tvSubmit.setClickable(false);
                 requestCheck = (RequestCheck) getIntent().getSerializableExtra("requestCheck");
-
                 type = getIntent().getStringExtra("type");
+                Log.d("type",type);
+
                 break;
             case "1":
                 //llAgreement.setVisibility(View.GONE);
@@ -613,7 +614,7 @@ public class AccountClosingActivity extends BaseActivity {
         HttpPost<PostPictureUpload> httpPost = new HttpPost<>();
         PostPictureUpload postPictureUpload = new PostPictureUpload();
         postPictureUpload.setSession_token(Util.getLocalAdmin(AccountClosingActivity.this)[0]);
-        postPictureUpload.setType("0");
+        postPictureUpload.setType(type);
         final Photo photo = new Photo();
         if(photoOne!=null) photo.setPhoto1(BitmapUtil.bitmapToBase64(photoOne));
         if(photoTwo!=null) photo.setPhoto2(BitmapUtil.bitmapToBase64X(photoTwo));

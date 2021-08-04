@@ -581,7 +581,6 @@ public class TransferCardActivity extends BaseActivity implements DialogInterfac
                 Util.createToast(TransferCardActivity.this, "请将图片上传完整!");
             } else {
                 Intent intent = new Intent(this, FaceRecordingActivity.class);
-                Bundle bundle = new Bundle();
                 intent.putExtra("from", "7");
                 intent.putExtra("name",strName);
                 intent.putExtra("number",strNumber);

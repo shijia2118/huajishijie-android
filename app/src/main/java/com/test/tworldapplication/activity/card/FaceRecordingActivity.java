@@ -723,6 +723,8 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
                     }
                 }), httpPost);
            }else{
+             Log.i("xxxxxx","=>>>>>>>1");
+
              final HttpPost<PostPictureUpload> httpPost = new HttpPost<>();
              PostPictureUpload postPictureUpload = new PostPictureUpload();
              postPictureUpload.setSession_token(Util.getLocalAdmin(FaceRecordingActivity.this)[0]);
@@ -731,7 +733,6 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
              photo.setPhoto1(BitmapUtil.bitmapToBase64(video_one));
              photo.setPhoto2(BitmapUtil.bitmapToBase64(video_two));
              httpPost.setPhoto(photo);
-
              Intent intent = new Intent(FaceRecordingActivity.this, AccountClosingActivity.class);
             Bundle bundle = new Bundle();
             intent.putStringArrayListExtra("urlList", urlList);
@@ -767,7 +768,7 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
         break;
       case R.id.record_control0:
         getPreViewImage();
-
+Log.i("xxxxxx","=>>>>>>>2");
         mRecordTime.setBase(SystemClock.elapsedRealtime());
         mRecordTime.start();
 

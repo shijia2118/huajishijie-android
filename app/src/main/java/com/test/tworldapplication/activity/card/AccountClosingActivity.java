@@ -623,29 +623,17 @@ public class AccountClosingActivity extends BaseActivity {
         if(BaseCom.photoThree!=null)  photo.setPhoto3(BitmapUtil.bitmapToBase64X(BaseCom.photoThree));
         if(BaseCom.photoFour!=null)  photo.setPhoto4(BitmapUtil.bitmapToBase64X(BaseCom.photoFour));
         if(bitmapTerminate!=null)  photo.setPhoto5(BitmapUtil.bitmapToBase64(bitmapTerminate));
-        if (face.equals("1")) {
-            photo.setPhoto6(BitmapUtil.bitmapToBase64(videoPicOne));
-            photo.setPhoto7(BitmapUtil.bitmapToBase64X(videoPicTwo));
 
-        }
         httpPost.setPhoto(photo);
         httpPost.setApp_key(Util.encode(BaseCom.APP_KEY));
         httpPost.setParameter(postPictureUpload);
         httpPost.setApp_sign(Util.encode(BaseCom.APP_PWD + gson.toJson(postPictureUpload) + BaseCom.APP_PWD));
         new OtherHttp().pictureUpload(new OtherRequest().pictureUpload(AccountClosingActivity.this, null, value -> {
-            Log.i("submit","value1=="+value.getPhoto1());
-            Log.i("submit","value2=="+value.getPhoto2());
-            Log.i("submit","value3=="+value.getPhoto3());
-            Log.i("submit","value4=="+value.getPhoto4());
-            Log.i("submit","value5=="+value.getPhoto5());
-            Log.i("submit","value6=="+value.getPhoto6());
-            Log.i("submit","value7=="+value.getPhoto7());
-
-            for(int i=1;i<=7;i++){
+            for(int i=1;i<=5;i++){
                 switch (i){
                     case 1:
-                     if(value.getPhoto1()!=null)   imgMap.put(Constants.PHOTOONE,value.getPhoto1());
-                     break;
+                        if(value.getPhoto1()!=null)   imgMap.put(Constants.PHOTOONE,value.getPhoto1());
+                        break;
                     case 2:
                         if(value.getPhoto2()!=null) imgMap.put(Constants.PHOTOTWO,value.getPhoto2());
                         break;
@@ -657,17 +645,38 @@ public class AccountClosingActivity extends BaseActivity {
                     case 5:
                         if(value.getPhoto5()!=null) imgMap.put(Constants.BITMAPTERMINATE,value.getPhoto5());
                         break;
-                    case 6:
-                        if(value.getPhoto6()!=null) imgMap.put(Constants.VIDEOPICONE,value.getPhoto6());
-                        break;
-                    case  7:
-                        if(value.getPhoto7()!=null) imgMap.put(Constants.VIDEOPICTWO,value.getPhoto7());
-                        break;
                 }
             }
-            Log.i("submit","imgmap"+imgMap);
-            dialog.dismiss();
-//            finalUpload();
+
+            HttpPost<PostPictureUpload> httpPost2 = new HttpPost<>();
+            PostPictureUpload postPictureUpload2 = new PostPictureUpload();
+            postPictureUpload2.setSession_token(Util.getLocalAdmin(AccountClosingActivity.this)[0]);
+            postPictureUpload2.setType(type);
+            final Photo photo2 = new Photo();
+
+            if (face.equals("1")) {
+                photo2.setPhoto1(BitmapUtil.bitmapToBase64(videoPicOne));
+                photo2.setPhoto2(BitmapUtil.bitmapToBase64X(videoPicTwo));
+            }
+            httpPost2.setPhoto(photo2);
+            httpPost2.setApp_key(Util.encode(BaseCom.APP_KEY));
+            httpPost2.setParameter(postPictureUpload2);
+            httpPost2.setApp_sign(Util.encode(BaseCom.APP_PWD + gson.toJson(postPictureUpload2) + BaseCom.APP_PWD));
+
+            new OtherHttp().pictureUpload(new OtherRequest().pictureUpload(AccountClosingActivity.this, null, value2 -> {
+                for(int i=1;i<=2;i++){
+                    switch (i){
+                        case 1:
+                            if(value2.getPhoto1()!=null)   imgMap.put(Constants.VIDEOPICONE,value2.getPhoto1());
+                            break;
+                        case 2:
+                            if(value2.getPhoto2()!=null) imgMap.put(Constants.VIDEOPICTWO,value2.getPhoto2());
+                            break;
+                    }
+                }
+                dialog.dismiss();
+            finalUpload();
+            }), httpPost);
         }), httpPost);
 
 //        totalPic = 0;

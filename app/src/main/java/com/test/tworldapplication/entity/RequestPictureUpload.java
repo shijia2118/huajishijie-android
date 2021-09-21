@@ -69,7 +69,7 @@ public class RequestPictureUpload {
         return photo7;
     }
 
-    public void setPhoto7(String photo6) {
+    public void setPhoto7(String photo7) {
         this.photo7 = photo7;
     }
 }

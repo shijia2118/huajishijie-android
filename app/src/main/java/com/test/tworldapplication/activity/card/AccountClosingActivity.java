@@ -177,7 +177,7 @@ public class AccountClosingActivity extends BaseActivity {
         switch (from) {
             case "0":
                 /*成卡*/
-                // llAgreement.setVisibility(View.VISIBLE);
+//                 llAgreement.setVisibility(View.VISIBLE);
                 //tvSubmit.setClickable(false);
                 requestCheck = (RequestCheck) getIntent().getSerializableExtra("requestCheck");
                 type = getIntent().getStringExtra("type");
@@ -206,6 +206,8 @@ public class AccountClosingActivity extends BaseActivity {
                 apiShow = 1;
                 break;
         }
+        Log.d("typezzz",type);
+        Log.d("fromzzz",from);
 
         remark = getIntent().getStringExtra("remark");
         cardId = getIntent().getStringExtra("cardId");
@@ -624,12 +626,21 @@ public class AccountClosingActivity extends BaseActivity {
         if (face.equals("1")) {
             photo.setPhoto6(BitmapUtil.bitmapToBase64(videoPicOne));
             photo.setPhoto7(BitmapUtil.bitmapToBase64X(videoPicTwo));
+
         }
         httpPost.setPhoto(photo);
         httpPost.setApp_key(Util.encode(BaseCom.APP_KEY));
         httpPost.setParameter(postPictureUpload);
         httpPost.setApp_sign(Util.encode(BaseCom.APP_PWD + gson.toJson(postPictureUpload) + BaseCom.APP_PWD));
         new OtherHttp().pictureUpload(new OtherRequest().pictureUpload(AccountClosingActivity.this, null, value -> {
+            Log.i("submit","value1=="+value.getPhoto1());
+            Log.i("submit","value2=="+value.getPhoto2());
+            Log.i("submit","value3=="+value.getPhoto3());
+            Log.i("submit","value4=="+value.getPhoto4());
+            Log.i("submit","value5=="+value.getPhoto5());
+            Log.i("submit","value6=="+value.getPhoto6());
+            Log.i("submit","value7=="+value.getPhoto7());
+
             for(int i=1;i<=7;i++){
                 switch (i){
                     case 1:
@@ -654,8 +665,9 @@ public class AccountClosingActivity extends BaseActivity {
                         break;
                 }
             }
+            Log.i("submit","imgmap"+imgMap);
             dialog.dismiss();
-            finalUpload();
+//            finalUpload();
         }), httpPost);
 
 //        totalPic = 0;

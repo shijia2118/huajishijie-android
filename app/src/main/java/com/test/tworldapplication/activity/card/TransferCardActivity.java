@@ -145,7 +145,6 @@ public class TransferCardActivity extends BaseActivity implements DialogInterfac
             @Override
             public void onDismiss() {
                 activityTransferCard.setAlpha((float) 1);
-
             }
         });
         HttpPost<PostTips> httpPost = new HttpPost<>();
@@ -406,7 +405,8 @@ public class TransferCardActivity extends BaseActivity implements DialogInterfac
                             break;
                         case 2:
                             tempFile = new File(fileDir, "temp_gh2.jpg");
-                            IDCardCamera.create(TransferCardActivity.this).openCamera(IDCardCamera.TYPE_IDCARD_FRONT);
+                            showCamera(TransferCardActivity.this, tempFile, REQUEST_CODE_CAMERA);
+//                            IDCardCamera.create(TransferCardActivity.this).openCamera(IDCardCamera.TYPE_IDCARD_FRONT);
                             break;
                         case 3:
                             tempFile = new File(fileDir, "temp_gh3.jpg");

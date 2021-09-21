@@ -640,10 +640,14 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
         mTimer = new CountDownTimer(savetime, 1000L) {
           @Override
           public void onTick(long millisUntilFinished) {
+            Log.i("tiker",":"+millisUntilFinished);
+
             long seconds = millisUntilFinished % 60000;
             timer.setText("00:00:0" + Math.round((float) seconds / 1000));
+            Log.i("timer",":"+timer.getText());
 
             if (seconds / 1000 == 4) {
+              Log.i("seconds",":"+seconds);
               Util.createToast(FaceRecordingActivity.this, "请微微张口");
               //                            Toast.makeText( FaceRecordingActivity.this,"请微微张口", Toast.LENGTH_SHORT).show();
             }
@@ -693,6 +697,8 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
                         postTransfer.setPhotoTwo(value.getPhoto4());//老用户照片名称
                         postTransfer.setPhotoThree(value.getPhoto5());//手持用户照片名称
                         postTransfer.setPhotoFour(value.getPhoto6());//手持老用户照片名称
+                        postTransfer.setMemo2(value.getPhoto1()); //视频截图1
+                        postTransfer.setMemo3(value.getPhoto2()); //视频截图2
                         postTransfer.setTel(phone); //联系人电话
                         postTransfer.setAddress(strAddress);
                         postTransfer.setNumOne(numOne); //预留号码1

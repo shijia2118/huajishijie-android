@@ -284,116 +284,7 @@
             </LinearLayout>
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@color/colorWhite"
-                android:orientation="vertical"
-                android:paddingLeft="15dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:paddingTop="10dp">
-
-                    <TextView
-                        style="@style/textBig"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="原用户" />
-
-                    <TextView
-                        style="@style/textSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="4dp"
-                        android:text="(点击图片可放大)" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="14dp">
-
-
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:gravity="center_horizontal"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:id="@+id/imgOldIdFront"
-                                android:layout_width="80dp"
-                                android:layout_height="80dp"
-                                android:src="@drawable/add" />
-
-                            <TextView
-                                style="@style/textSmall"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
-                                android:text="身份证人像面\n+卡板合照" />
-
-                        </LinearLayout>
-
-                        <ImageView
-                            android:id="@+id/imgOldIdFrontRemove"
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:layout_marginLeft="82dp"
-                            android:src="@drawable/remove"
-                            android:visibility="invisible" />
-                    </RelativeLayout>
-
-
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:gravity="center_horizontal"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:id="@+id/imgOldIdBack"
-                                android:layout_width="80dp"
-                                android:layout_height="80dp"
-                                android:src="@drawable/add" />
-
-                            <TextView
-                                style="@style/textSmall"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="本人手持证件照" />
-
-                        </LinearLayout>
-
-                        <ImageView
-                            android:id="@+id/imgOldIdBackRemove"
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:layout_marginLeft="80dp"
-                            android:src="@drawable/remove"
-                            android:visibility="invisible" />
-                    </RelativeLayout>
-
-
-                </LinearLayout>
-
-
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -505,6 +396,113 @@
                 </LinearLayout>
 
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorWhite"
+                android:orientation="vertical"
+                android:paddingLeft="15dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingTop="10dp">
+
+                    <TextView
+                        style="@style/textBig"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="原用户" />
+
+                    <TextView
+                        style="@style/textSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:text="(点击图片可放大)" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="14dp">
+
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imgOldIdFront"
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:src="@drawable/add" />
+
+                            <TextView
+                                style="@style/textSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:text="身份证人像面\n+卡板合照" />
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/imgOldIdFrontRemove"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_marginLeft="82dp"
+                            android:src="@drawable/remove"
+                            android:visibility="invisible" />
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imgOldIdBack"
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:src="@drawable/add" />
+
+                            <TextView
+                                style="@style/textSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="本人手持证件照" />
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/imgOldIdBackRemove"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_marginLeft="80dp"
+                            android:src="@drawable/remove"
+                            android:visibility="invisible" />
+                    </RelativeLayout>
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout

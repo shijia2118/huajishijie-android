@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -41,7 +42,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
 import com.test.tworldapplication.R;
-import com.test.tworldapplication.activity.admin.WriteInActivity;
 import com.test.tworldapplication.activity.admin.WriteInNewActivity;
 import com.test.tworldapplication.activity.main.LoginActivity;
 import com.test.tworldapplication.activity.main.MainNewActivity;
@@ -71,6 +71,7 @@ import com.test.tworldapplication.http.RequestLiangPay;
 import com.test.tworldapplication.inter.SuccessValue;
 import com.test.tworldapplication.utils.BitmapUtil;
 import com.test.tworldapplication.utils.Constants;
+import com.test.tworldapplication.utils.ToastUtil;
 import com.test.tworldapplication.utils.Util;
 
 import java.io.ByteArrayOutputStream;
@@ -198,6 +199,8 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
   String preStore, detail, number;
   private int cameraFacing = Camera.CameraInfo.CAMERA_FACING_FRONT;
 
+  TextView open_mouth_tip;
+
   private MediaRecorder.OnErrorListener OnErrorListener = new MediaRecorder.OnErrorListener() {
     @Override
     public void onError(MediaRecorder mediaRecorder, int what, int extra) {
@@ -241,6 +244,8 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
 
     from = getIntent().getStringExtra("from");
     urlList = getIntent().getStringArrayListExtra("urlList");
+
+    open_mouth_tip = (TextView)findViewById(R.id.open_mouth_tip);
 
     switch (from) {
 
@@ -384,9 +389,15 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
     SharedPreferences sharedPreferences = getSharedPreferences("mySP", Context.MODE_PRIVATE);
     int switchFlag = sharedPreferences.getInt(Constants.SHOOTSWITCH, 2);
     cameraSwitchIv.setVisibility(switchFlag == 2 ? View.GONE : View.VISIBLE);
+
     int shootMode = sharedPreferences.getInt(Constants.SHOOTMODES, 1);
     cameraFacing = shootMode == 1 ? Camera.CameraInfo.CAMERA_FACING_FRONT
         : Camera.CameraInfo.CAMERA_FACING_BACK;
+
+    if(from.equals("0")){
+      cameraSwitchIv.setVisibility(View.VISIBLE);
+      cameraFacing = Camera.CameraInfo.CAMERA_FACING_FRONT;
+    }
 
     mSurfaceCallBack = new SurfaceHolder.Callback() {
       @Override
@@ -603,6 +614,15 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
   //        }
   //    };
 
+  private Thread thread = new Thread(new Runnable() {
+    @Override
+    public void run() {
+      Looper.prepare();
+      Toast.makeText(FaceRecordingActivity.this, "请微微张口", Toast.LENGTH_SHORT).show();
+      Looper.loop();
+    }
+  });
+
   /**
    * 合并录像视频方法
    */
@@ -622,7 +642,6 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
         break;
       case R.id.record_control:
         getPreViewImage();
-
         mRecordTime.setBase(SystemClock.elapsedRealtime());
         mRecordTime.start();
         startRecord = true;
@@ -633,29 +652,27 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
         mRecordControl.setVisibility(View.GONE);
         tip.setVisibility(View.GONE);
         timer0.setVisibility(View.VISIBLE);
-
-        //                Toast.makeText( FaceRecordingActivity.this,"请注视屏幕", Toast.LENGTH_SHORT).show();
-        Util.createToast(FaceRecordingActivity.this, "请注视屏幕");
+//        Util.createToast(FaceRecordingActivity.this, "请注视屏幕");
+        ToastUtil.showToast(FaceRecordingActivity.this,"请注视屏幕");
 
         mTimer = new CountDownTimer(savetime, 1000L) {
           @Override
           public void onTick(long millisUntilFinished) {
-            Log.i("tiker",":"+millisUntilFinished);
-
             long seconds = millisUntilFinished % 60000;
             timer.setText("00:00:0" + Math.round((float) seconds / 1000));
-            Log.i("timer",":"+timer.getText());
-
             if (seconds / 1000 == 4) {
-              Log.i("seconds",":"+seconds);
-              Util.createToast(FaceRecordingActivity.this, "请微微张口");
-              //                            Toast.makeText( FaceRecordingActivity.this,"请微微张口", Toast.LENGTH_SHORT).show();
+//              thread.start();
+              ToastUtil.showToast(FaceRecordingActivity.this,"请微微张口");
+//              open_mouth_tip.setVisibility(View.VISIBLE);
+//              Util.createToast(FaceRecordingActivity.this, "请微微张口");
             }
+//            else if(seconds == 2){
+//              open_mouth_tip.setVisibility(View.GONE);
+//            }
           }
 
           @Override
           public void onFinish() {
-
             mRecordTime.stop();
             startRecord = false;
 
@@ -723,8 +740,6 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
                     }
                 }), httpPost);
            }else{
-             Log.i("xxxxxx","=>>>>>>>1");
-
              final HttpPost<PostPictureUpload> httpPost = new HttpPost<>();
              PostPictureUpload postPictureUpload = new PostPictureUpload();
              postPictureUpload.setSession_token(Util.getLocalAdmin(FaceRecordingActivity.this)[0]);
@@ -768,7 +783,6 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
         break;
       case R.id.record_control0:
         getPreViewImage();
-Log.i("xxxxxx","=>>>>>>>2");
         mRecordTime.setBase(SystemClock.elapsedRealtime());
         mRecordTime.start();
 
@@ -787,16 +801,13 @@ Log.i("xxxxxx","=>>>>>>>2");
           public void onTick(long millisUntilFinished) {
             long seconds = millisUntilFinished % 60000;
             timer.setText("00:00:0" + Math.round((float) seconds / 1000));
-
             if (seconds / 1000 == 4) {
               Util.createToast(FaceRecordingActivity.this, "请微微张口");
-              //                            Toast.makeText( FaceRecordingActivity.this,"请微微张口", Toast.LENGTH_SHORT).show();
             }
           }
 
           @Override
           public void onFinish() {
-
             mRecordTime.stop();
             submit();
           }

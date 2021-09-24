@@ -2,6 +2,7 @@ package com.test.tworldapplication.utils;
 
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 
 import cn.com.senter.mediator.BluetoothReader;
 
@@ -19,6 +20,7 @@ public class BlueReaderHelper
 
 	public String read()
 	{
+		Log.i("shijia","===>0");
 		return bluecardreader.readCard_Sync();
 	}
 

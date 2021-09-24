@@ -102,6 +102,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import kernal.idcard.android.RecogParameterMessage;
 import kernal.idcard.android.RecogService;
@@ -263,6 +264,9 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
 
         SharedPreferences sharedPreferences0 = getSharedPreferences("mySP", Context.MODE_PRIVATE);
         modes = sharedPreferences0.getInt("modes", -1);
+        Log.i("shijia","mode=="+modes);
+        Log.i("shijia","type=="+type);
+
         readModesTwo = sharedPreferences0.getInt( "readModesTwo", -1 );
         if (modes == 1) {
 
@@ -1228,7 +1232,6 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                             BaseCom.photoTwo = bitmap_one;
                             BaseCom.photoThree = bitmap_two;
                             BaseCom.photoFour = bitmap_three;
-                            Log.i("bitmap",">>>>>"+bitmap_zero);
 
                             startActivity(intent);
                             overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
@@ -1773,6 +1776,7 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         switch (requestCode) {
             case REQUEST_ENABLE_BT:
                 if (resultCode == RESULT_OK) {
@@ -1782,8 +1786,7 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                         startActivityForResult(serverIntent2, SETTING_BT);
                         overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
                     }
-
-                } else if (resultCode == RESULT_CANCELED) {
+                } else if (resultCode == RESULT_CANCELED&&flag!=21) {
                     Util.createToast(MessageCollectionNewActivity2.this, "请开启蓝牙!");
                 } else if(resultCode == IDCardCamera.RESULT_CODE){ //身份证正面照(集成身份证国徽框后)
                     file_three = IDCardCamera.getImagePath(data);
@@ -2210,8 +2213,8 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                             mBlueReaderHelper = new BlueReaderHelper(MessageCollectionNewActivity2.this, handler);
                             mBlueReaderHelper.setServerAddress("senter-online.cn");
                             mBlueReaderHelper.setServerPort(10002);
-
                             if (mBlueReaderHelper.registerBlueCard(mac[1]) == true) {
+                                Log.i("shijia","===>");
                                 new BlueReadTask()
                                         .executeOnExecutor(Executors.newCachedThreadPool());
                             } else {
@@ -2283,9 +2286,7 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
             Intent enableIntent = new Intent(
                     BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
-
         }
-
     }
 
     private void readCardSuccess0(com.sunrise.icardreader.model.IdentityCardZ identityCard) {
@@ -2361,11 +2362,16 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
 
         @Override
         protected String doInBackground(Void... params) {
+            Log.i("shijia","===>read");
 
-            String strCardInfo = mBlueReaderHelper.read();
+            String strCardInfo="test";
+            try {
+                strCardInfo = mBlueReaderHelper.read();
+            }catch (Throwable throwable){
+                Log.i("shijia","===>"+throwable);
+            }
             return strCardInfo;
         }
-
     }
 
     private void readCardFailed(String strcardinfo) {

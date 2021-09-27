@@ -264,9 +264,6 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
 
         SharedPreferences sharedPreferences0 = getSharedPreferences("mySP", Context.MODE_PRIVATE);
         modes = sharedPreferences0.getInt("modes", -1);
-        Log.i("shijia","mode=="+modes);
-        Log.i("shijia","type=="+type);
-
         readModesTwo = sharedPreferences0.getInt( "readModesTwo", -1 );
         if (modes == 1) {
 
@@ -727,7 +724,6 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
 //                                            showCamera(MessageCollectionNewActivity2.this, tempFile, REQUEST_CODE_CAMERA);
                                             IDCardCamera.create(MessageCollectionNewActivity2.this).openCamera(IDCardCamera.TYPE_IDCARD_FRONT);
                                         }
-
                                     }
                                 }, mOnHanlderResultCallback);
                                 break;
@@ -2214,16 +2210,13 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                             mBlueReaderHelper.setServerAddress("senter-online.cn");
                             mBlueReaderHelper.setServerPort(10002);
                             if (mBlueReaderHelper.registerBlueCard(mac[1]) == true) {
-                                Log.i("shijia","===>");
                                 new BlueReadTask()
                                         .executeOnExecutor(Executors.newCachedThreadPool());
                             } else {
                                 dialog.dismiss();
                                 Util.createToast(MessageCollectionNewActivity2.this, "请确认蓝牙设备已连接");
                             }
-
                         } else if (mac[0].startsWith("BT")) {
-
                             IPArray = new ArrayList<String>();
                             IPArray.add("103.21.119.78");
                             IPArray.add("103.21.119.78");
@@ -2362,14 +2355,7 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
 
         @Override
         protected String doInBackground(Void... params) {
-            Log.i("shijia","===>read");
-
-            String strCardInfo="test";
-            try {
-                strCardInfo = mBlueReaderHelper.read();
-            }catch (Throwable throwable){
-                Log.i("shijia","===>"+throwable);
-            }
+            String strCardInfo=mBlueReaderHelper.read();
             return strCardInfo;
         }
     }

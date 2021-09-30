@@ -5,7 +5,7 @@ android {
     defaultConfig {
         applicationId "com.test.tworldapplication"
         minSdkVersion 19
-        targetSdkVersion 26
+        targetSdkVersion 25
         versionCode 22
         versionName "4.6.2"
         multiDexEnabled true

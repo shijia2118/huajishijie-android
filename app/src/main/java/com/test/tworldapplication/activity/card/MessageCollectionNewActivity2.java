@@ -1055,7 +1055,6 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                         httpPost.setParameter(postPictureUpload);
                         httpPost.setApp_sign(Util.encode(BaseCom.APP_PWD + gson.toJson(postPictureUpload) + BaseCom.APP_PWD));
 
-
                         new OtherHttp().pictureUpload(new OtherRequest().pictureUpload(
                             MessageCollectionNewActivity2.this, dialog, new SuccessValue<RequestPictureUpload>() {
                             @Override
@@ -1735,7 +1734,7 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
             if (!TextUtils.isEmpty(capturePath) && mUri.lastIndexOf(".") > 0) {
                 handleUri = mUri.substring(0, mUri.lastIndexOf(".")) + "_tmp" + mUri.substring(mUri.lastIndexOf("."));
             } else {
-                ToastUtils.s(this, "图片异常：" + mUri);
+                if(!mUri.isEmpty()) ToastUtils.s(this, "图片异常：" + mUri);
                 handleUri = "";
             }
 

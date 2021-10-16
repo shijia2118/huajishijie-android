@@ -614,14 +614,7 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
   //        }
   //    };
 
-  private Thread thread = new Thread(new Runnable() {
-    @Override
-    public void run() {
-      Looper.prepare();
-      Toast.makeText(FaceRecordingActivity.this, "请微微张口", Toast.LENGTH_SHORT).show();
-      Looper.loop();
-    }
-  });
+
 
   /**
    * 合并录像视频方法
@@ -652,7 +645,6 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
         mRecordControl.setVisibility(View.GONE);
         tip.setVisibility(View.GONE);
         timer0.setVisibility(View.VISIBLE);
-//        Util.createToast(FaceRecordingActivity.this, "请注视屏幕");
         ToastUtil.showToast(FaceRecordingActivity.this,"请注视屏幕");
 
         mTimer = new CountDownTimer(savetime, 1000L) {
@@ -662,9 +654,9 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
             timer.setText("00:00:0" + Math.round((float) seconds / 1000));
             if (seconds / 1000 == 4) {
 //              thread.start();
+              // TODO
               ToastUtil.showToast(FaceRecordingActivity.this,"请微微张口");
 //              open_mouth_tip.setVisibility(View.VISIBLE);
-//              Util.createToast(FaceRecordingActivity.this, "请微微张口");
             }
 //            else if(seconds == 2){
 //              open_mouth_tip.setVisibility(View.GONE);
@@ -837,8 +829,7 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
             timer.setText("00:00:0" + Math.round((float) seconds / 1000));
 
             if (seconds / 1000 == 4) {
-              Util.createToast(FaceRecordingActivity.this, "请微微张口");
-              //                            Toast.makeText( FaceRecordingActivity.this,"请微微张口", Toast.LENGTH_SHORT).show();
+              Toast.makeText( FaceRecordingActivity.this,"请微微张口", Toast.LENGTH_SHORT).show();
             }
           }
 
@@ -907,7 +898,6 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
 
             if (seconds / 1000 == 4) {
               Util.createToast(FaceRecordingActivity.this, "请微微张口");
-              //                            Toast.makeText( FaceRecordingActivity.this,"请微微张口", Toast.LENGTH_SHORT).show();
             }
           }
 
@@ -1214,12 +1204,7 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
         if (index < 3) {
           allowAnalysis = true;
         }
-        //                if(index==0){
-        //                    Util.createToast(FaceRecordingActivity.this, "请选择读取信息的方式!");
-        //                }
-        //                if(index==2){
-        //                    Util.createToast(FaceRecordingActivity.this, "请微微张口!");
-        //                }
+
 
       } catch (InterruptedException e) {
         e.printStackTrace();

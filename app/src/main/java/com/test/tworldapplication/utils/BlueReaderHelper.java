@@ -20,7 +20,6 @@ public class BlueReaderHelper
 
 	public String read()
 	{
-		Log.i("shijia","=====>read");
 		return bluecardreader.readCard_Sync();
 	}
 

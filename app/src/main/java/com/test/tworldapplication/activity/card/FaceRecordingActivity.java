@@ -646,7 +646,6 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
         tip.setVisibility(View.GONE);
         timer0.setVisibility(View.VISIBLE);
         ToastUtil.showToast(FaceRecordingActivity.this,"请注视屏幕");
-
         mTimer = new CountDownTimer(savetime, 1000L) {
           @Override
           public void onTick(long millisUntilFinished) {
@@ -745,7 +744,7 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
             intent.putStringArrayListExtra("urlList", urlList);
             bundle.putSerializable("mPackage", mPackage);
             bundle.putSerializable("mPromotion", mPromotion);
-
+            //成卡开户
             if (from.equals("0")) {
               bundle.putSerializable("requestCheck", requestCheck);
               intent.putExtras(bundle);
@@ -765,8 +764,8 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
             intent.putExtra("face", "1");
             BaseCom.videoOne = video_one;
             BaseCom.videoTwo = video_two;
-            Log.d("aaa", "goact");
-            startActivity(intent);
+
+             startActivity(intent);
             overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
            }
           }

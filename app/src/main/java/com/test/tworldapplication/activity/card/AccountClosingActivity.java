@@ -487,23 +487,13 @@ public class AccountClosingActivity extends BaseActivity {
                     case "0":
                         //成卡
                         if (!Util.isFastDoubleClick()) {
-
                             if (sign.isEmpty()) {
+                                //TODO
                                 Toast.makeText(this, "请签名后再提交", Toast.LENGTH_SHORT).show();
-
                             } else {
                                 compound();
-//                                if (face.equals( "1" )) {
-//                                    picFirst();
-//                                }
                                 reNewCard();
                             }
-
-//                            if (urlList != null && urlList.size() > 0) {
-//                                for (int i = 0; i < urlList.size(); i++)
-//                                    deletePic(AccountClosingActivity.this, urlList.get(i));
-//                            }
-
                         }
                         break;
                     case "1":
@@ -519,7 +509,6 @@ public class AccountClosingActivity extends BaseActivity {
 
                             if (sign.isEmpty()) {
                                 Toast.makeText(this, "请签名后再提交", Toast.LENGTH_SHORT).show();
-
                             } else {
                                 compound();
                                 preOpen();
@@ -610,6 +599,7 @@ public class AccountClosingActivity extends BaseActivity {
 
 
     public void reNewCard() {
+
         dialog.getTvTitle().setText("正在上传图片");
         dialog.show();
 
@@ -655,8 +645,12 @@ public class AccountClosingActivity extends BaseActivity {
             final Photo photo2 = new Photo();
 
             if (face.equals("1")) {
+                Log.i("shijia",">>>>1>"+photo2.getPhoto1());
+                Log.i("shijia",">>>>2>"+videoPicOne);
+
                 photo2.setPhoto1(BitmapUtil.bitmapToBase64(videoPicOne));
                 photo2.setPhoto2(BitmapUtil.bitmapToBase64X(videoPicTwo));
+
             }
             httpPost2.setPhoto(photo2);
             httpPost2.setApp_key(Util.encode(BaseCom.APP_KEY));
@@ -838,8 +832,6 @@ public class AccountClosingActivity extends BaseActivity {
             public void OnSuccess(final HttpRequest<RequestOpen> value) {
                 uploading = false;
                 Util.createToast(AccountClosingActivity.this, value.getMes());
-                Log.d("aaa", value.getMes());
-                Log.d("aaa", value.getCode() + "");
                 if (value.getCode() == BaseCom.LOSELOG || value.getCode() == BaseCom.VERSIONINCORRENT)
                     Util.gotoActy(AccountClosingActivity.this, LoginActivity.class);
                 else {

@@ -645,12 +645,8 @@ public class AccountClosingActivity extends BaseActivity {
             final Photo photo2 = new Photo();
 
             if (face.equals("1")) {
-                Log.i("shijia",">>>>1>"+photo2.getPhoto1());
-                Log.i("shijia",">>>>2>"+videoPicOne);
-
                 photo2.setPhoto1(BitmapUtil.bitmapToBase64(videoPicOne));
                 photo2.setPhoto2(BitmapUtil.bitmapToBase64X(videoPicTwo));
-
             }
             httpPost2.setPhoto(photo2);
             httpPost2.setApp_key(Util.encode(BaseCom.APP_KEY));
@@ -670,7 +666,7 @@ public class AccountClosingActivity extends BaseActivity {
                 }
                 dialog.dismiss();
             finalUpload();
-            }), httpPost);
+            }), httpPost2);
         }), httpPost);
 
 //        totalPic = 0;
@@ -821,7 +817,6 @@ public class AccountClosingActivity extends BaseActivity {
             postOpen.setVideoPhotos1(imgMap.get(Constants.VIDEOPICONE));
             postOpen.setVideoPhotos2(imgMap.get(Constants.VIDEOPICTWO));
         }
-
 
         postOpen.setOrg_number_poolsId(requestCheck.getOrg_number_poolsId());
         httpPost.setApp_key(Util.GetMD5Code(BaseCom.APP_KEY));

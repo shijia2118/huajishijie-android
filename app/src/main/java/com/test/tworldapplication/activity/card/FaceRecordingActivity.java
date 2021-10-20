@@ -652,8 +652,6 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
             long seconds = millisUntilFinished % 60000;
             timer.setText("00:00:0" + Math.round((float) seconds / 1000));
             if (seconds / 1000 == 4) {
-//              thread.start();
-              // TODO
 //              ToastUtil.showToast(FaceRecordingActivity.this,"请微微张口");
               open_mouth_tip.setVisibility(View.VISIBLE);
             }
@@ -793,7 +791,11 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
             long seconds = millisUntilFinished % 60000;
             timer.setText("00:00:0" + Math.round((float) seconds / 1000));
             if (seconds / 1000 == 4) {
-              Util.createToast(FaceRecordingActivity.this, "请微微张口");
+//              ToastUtil.showToast(FaceRecordingActivity.this,"请微微张口");
+              open_mouth_tip.setVisibility(View.VISIBLE);
+            }
+            else if(seconds/1000 == 2){
+              open_mouth_tip.setVisibility(View.GONE);
             }
           }
 
@@ -828,7 +830,11 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
             timer.setText("00:00:0" + Math.round((float) seconds / 1000));
 
             if (seconds / 1000 == 4) {
-              Toast.makeText( FaceRecordingActivity.this,"请微微张口", Toast.LENGTH_SHORT).show();
+//              ToastUtil.showToast(FaceRecordingActivity.this,"请微微张口");
+              open_mouth_tip.setVisibility(View.VISIBLE);
+            }
+            else if(seconds/1000 == 2){
+              open_mouth_tip.setVisibility(View.GONE);
             }
           }
 
@@ -896,7 +902,11 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
             timer.setText("00:00:0" + Math.round((float) seconds / 1000));
 
             if (seconds / 1000 == 4) {
-              Util.createToast(FaceRecordingActivity.this, "请微微张口");
+//              ToastUtil.showToast(FaceRecordingActivity.this,"请微微张口");
+              open_mouth_tip.setVisibility(View.VISIBLE);
+            }
+            else if(seconds/1000 == 2){
+              open_mouth_tip.setVisibility(View.GONE);
             }
           }
 

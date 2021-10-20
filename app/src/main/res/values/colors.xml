@@ -65,5 +65,6 @@
     <color name="bgColor">#D6D6D6</color>
     <color name="dialog_bgColor">#00000000</color>
     <color name="grey0">#FFFFFF</color>
+    <color name="transparent_60">#CC000000</color>
 
 </resources>

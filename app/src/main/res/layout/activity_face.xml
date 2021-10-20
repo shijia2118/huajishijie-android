@@ -99,17 +99,7 @@
             android:visibility="gone"
             app:srcCompat="@drawable/a" />
 
-        <TextView
-            android:id="@+id/open_mouth_tip"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="请微微张口"
-            android:textColor="@color/white"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="30dp"
-            android:gravity="center_horizontal"
-            android:visibility="visible"
-            android:textSize="12dp"/>
+
     </RelativeLayout>
 
 
@@ -142,6 +132,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="11dp"
             android:src="@mipmap/start_stop" />
+
 
         <ImageView
             android:id="@+id/record_control0"
@@ -203,6 +194,27 @@
             android:layout_marginStart="29dp"
             android:visibility="gone" />
 
+
+        <TextView
+            android:id="@+id/open_mouth_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="请微微张口"
+            android:textColor="@color/white"
+            android:background="@drawable/toast_bg"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="8dp"
+            android:gravity="bottom"
+            android:visibility="gone"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:textSize="14dp"/>
+
+
+
     </RelativeLayout>
+
+
+
 
 </LinearLayout>

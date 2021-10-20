@@ -654,12 +654,12 @@ public class FaceRecordingActivity extends BaseActivity implements View.OnClickL
             if (seconds / 1000 == 4) {
 //              thread.start();
               // TODO
-              ToastUtil.showToast(FaceRecordingActivity.this,"请微微张口");
-//              open_mouth_tip.setVisibility(View.VISIBLE);
+//              ToastUtil.showToast(FaceRecordingActivity.this,"请微微张口");
+              open_mouth_tip.setVisibility(View.VISIBLE);
             }
-//            else if(seconds == 2){
-//              open_mouth_tip.setVisibility(View.GONE);
-//            }
+            else if(seconds/1000 == 2){
+              open_mouth_tip.setVisibility(View.GONE);
+            }
           }
 
           @Override

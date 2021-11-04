@@ -15,14 +15,10 @@ import com.test.tworldapplication.R;
 import com.test.tworldapplication.base.BaseActivity;
 import com.test.tworldapplication.entity.AgentsLiangNumber;
 import com.test.tworldapplication.entity.Package;
-import com.test.tworldapplication.entity.Promotion;
 import com.test.tworldapplication.entity.RequestCheck;
 import com.test.tworldapplication.entity.RequestImsi;
 import com.test.tworldapplication.entity.RequestPreNumberDetails;
 import com.test.tworldapplication.utils.Util;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

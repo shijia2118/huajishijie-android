@@ -2,11 +2,15 @@ package com.test.tworldapplication.view;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ListAdapter;
+
+import java.lang.reflect.Field;
 
 /**
  * Automatically calculates the ideal for each row
@@ -33,6 +37,26 @@ public class AutoGridView extends GridView {
     public AutoGridView(Context context) {
         super(context);
     }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int heightSpec;
+
+        if (getLayoutParams().height == LayoutParams.WRAP_CONTENT) {
+            // The great Android "hackatlon", the love, the magic.
+            // The two leftmost bits in the height measure spec have
+            // a special meaning, hence we can't use them to describe height.
+            heightSpec = MeasureSpec.makeMeasureSpec(
+                    Integer.MAX_VALUE >> 2, MeasureSpec.AT_MOST);
+        }
+        else {
+            // Any other height should be respected as is.
+            heightSpec = heightMeasureSpec;
+        }
+
+        super.onMeasure(widthMeasureSpec, heightSpec);
+    }
+
 
     /**
      * Sets the numColumns based on the attributeset

@@ -281,6 +281,7 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
         imm.hideSoftInputFromWindow(etName.getWindowToken(), 0);
         etName.clearFocus();
         etId.clearFocus();
+        etId.setKeyListener(null);
         etAddress.clearFocus();
         etRemark.clearFocus();
 

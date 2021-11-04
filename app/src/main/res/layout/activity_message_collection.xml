@@ -94,6 +94,7 @@
                 android:digits="0123456789xX"
                 android:gravity="right"
                 android:hint="请输入证件号码"
+                android:textIsSelectable="true"
                 android:maxLength="18" />
 
         </RelativeLayout>

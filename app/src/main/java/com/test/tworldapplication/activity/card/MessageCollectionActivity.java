@@ -256,6 +256,7 @@ public class MessageCollectionActivity extends BaseActivity {
         imm.hideSoftInputFromWindow(etName.getWindowToken(), 0);
         etName.clearFocus();
         etId.clearFocus();
+        etId.setKeyListener(null);
         etAddress.clearFocus();
         etRemark.clearFocus();
 
@@ -478,14 +479,10 @@ public class MessageCollectionActivity extends BaseActivity {
                 layout4.setVisibility(View.VISIBLE);
                 layout5.setVisibility(View.VISIBLE);
                 layout6.setVisibility(View.VISIBLE);
-
-
             }
         }
 
-
         btAdapt = BluetoothAdapter.getDefaultAdapter();// 初始化本机蓝牙功能
-
 
     }
 

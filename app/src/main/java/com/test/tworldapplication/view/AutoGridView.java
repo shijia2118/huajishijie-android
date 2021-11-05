@@ -2,7 +2,6 @@ package com.test.tworldapplication.view;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -10,7 +9,8 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ListAdapter;
 
-import java.lang.reflect.Field;
+import com.liaoinstan.springview.utils.DensityUtil;
+import com.test.tworldapplication.activity.card.PackageSelectDetailActivity;
 
 /**
  * Automatically calculates the ideal for each row
@@ -41,19 +41,12 @@ public class AutoGridView extends GridView {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int heightSpec;
-
         if (getLayoutParams().height == LayoutParams.WRAP_CONTENT) {
-            // The great Android "hackatlon", the love, the magic.
-            // The two leftmost bits in the height measure spec have
-            // a special meaning, hence we can't use them to describe height.
             heightSpec = MeasureSpec.makeMeasureSpec(
                     Integer.MAX_VALUE >> 2, MeasureSpec.AT_MOST);
-        }
-        else {
-            // Any other height should be respected as is.
+        } else {
             heightSpec = heightMeasureSpec;
         }
-
         super.onMeasure(widthMeasureSpec, heightSpec);
     }
 
@@ -99,7 +92,7 @@ public class AutoGridView extends GridView {
     @Override
     protected void onLayout(boolean changed, int leftPos, int topPos, int rightPos, int bottomPos) {
         super.onLayout(changed, leftPos, topPos, rightPos, bottomPos);
-        setHeights();
+        setHeights(this);
     }
 
     @Override
@@ -115,7 +108,7 @@ public class AutoGridView extends GridView {
         if(previousFirstVisible != firstVisible) {
             // Update position, and update heights
             previousFirstVisible = firstVisible;
-            setHeights();
+            setHeights(this);
         }
 
         super.onScrollChanged(newHorizontal, newVertical, oldHorizontal, oldVertical);
@@ -123,12 +116,13 @@ public class AutoGridView extends GridView {
 
     /**
      * Sets the height of each view in a row equal to the height of the tallest view in this row.
-     * @param firstVisible The first visible position (adapter order)
      */
-    private void setHeights() {
-        ListAdapter adapter = getAdapter();
+    private void setHeights(AutoGridView listView) {
+        int totalHeight=0;
+        if(listView==null) return;
 
-        if(adapter != null) {
+        ListAdapter listAdapter = getAdapter();
+        if(listAdapter != null) {
             for(int i = 0; i < getChildCount(); i+=numColumns) {
                 // Determine the maximum height for this row
                 int maxHeight = 0;
@@ -149,6 +143,11 @@ public class AutoGridView extends GridView {
                         }
                     }
                 }
+
+                totalHeight=totalHeight+maxHeight;
+                ViewGroup.LayoutParams params = listView.getLayoutParams();
+                params.height = totalHeight+100; //不清楚为什么相差100,反正加上去后,距离刚刚好
+                listView.setLayoutParams(params);
             }
         }
     }

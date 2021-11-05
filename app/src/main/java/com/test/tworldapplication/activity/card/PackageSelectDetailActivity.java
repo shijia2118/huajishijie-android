@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,6 +18,7 @@ import com.test.tworldapplication.entity.RequestCheck;
 import com.test.tworldapplication.entity.RequestImsi;
 import com.test.tworldapplication.entity.RequestPreNumberDetails;
 import com.test.tworldapplication.utils.Util;
+import com.test.tworldapplication.view.AutoGridView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,7 +28,7 @@ import wintone.passport.sdk.utils.AppManager;
 public class PackageSelectDetailActivity extends BaseActivity implements AdapterView.OnItemClickListener {
 
     @BindView(R.id.gvSelect)
-    GridView gvSelect;
+    AutoGridView gvSelect;
     //    List<Package> list = new ArrayList<>();
     int pos;
     MyAdapter adapter;
@@ -103,7 +103,7 @@ public class PackageSelectDetailActivity extends BaseActivity implements Adapter
     }
 
 
-    class MyAdapter extends BaseAdapter {
+    public class MyAdapter extends BaseAdapter {
 
         @Override
         public int getCount() {

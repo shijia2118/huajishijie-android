@@ -50,7 +50,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
                 android:layout_marginTop="6dp"
-                android:clickable="true"
                 android:src="@drawable/selection_image_home" />
 
             <TextView

@@ -629,7 +629,7 @@ public class MainNewActivity extends BaseActivity {
 
     @OnClick({R.id.llHome, R.id.llOrder, R.id.llQds, R.id.llAccount, R.id.llCard})
     public void onClick(View view) {
-        clearSelection();
+//        clearSelection();
         switch (view.getId()) {
             case R.id.llHome:
                 setBackGroundTitle("首页", false, true, true);

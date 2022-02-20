@@ -37,6 +37,7 @@
     <uses-permission android:name="android.permission.ACCESS_GPS" /> <!-- 改变WIFI网络状态的权限 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 访问手机精准位置 -->
     <permission android:name="android.permission.READ_LOGS" />
+
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!-- Service开机自动 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 获取到运行中的task（任务） -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 网络视频播放 -->
@@ -69,8 +70,9 @@
         android:supportsRtl="true"
         android:theme="@style/title_bg2"
         tools:replace="android:icon,android:theme,android:label">
-<!--        <activity android:name="wintone.idcard.sdk.CameraActivity"></activity>-->
-        <activity android:name=".activity.SplashActivity"></activity>
+        <activity android:name=".activity.main.NumberVerificationActivity"></activity>
+        <!-- <activity android:name="wintone.idcard.sdk.CameraActivity"></activity> -->
+        <activity android:name=".activity.SplashActivity" />
         <activity android:name=".activity.home.YewuListActivity" />
         <activity android:name=".activity.home.HuiyuanActivity" />
         <activity android:name=".activity.home.LiuliangActivity" />
@@ -139,7 +141,7 @@
         <activity android:name=".activity.card.ProgressQueryActivity" />
         <activity android:name=".activity.card.PackageSelectActivity" />
         <activity android:name=".activity.card.MessageCollectionActivity" />
-        <activity android:name=".activity.card.MessageCollectionNewActivity"></activity>
+        <activity android:name=".activity.card.MessageCollectionNewActivity" />
         <activity
             android:name=".activity.card.MessageCollectionNewActivity2"
             android:screenOrientation="portrait" />

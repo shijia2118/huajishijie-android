@@ -149,6 +149,8 @@ public class LoginActivity extends BaseActivity implements SuccessNull {
                         city = arr[1];
                     else
                         city = arr[0];
+                    dialog.getTvTitle().setText("正在进行位置校验");
+                    dialog.show();
                     HttpPost<PostLocationEntity> httpPost = new HttpPost<>();
                     PostLocationEntity postLocationEntity = new PostLocationEntity();
                     postLocationEntity.setSession_token(Util.getLocalAdmin(LoginActivity.this)[0]);
@@ -166,11 +168,14 @@ public class LoginActivity extends BaseActivity implements SuccessNull {
 
                         @Override
                         public void onError(Throwable e) {
+                            dialog.dismiss();
                             LogUtils.setAppendFile("judgeLocation:" + e.toString());
                         }
 
                         @Override
                         public void onNext(HttpRequest<JudgeLocationResponse> booleanHttpRequest) {
+                            dialog.dismiss();
+                            dialog.getTvTitle().setText("正在登录");
                             LogUtils.setAppendFile("judgeLocation:" + new Gson().toJson(booleanHttpRequest));
 
                             if (booleanHttpRequest.getData().getJudgeLocation()) {
@@ -368,8 +373,12 @@ public class LoginActivity extends BaseActivity implements SuccessNull {
                     if (from == null || from.equals("1")) {
                         Log.d("ddd", "3");
                         LogUtils.setAppendFile("startActivity1:" + from);
-                        gotoActy(MainNewActivity.class);
-                        AppManager.getAppManager().finishActivity();
+                        //如果不需要工号实名认证的话,先进行定位验证,通过后,再进行短信验证.
+                        Intent intent2 = new Intent(LoginActivity.this,NumberVerificationActivity.class);
+                        intent2.putExtra("phone", "13116770003");
+                        startActivity(intent2);
+//                        gotoActy(MainNewActivity.class);
+//                        AppManager.getAppManager().finishActivity();
 
                     } else {
                         Log.d("ddd", "4");
@@ -509,6 +518,7 @@ public class LoginActivity extends BaseActivity implements SuccessNull {
 
     @NeedsPermission({Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.READ_PHONE_STATE})
     void callPhone() {
+        //检查gps是否开启
         if (Util.isOPen(LoginActivity.this)) {
             userName = etUser.getText().toString();
             passWord = etPassword.getText().toString();
@@ -563,7 +573,6 @@ public class LoginActivity extends BaseActivity implements SuccessNull {
 
                             } else if (requestLoginHttpRequest.getData().getIsLogin().equals("N")) {
 
-////
 //                                edit.putString("gride", _requestLoginHttpRequest.getData().getGrade());
 //                                edit.commit();  //保存数据信息
 ////
@@ -584,7 +593,6 @@ public class LoginActivity extends BaseActivity implements SuccessNull {
 
                                 LogUtils.setAppendFile("startLocation");
                                 LocationHelper.getInstance().startLocation();
-
                             }
                         } else
                             Util.createToast(LoginActivity.this, requestLoginHttpRequest.getMes());

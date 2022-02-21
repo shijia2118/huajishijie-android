@@ -185,7 +185,7 @@ public class LoginActivity extends BaseActivity implements SuccessNull {
                                 SharedPreferences.Editor edit = share.edit(); //编辑文件
                                 edit.clear();
                                 edit.putString("session_token", _requestLoginHttpRequest.getData().getSession_token());
-                                edit.putString("gride", _requestLoginHttpRequest.getData().getGrade());
+//                                edit.putString("gride", _requestLoginHttpRequest.getData().getGrade());
                                 edit.commit();  //保存数据信息
 
                                 SharedPreferences sharedPreferences = LoginActivity.this.getSharedPreferences(BaseCom.ADMIN, MODE_PRIVATE);
@@ -375,7 +375,10 @@ public class LoginActivity extends BaseActivity implements SuccessNull {
                         LogUtils.setAppendFile("startActivity1:" + from);
                         //如果不需要工号实名认证的话,先进行定位验证,通过后,再进行短信验证.
                         Intent intent2 = new Intent(LoginActivity.this,NumberVerificationActivity.class);
-                        intent2.putExtra("phone", "13116770003");
+                        intent2.putExtra("phone", _requestLoginHttpRequest.getData().getTel());
+                        if (_requestLoginHttpRequest != null && _requestLoginHttpRequest.getData() != null) {
+                            intent2.putExtra("data", _requestLoginHttpRequest.getData());
+                        }
                         startActivity(intent2);
 //                        gotoActy(MainNewActivity.class);
 //                        AppManager.getAppManager().finishActivity();
@@ -590,7 +593,8 @@ public class LoginActivity extends BaseActivity implements SuccessNull {
 //                                } else {
 //                                    finish();
 //                                }
-
+                                edit.putString("gride", "");
+                                edit.commit();
                                 LogUtils.setAppendFile("startLocation");
                                 LocationHelper.getInstance().startLocation();
                             }

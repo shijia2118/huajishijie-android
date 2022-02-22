@@ -31,13 +31,14 @@ public class NumberVerificationActivity extends BaseActivity {
     EditText etCode;
     TextView tvGetCode;
     TextView tvLogin;
+    TextView tvSuccessTip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_number_verification);
         ButterKnife.bind(this);
-        setBackGroundTitle("号码验证", true);
+        setBackGroundTitle("工号实名验证", true);
 
         initView();
 
@@ -45,7 +46,7 @@ public class NumberVerificationActivity extends BaseActivity {
         if (intent != null) {
             String data = intent.getStringExtra("phone"); // 从Intent当中根据key取得value
             phoneNum.setText(data);
-            phoneNum.setSelection(data.length());
+//            phoneNum.setSelection(data.length());
         }
 
     }
@@ -58,9 +59,12 @@ public class NumberVerificationActivity extends BaseActivity {
         etCode = findViewById(R.id.etCode);
         tvGetCode = findViewById(R.id.tvGetCode);
         tvLogin = findViewById(R.id.tvLogin);
+        tvSuccessTip = findViewById(R.id.tvSuccessTip);
 
+        phoneNum.setKeyListener(null); //输入框只读
         tvGetCode.setOnClickListener(onClickCodeButton);
         tvLogin.setOnClickListener(onClickLoginButton);
+        tvSuccessTip.setVisibility(View.INVISIBLE);
     }
 
     /**
@@ -98,8 +102,8 @@ public class NumberVerificationActivity extends BaseActivity {
                         httpPost.setApp_key(Util.encode(BaseCom.APP_KEY));
                         httpPost.setApp_sign(Util.encode(BaseCom.APP_PWD + gson.toJson(postCode) + BaseCom.APP_PWD));
                         httpPost.setParameter(postCode);
-                        Log.d("shijia", gson.toJson(httpPost));
                         new AdminHttp().getCode(AdminRequest.getCode(dialog), httpPost);
+                        tvSuccessTip.setVisibility(View.VISIBLE);
                     }
                 }), httpPost);
             }
@@ -136,6 +140,7 @@ public class NumberVerificationActivity extends BaseActivity {
                     new AdminHttp().verifyCaptcha(AdminRequest.verifyCaptcha(NumberVerificationActivity.this, dialog, new SuccessNull() {
                         @Override
                         public void onSuccess() {
+                            tvSuccessTip.setVisibility(View.INVISIBLE);
                             gotoActy(MainNewActivity.class);
                             AppManager.getAppManager().finishAllActivity();
                         }

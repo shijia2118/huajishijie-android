@@ -375,7 +375,7 @@ public class LoginActivity extends BaseActivity implements SuccessNull {
                         LogUtils.setAppendFile("startActivity1:" + from);
                         //如果不需要工号实名认证的话,先进行定位验证,通过后,再进行短信验证.
                         Intent intent2 = new Intent(LoginActivity.this,NumberVerificationActivity.class);
-                        intent2.putExtra("phone", "13116770003");
+                        intent2.putExtra("phone", _requestLoginHttpRequest.getData().getTel());
                         startActivity(intent2);
 //                        gotoActy(MainNewActivity.class);
 //                        AppManager.getAppManager().finishActivity();

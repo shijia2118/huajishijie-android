@@ -1,7 +1,6 @@
 package com.test.tworldapplication.activity.main;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -334,7 +333,7 @@ public class LoginActivity extends BaseActivity implements SuccessNull {
                     if (from == null || from.equals("1")) {
                         Log.d("ddd", "3");
                         LogUtils.setAppendFile("startActivity1:" + from);
-                        //如果不需要工号实名认证的话,先进行定位验证,通过后,再进行短信验证.
+                        //短信验证.
                         Intent intent2 = new Intent(LoginActivity.this,NumberVerificationActivity.class);
                         intent2.putExtra("phone", _requestLoginHttpRequest.getData().getTel());
                         if (_requestLoginHttpRequest != null && _requestLoginHttpRequest.getData() != null) {

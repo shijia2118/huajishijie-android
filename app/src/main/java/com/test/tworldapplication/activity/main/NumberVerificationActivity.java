@@ -3,7 +3,6 @@ package com.test.tworldapplication.activity.main;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -92,24 +91,21 @@ public class NumberVerificationActivity extends BaseActivity {
             httpPost.setApp_key(Util.encode(BaseCom.APP_KEY));
             httpPost.setParameter(postNumberCheck);
             httpPost.setApp_sign(Util.encode(BaseCom.APP_PWD + gson.toJson(postNumberCheck) + BaseCom.APP_PWD));
-            new OtherHttp().numberCheck(OtherRequest.numberCheck(NumberVerificationActivity.this, dialog, new SuccessNull() {
-                @Override
-                public void onSuccess() {
-                    dialog.getTvTitle().setText("正在获取验证码");
-                    dialog.show();
-                    CountDownTimerUtils mCountDownTimerUtils = new CountDownTimerUtils(tvGetCode, 60000, 1000);
-                    mCountDownTimerUtils.start();
-                    HttpPost<PostCode> httpPost = new HttpPost<PostCode>();
-                    PostCode postCode = new PostCode();
-                    postCode.setTel(phone);
-                    postCode.setCaptcha_type("6");
-                    postCode.setSession_token(Util.getLocalAdmin(NumberVerificationActivity.this)[0]);
-                    httpPost.setApp_key(Util.encode(BaseCom.APP_KEY));
-                    httpPost.setApp_sign(Util.encode(BaseCom.APP_PWD + gson.toJson(postCode) + BaseCom.APP_PWD));
-                    httpPost.setParameter(postCode);
-                    new AdminHttp().getCode(AdminRequest.getCode(dialog), httpPost);
-                    tvSuccessTip.setVisibility(View.VISIBLE);
-                }
+            new OtherHttp().numberCheck(OtherRequest.numberCheck(NumberVerificationActivity.this, dialog, () -> {
+                dialog.getTvTitle().setText("正在获取验证码");
+                dialog.show();
+                CountDownTimerUtils mCountDownTimerUtils = new CountDownTimerUtils(tvGetCode, 60000, 1000);
+                mCountDownTimerUtils.start();
+                HttpPost<PostCode> httpPost1 = new HttpPost<>();
+                PostCode postCode = new PostCode();
+                postCode.setTel(phone);
+                postCode.setCaptcha_type("6");
+                postCode.setSession_token(Util.getLocalAdmin(NumberVerificationActivity.this)[0]);
+                httpPost1.setApp_key(Util.encode(BaseCom.APP_KEY));
+                httpPost1.setApp_sign(Util.encode(BaseCom.APP_PWD + gson.toJson(postCode) + BaseCom.APP_PWD));
+                httpPost1.setParameter(postCode);
+                new AdminHttp().getCode(AdminRequest.getCode(dialog), httpPost1);
+                tvSuccessTip.setVisibility(View.VISIBLE);
             }), httpPost);
         }
     }

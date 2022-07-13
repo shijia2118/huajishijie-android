@@ -38,9 +38,7 @@
                 android:id="@+id/phone_num"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:maxLength="11"
-               />
+                android:layout_marginStart="6dp" />
         </LinearLayout>
 
         <View
@@ -81,6 +79,17 @@
                 android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvSuccessTip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="您好，已向您工号实名绑定的手机号发送验证码，请进行验证。"
+        android:textColor="@color/appColor"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="5dp"
+        android:textSize="12sp"
+        android:visibility="invisible"/>
 
     <TextView
         android:id="@+id/tvLogin"

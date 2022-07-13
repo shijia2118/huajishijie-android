@@ -1,19 +1,11 @@
 package com.test.tworldapplication.activity.main;
 
 import android.Manifest;
-import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
-import android.location.LocationManager;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,8 +14,6 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,27 +25,12 @@ import com.alibaba.sdk.android.oss.internal.OSSAsyncTask;
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.alibaba.sdk.android.oss.model.PutObjectResult;
 import com.google.gson.Gson;
-import com.luck.picture.lib.PictureSelector;
-import com.luck.picture.lib.config.PictureConfig;
-import com.luck.picture.lib.config.PictureMimeType;
-import com.luck.picture.lib.entity.LocalMedia;
-import com.luck.picture.lib.rxbus2.RxUtils;
-import com.luck.picture.lib.tools.ToastUtils;
-import com.test.tworldapplication.BuildConfig;
 import com.test.tworldapplication.R;
-import com.test.tworldapplication.activity.SplashActivity;
-import com.test.tworldapplication.activity.TestOrcActivity;
-import com.test.tworldapplication.activity.admin.WriteInActivity;
 import com.test.tworldapplication.activity.admin.WriteInNewActivity;
-import com.test.tworldapplication.activity.card.MessageCollectionNewActivity;
-import com.test.tworldapplication.activity.order.OrderBkDetailActivity;
 import com.test.tworldapplication.base.BaseActivity;
 import com.test.tworldapplication.base.BaseCom;
 import com.test.tworldapplication.base.MyApplication;
 import com.test.tworldapplication.base.OSSConfig;
-import com.test.tworldapplication.entity.Admin;
-import com.test.tworldapplication.entity.Area;
-import com.test.tworldapplication.entity.City;
 import com.test.tworldapplication.entity.HttpRequest;
 import com.test.tworldapplication.entity.JudgeLocationResponse;
 import com.test.tworldapplication.entity.MessageEvent;
@@ -63,30 +38,18 @@ import com.test.tworldapplication.entity.PostLocationEntity;
 import com.test.tworldapplication.entity.PostLogin;
 import com.test.tworldapplication.entity.HttpPost;
 import com.test.tworldapplication.entity.PostOpenPower;
-import com.test.tworldapplication.entity.PostRemarkOrderInfo;
-import com.test.tworldapplication.entity.Province;
 import com.test.tworldapplication.entity.RequestLogin;
 import com.test.tworldapplication.http.AdminHttp;
-import com.test.tworldapplication.http.AdminRequest;
 import com.test.tworldapplication.http.OrderHttp;
-import com.test.tworldapplication.http.OrderRequest;
 import com.test.tworldapplication.inter.SuccessNull;
-import com.test.tworldapplication.utils.BaseUtils;
-import com.test.tworldapplication.utils.BitmapUtil;
-import com.test.tworldapplication.utils.DisplayUtil;
 import com.test.tworldapplication.utils.FileLogUtils;
 import com.test.tworldapplication.utils.LocationHelper;
 import com.test.tworldapplication.utils.LogUtils;
-import com.test.tworldapplication.utils.SPUtil;
 import com.test.tworldapplication.utils.Util;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.util.HashMap;
-import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -101,9 +64,6 @@ import permissions.dispatcher.OnPermissionDenied;
 import permissions.dispatcher.RuntimePermissions;
 import rx.Subscriber;
 import wintone.passport.sdk.utils.AppManager;
-import wintone.passport.sdk.utils.CheckPermission;
-import wintone.passport.sdk.utils.PermissionActivity;
-import wintone.passport.sdk.utils.SharedPreferencesHelper;
 
 @RuntimePermissions
 public class LoginActivity extends BaseActivity implements SuccessNull {
@@ -373,11 +333,11 @@ public class LoginActivity extends BaseActivity implements SuccessNull {
                     if (from == null || from.equals("1")) {
                         Log.d("ddd", "3");
                         LogUtils.setAppendFile("startActivity1:" + from);
-                        //如果不需要工号实名认证的话,先进行定位验证,通过后,再进行短信验证.
+                        //短信验证.
                         Intent intent2 = new Intent(LoginActivity.this,NumberVerificationActivity.class);
                         intent2.putExtra("phone", _requestLoginHttpRequest.getData().getTel());
                         if (_requestLoginHttpRequest != null && _requestLoginHttpRequest.getData() != null) {
-                            intent2.putExtra("data", _requestLoginHttpRequest.getData());
+                            intent2.putExtra("data", _requestLoginHttpRequest.getData().getGrade());
                         }
                         startActivity(intent2);
 //                        gotoActy(MainNewActivity.class);

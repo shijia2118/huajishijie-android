@@ -20,7 +20,7 @@ public class AgreementActivity extends BaseActivity {
         setContentView(R.layout.activity_agreement);
         ButterKnife.bind(this);
         setBackGroundTitle("开户协议", true);
-        imageView.setImage(ImageSource.resource(R.drawable.agreement));
+        imageView.setImage(ImageSource.resource(R.drawable.agreement_new));
         imageView.setScaleAndCenter(1.0f, new PointF(0f, 0f));
         imageView.setMinScale(1.0F);
         imageView.setMaxScale(10.0F);

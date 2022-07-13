@@ -129,13 +129,15 @@
             android:paddingBottom="20dp"
             android:text="点击注册"
             android:textColor="@color/colorOrange"
-            android:textSize="14dp" />
+            android:textSize="14dp"
+            android:visibility="gone"/>
 
         <View
             android:layout_width="1dp"
             android:layout_height="15dp"
             android:layout_gravity="center_vertical"
-            android:background="@color/colorOrange" />
+            android:background="@color/colorOrange"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/tvForget"
@@ -147,7 +149,8 @@
             android:paddingBottom="20dp"
             android:text="忘记密码?"
             android:textColor="@color/colorOrange"
-            android:textSize="14dp" />
+            android:textSize="14dp"
+            android:visibility="gone"/>
     </LinearLayout>
 
 

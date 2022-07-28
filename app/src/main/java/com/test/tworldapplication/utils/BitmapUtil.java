@@ -534,6 +534,14 @@ public class BitmapUtil {
                 src.getHeight() - watermark.getHeight() - dp2px(context, paddingBottom));
     }
 
+    public static Bitmap createWaterMaskLeftBottom(
+            Context context, Bitmap src, Bitmap watermark,
+            int paddingLeft, int paddingBottom) {
+        return createWaterMaskBitmap(src, watermark,
+                dp2px(context, paddingLeft),
+                src.getHeight() - watermark.getHeight() - dp2px(context, paddingBottom));
+    }
+
 
     private static Bitmap createWaterMaskBitmap(Bitmap src, Bitmap watermark,
                                                 int paddingLeft, int paddingTop) {

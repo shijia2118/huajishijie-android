@@ -243,8 +243,10 @@ public class AccountClosingActivity extends BaseActivity {
         ImageOptions imageOptions = new ImageOptions.Builder()
                 .setPlaceholderScaleType(ImageView.ScaleType.FIT_CENTER)
                 .setImageScaleType(ImageView.ScaleType.FIT_CENTER)
-                .setLoadingDrawableId(R.mipmap.agreement12)
-                .setFailureDrawableId(R.mipmap.agreement12)
+//                .setLoadingDrawableId(R.mipmap.agreement12)
+//                .setFailureDrawableId(R.mipmap.agreement12)
+                .setLoadingDrawableId(R.mipmap.agreement_new2)
+                .setFailureDrawableId(R.mipmap.agreement_new2)
                 .setUseMemCache(true)
                 .setIgnoreGif(false)
                 .build();
@@ -346,8 +348,10 @@ public class AccountClosingActivity extends BaseActivity {
                         ImageOptions imageOptions = new ImageOptions.Builder()
                                 .setPlaceholderScaleType(ImageView.ScaleType.FIT_CENTER)
                                 .setImageScaleType(ImageView.ScaleType.FIT_CENTER)
-                                .setLoadingDrawableId(R.mipmap.agreement11)
-                                .setFailureDrawableId(R.mipmap.agreement11)
+//                                .setLoadingDrawableId(R.mipmap.agreement11)
+//                                .setFailureDrawableId(R.mipmap.agreement11)
+                                .setLoadingDrawableId(R.mipmap.agreement_new1)
+                                .setFailureDrawableId(R.mipmap.agreement_new1)
                                 .setUseMemCache(true)
                                 .setIgnoreGif(false)
                                 .build();
@@ -539,13 +543,18 @@ public class AccountClosingActivity extends BaseActivity {
         matrix.postScale(0.1f, 0.1f); //长和宽放大缩小的比例
 // ((BitmapDrawable) xy.getDrawable()).getBitmap()
         Bitmap resizeBmp = Bitmap.createBitmap(bitmapSign, 0, 0, bitmapSign.getWidth(), bitmapSign.getHeight(), matrix, true);
-        Bitmap resourceBmp = BitmapFactory.decodeResource(getResources(), R.mipmap.agreement12);
-        bitmapTerminate = BitmapUtil.createWaterMaskRightBottom(this, resourceBmp
-                , resizeBmp, 45, 42);
+//        Bitmap resourceBmp = BitmapFactory.decodeResource(getResources(), R.mipmap.agreement12);
+        Bitmap resourceBmp = BitmapFactory.decodeResource(getResources(), R.mipmap.agreement_new2);
+
+//        bitmapTerminate = BitmapUtil.createWaterMaskRightBottom(this, resourceBmp
+//                , resizeBmp, 45, 42);
+        bitmapTerminate = BitmapUtil.createWaterMaskLeftBottom(this,resourceBmp,resizeBmp,70,65);
         SimpleDateFormat format = new SimpleDateFormat("yyyy  MM  dd", Locale.CHINESE);
         Date date = Calendar.getInstance().getTime();
+//        bitmapTerminate = BitmapUtil.drawTextToLeftBottom(this, bitmapTerminate, format.format(date),
+//                4, Color.BLACK, 20, 13);
         bitmapTerminate = BitmapUtil.drawTextToLeftBottom(this, bitmapTerminate, format.format(date),
-                4, Color.BLACK, 20, 13);
+                4, Color.BLACK, 60, 13);
 
         //     File file = new File(Environment.getExternalStorageDirectory(), "bm2.png");
 

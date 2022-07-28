@@ -67,6 +67,7 @@ import com.test.tworldapplication.http.OtherRequest;
 import com.test.tworldapplication.inter.SuccessNull;
 import com.test.tworldapplication.inter.SuccessValue;
 import com.test.tworldapplication.utils.BaseUtils;
+import com.test.tworldapplication.utils.EventBusCarrier;
 import com.test.tworldapplication.utils.FileLogUtils;
 import com.test.tworldapplication.utils.LocationHelper;
 import com.test.tworldapplication.utils.LogUtils;
@@ -268,6 +269,10 @@ public class MainNewActivity extends BaseActivity {
                 }
 
                 break;
+            case MessageEvent.BACK_TO_HOME:
+                viewPager.setCurrentItem(0);
+                break;
+
         }
     }
 
@@ -686,4 +691,5 @@ public class MainNewActivity extends BaseActivity {
         imgNew.setVisibility(View.GONE);
         gotoActy(MessageMainActivity.class);
     }
+
 }

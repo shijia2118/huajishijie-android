@@ -6,6 +6,8 @@ public class MessageEvent {
     public static final int START_LOCATE = 10003;
     public static final int STOP_COUNT = 10004;
     public static final int START_COUNT = 10005;
+    public static final int BACK_TO_HOME = 10006;
+
     private int flag;
     private String message;
 

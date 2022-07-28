@@ -8,8 +8,10 @@ import android.widget.TextView;
 
 import com.test.tworldapplication.R;
 import com.test.tworldapplication.activity.home.YewubanliActivity;
+import com.test.tworldapplication.activity.main.MainNewActivity;
 import com.test.tworldapplication.base.BaseActivity;
 import com.test.tworldapplication.entity.Message;
+import com.test.tworldapplication.entity.MessageEvent;
 import com.test.tworldapplication.utils.EventBusCarrier;
 
 import org.greenrobot.eventbus.EventBus;
@@ -113,9 +115,9 @@ public class PayResultActivity extends BaseActivity {
                         gotoActy(NumberRechargeActivity.class);
                         break;
                     case "1":
-                        AppManager.getAppManager().finishActivity(AccountBalanceActivity.class);
+//                        AppManager.getAppManager().finishActivity(AccountBalanceActivity.class);
                         AppManager.getAppManager().finishActivity();
-                        gotoActy(AccountBalanceActivity.class);
+//                        gotoActy(AccountBalanceActivity.class);
                         break;
                 }
 
@@ -132,8 +134,10 @@ public class PayResultActivity extends BaseActivity {
                         EventBus.getDefault().post(carrier);
                         break;
                     case "1":
-                        AppManager.getAppManager().finishActivity(AccountBalanceActivity.class);
-                        AppManager.getAppManager().finishActivity();
+//                        AppManager.getAppManager().finishActivity(AccountBalanceActivity.class);
+//                        AppManager.getAppManager().finishActivity();
+                        AppManager.getAppManager().finishActivityBesides(MainNewActivity.class);
+                        EventBus.getDefault().post(new MessageEvent(MessageEvent.BACK_TO_HOME, ""));
                         break;
                 }
 

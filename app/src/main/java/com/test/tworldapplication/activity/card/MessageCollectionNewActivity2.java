@@ -2368,24 +2368,15 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                 Util.createToast(MessageCollectionNewActivity2.this, "服务器连接失败");
                 break;
             case 1:
-                dialog.dismiss();
-                Util.createToast(MessageCollectionNewActivity2.this, "读卡失败");
-                break;
             case 2:
+            case 4:
+            case -2:
                 dialog.dismiss();
                 Util.createToast(MessageCollectionNewActivity2.this, "读卡失败");
                 break;
             case 3:
                 dialog.dismiss();
                 Util.createToast(MessageCollectionNewActivity2.this, "网络超时");
-                break;
-            case 4:
-                dialog.dismiss();
-                Util.createToast(MessageCollectionNewActivity2.this, "读卡失败");
-                break;
-            case -2:
-                dialog.dismiss();
-                Util.createToast(MessageCollectionNewActivity2.this, "读卡失败");
                 break;
             case 5:
                 dialog.dismiss();

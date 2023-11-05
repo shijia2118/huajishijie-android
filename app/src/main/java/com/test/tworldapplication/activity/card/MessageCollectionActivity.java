@@ -1906,24 +1906,15 @@ public class MessageCollectionActivity extends BaseActivity {
                 Util.createToast(MessageCollectionActivity.this, "服务器连接失败");
                 break;
             case 1:
-                dialog.dismiss();
-                Util.createToast(MessageCollectionActivity.this, "读卡失败");
-                break;
             case 2:
+            case 4:
+            case -2:
                 dialog.dismiss();
                 Util.createToast(MessageCollectionActivity.this, "读卡失败");
                 break;
             case 3:
                 dialog.dismiss();
                 Util.createToast(MessageCollectionActivity.this, "网络超时");
-                break;
-            case 4:
-                dialog.dismiss();
-                Util.createToast(MessageCollectionActivity.this, "读卡失败");
-                break;
-            case -2:
-                dialog.dismiss();
-                Util.createToast(MessageCollectionActivity.this, "读卡失败");
                 break;
             case 5:
                 dialog.dismiss();

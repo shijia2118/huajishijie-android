@@ -12,7 +12,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         ndk {
             // 设置支持的SO库架构
-            abiFilters 'armeabi' //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+            abiFilters 'armeabi' , 'arm64-v8a','armeabi-v7a'//, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
         }
     }
     signingConfigs {
@@ -85,7 +85,7 @@ dependencies {
     api files('libs/ysidcard.jar')
     api files('libs/alipaySdk-20161129.jar')
     api files('libs/xstream-1.4.2.jar')
-    api files('libs/senter180828.jar')
+    api files('libs/STReadCardV2.0.17.jar')
     api 'cn.finalteam:galleryfinal:1.4.8.7'
     api 'com.jude:rollviewpager:1.4.6'
     api 'com.liaoinstan.springview:library:1.6.0'

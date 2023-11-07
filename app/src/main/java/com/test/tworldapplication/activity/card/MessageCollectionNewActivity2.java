@@ -46,13 +46,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.senter.helper.ConsantHelper;
-import cn.com.senter.model.IdentityCardZ;
 import cn.finalteam.galleryfinal.GalleryFinal;
 import cn.finalteam.galleryfinal.model.PhotoInfo;
+
 import com.kernal.passportreader.sdk.CardsCameraActivity;
-import com.kernal.passportreader.sdk.ThreadManager;
 import com.kernal.passportreader.sdk.utils.DefaultPicSavePath;
-import com.kernal.passportreader.sdk.utils.ImportRecog;
 import com.kernal.passportreader.sdk.utils.ManageIDCardRecogResult;
 import com.luck.picture.lib.tools.ToastUtils;
 import com.otg.idcard.OTGReadCardAPI;
@@ -91,10 +89,8 @@ import com.test.tworldapplication.utils.DisplayUtil;
 import com.test.tworldapplication.utils.Util;
 import com.wildma.idcardcamera.camera.IDCardCamera;
 
-import io.reactivex.Flowable;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -102,7 +98,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import kernal.idcard.android.RecogParameterMessage;
 import kernal.idcard.android.RecogService;
@@ -110,12 +105,14 @@ import kernal.idcard.android.ResultMessage;
 import kernal.idcard.camera.CardOcrRecogConfigure;
 import kernal.idcard.camera.IBaseReturnMessage;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import rx.Subscriber;
 import sunrise.bluetooth.SRBluetoothCardReader;
 import wintone.passport.sdk.utils.AppManager;
 import wintone.passport.sdk.utils.Devcode;
 import wintone.passport.sdk.utils.SharedPreferencesHelper;
-import wintone.passportreader.sdk.CameraActivity;
 
 import static com.sunrise.icardreader.helper.ConsantHelper.READ_CARD_FAILED;
 import static com.sunrise.icardreader.helper.ConsantHelper.READ_CARD_SUCCESS;
@@ -2316,6 +2313,40 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
 
     private class BlueReadTask extends AsyncTask<Void, Void, String> {
 
+//        @Override
+//        protected void onPostExecute(String strCardInfo) {
+//            tvCollection.setEnabled(true);
+//
+//            /*读取到的信息是空,提示读取失败*/
+//            if (TextUtils.isEmpty(strCardInfo)) {
+//                handler.sendEmptyMessage(ConsantHelper.READ_CARD_FAILED);
+//                return;
+//            }
+//            /*读取到的信息是空,提示读取失败*/
+//            if (strCardInfo.length() <= 2) {
+//                readCardFailed(strCardInfo);
+//                return;
+//            }
+//
+//            ObjectMapper objectMapper = new ObjectMapper();
+//            IdentityCardZ mIdentityCardZ = new IdentityCardZ();
+//            try {
+//                mIdentityCardZ = (IdentityCardZ) objectMapper.readValue(
+//                        strCardInfo, IdentityCardZ.class);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                Log.e(ConsantHelper.STAGE_LOG, "mIdentityCardZ failed");
+//                return;
+//            }
+//            dialog.dismiss();
+//            /*读卡成功*/
+//            readCardSuccess(mIdentityCardZ);
+//
+//
+//            super.onPostExecute(strCardInfo);
+//
+//        }
+
         @Override
         protected void onPostExecute(String strCardInfo) {
             tvCollection.setEnabled(true);
@@ -2332,25 +2363,10 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
             }
 
             ObjectMapper objectMapper = new ObjectMapper();
-            IdentityCardZ mIdentityCardZ = new IdentityCardZ();
-
-            try {
-                mIdentityCardZ = (IdentityCardZ) objectMapper.readValue(
-                        strCardInfo, IdentityCardZ.class);
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.e(ConsantHelper.STAGE_LOG, "mIdentityCardZ failed");
-//                nfcTask = null;
-
-                return;
-            }
             dialog.dismiss();
             /*读卡成功*/
-            readCardSuccess(mIdentityCardZ);
-
-
+            readCardSuccess(strCardInfo);
             super.onPostExecute(strCardInfo);
-
         }
 
         @Override
@@ -2385,30 +2401,57 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
         }
     }
 
-    private void readCardSuccess(IdentityCardZ identityCard) {
+    private void readCardSuccess(String result) {
+        try {
+            JSONObject  JsonObj = new JSONObject(result);
+            String type = JsonObj.getString("type");
 
-        if (identityCard != null) {
-            etName.setText(identityCard.name.trim());
-            etId.setText(identityCard.cardNo.trim());
-            etAddress.setText(identityCard.address.trim());
+            if(type.equals("Y")){
+                //外国人
+                String enName = JsonObj.getString("enname") + JsonObj.getString("ennameBack");
+                etName.setText(enName.trim());
+                etAddress.setText("中华人民共和国国家移民管理局");
+            } else {
+                String name = JsonObj.getString("name");
+                String address = JsonObj.getString("address");
+                if(name != null) etName.setText(name.trim());
+                if(address != null) etAddress.setText(address.trim());
+            }
+            String cardNo = JsonObj.getString("cardNo");
+            if(cardNo != null) etId.setText(cardNo.trim());
+
             etName.setSelection(etName.getText().toString().length());
             modes = 2;
-            try {
 
-//                bitmap_two = BitmapFactory.decodeByteArray(identityCard.avatar,
-//                        0, identityCard.avatar.length);
-//                imgIdLast.setImageBitmap(bitmap_two);
-//                flag = 2;
-//                state_two = 3;
-//                imgIdLasRemove.setVisibility(View.VISIBLE);
-
-                Log.e(ConsantHelper.STAGE_LOG, "图片成功");
-            } catch (Exception e) {
-                Log.e(ConsantHelper.STAGE_LOG, "图片失败" + e.getMessage());
-            }
-
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
+
+//    private void readCardSuccess(IdentityCardZ identityCard) {
+//
+//        if (identityCard != null) {
+//            etName.setText(identityCard.name.trim());
+//            etId.setText(identityCard.cardNo.trim());
+//            etAddress.setText(identityCard.address.trim());
+//            etName.setSelection(etName.getText().toString().length());
+//            modes = 2;
+//            try {
+//
+////                bitmap_two = BitmapFactory.decodeByteArray(identityCard.avatar,
+////                        0, identityCard.avatar.length);
+////                imgIdLast.setImageBitmap(bitmap_two);
+////                flag = 2;
+////                state_two = 3;
+////                imgIdLasRemove.setVisibility(View.VISIBLE);
+//
+//                Log.e(ConsantHelper.STAGE_LOG, "图片成功");
+//            } catch (Exception e) {
+//                Log.e(ConsantHelper.STAGE_LOG, "图片失败" + e.getMessage());
+//            }
+//
+//        }
+//    }
 
     Handler handler = new Handler() {
         @Override

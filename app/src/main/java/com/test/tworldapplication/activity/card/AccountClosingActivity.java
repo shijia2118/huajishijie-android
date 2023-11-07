@@ -647,35 +647,74 @@ public class AccountClosingActivity extends BaseActivity {
                 }
             }
 
-            HttpPost<PostPictureUpload> httpPost2 = new HttpPost<>();
-            PostPictureUpload postPictureUpload2 = new PostPictureUpload();
-            postPictureUpload2.setSession_token(Util.getLocalAdmin(AccountClosingActivity.this)[0]);
-            postPictureUpload2.setType(type);
-            final Photo photo2 = new Photo();
 
             if (face.equals("1")) {
+
+                HttpPost<PostPictureUpload> httpPost2 = new HttpPost<>();
+                PostPictureUpload postPictureUpload2 = new PostPictureUpload();
+                postPictureUpload2.setSession_token(Util.getLocalAdmin(AccountClosingActivity.this)[0]);
+                postPictureUpload2.setType(type);
+                final Photo photo2 = new Photo();
+
                 photo2.setPhoto1(BitmapUtil.bitmapToBase64(videoPicOne));
                 photo2.setPhoto2(BitmapUtil.bitmapToBase64X(videoPicTwo));
-            }
-            httpPost2.setPhoto(photo2);
-            httpPost2.setApp_key(Util.encode(BaseCom.APP_KEY));
-            httpPost2.setParameter(postPictureUpload2);
-            httpPost2.setApp_sign(Util.encode(BaseCom.APP_PWD + gson.toJson(postPictureUpload2) + BaseCom.APP_PWD));
 
-            new OtherHttp().pictureUpload(new OtherRequest().pictureUpload(AccountClosingActivity.this, null, value2 -> {
-                for(int i=1;i<=2;i++){
-                    switch (i){
-                        case 1:
-                            if(value2.getPhoto1()!=null)   imgMap.put(Constants.VIDEOPICONE,value2.getPhoto1());
-                            break;
-                        case 2:
-                            if(value2.getPhoto2()!=null) imgMap.put(Constants.VIDEOPICTWO,value2.getPhoto2());
-                            break;
+                httpPost2.setPhoto(photo2);
+                httpPost2.setApp_key(Util.encode(BaseCom.APP_KEY));
+                httpPost2.setParameter(postPictureUpload2);
+                httpPost2.setApp_sign(Util.encode(BaseCom.APP_PWD + gson.toJson(postPictureUpload2) + BaseCom.APP_PWD));
+
+                new OtherHttp().pictureUpload(new OtherRequest().pictureUpload(AccountClosingActivity.this, null, value2 -> {
+                    for(int i=1;i<=2;i++){
+                        switch (i){
+                            case 1:
+                                if(value2.getPhoto1()!=null)   imgMap.put(Constants.VIDEOPICONE,value2.getPhoto1());
+                                break;
+                            case 2:
+                                if(value2.getPhoto2()!=null) imgMap.put(Constants.VIDEOPICTWO,value2.getPhoto2());
+                                break;
+                        }
                     }
-                }
-                dialog.dismiss();
-            finalUpload();
-            }), httpPost2);
+                    dialog.dismiss();
+                    finalUpload();
+                }), httpPost2);
+            }else{
+                finalUpload();
+            }
+
+
+
+            // 2023.11.07 成卡普通开户，最后一步开户时，卡住。接口agency_pictureUpload报参数错误。
+            // 原因是只有在人脸识别下，才需要二次请求。
+//            HttpPost<PostPictureUpload> httpPost2 = new HttpPost<>();
+//            PostPictureUpload postPictureUpload2 = new PostPictureUpload();
+//            postPictureUpload2.setSession_token(Util.getLocalAdmin(AccountClosingActivity.this)[0]);
+//            postPictureUpload2.setType(type);
+//            final Photo photo2 = new Photo();
+//
+//            if (face.equals("1")) {
+//                photo2.setPhoto1(BitmapUtil.bitmapToBase64(videoPicOne));
+//                photo2.setPhoto2(BitmapUtil.bitmapToBase64X(videoPicTwo));
+//            }
+//            httpPost2.setPhoto(photo2);
+//            httpPost2.setApp_key(Util.encode(BaseCom.APP_KEY));
+//            httpPost2.setParameter(postPictureUpload2);
+//            httpPost2.setApp_sign(Util.encode(BaseCom.APP_PWD + gson.toJson(postPictureUpload2) + BaseCom.APP_PWD));
+//
+//            new OtherHttp().pictureUpload(new OtherRequest().pictureUpload(AccountClosingActivity.this, null, value2 -> {
+//                for(int i=1;i<=2;i++){
+//                    switch (i){
+//                        case 1:
+//                            if(value2.getPhoto1()!=null)   imgMap.put(Constants.VIDEOPICONE,value2.getPhoto1());
+//                            break;
+//                        case 2:
+//                            if(value2.getPhoto2()!=null) imgMap.put(Constants.VIDEOPICTWO,value2.getPhoto2());
+//                            break;
+//                    }
+//                }
+//                dialog.dismiss();
+//            finalUpload();
+//            }), httpPost2);
         }), httpPost);
 
 //        totalPic = 0;

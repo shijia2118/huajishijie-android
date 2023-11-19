@@ -6,8 +6,8 @@ android {
         applicationId "com.test.tworldapplication"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 41
-        versionName "4.9.5"
+        versionCode 44
+        versionName "4.9.4"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         ndk {

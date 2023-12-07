@@ -84,6 +84,7 @@ dependencies {
     api files('libs/plkbluetoothlesdk.jar')
     api files('libs/ysidcard.jar')
     api files('libs/alipaySdk-20161129.jar')
+    api files('libs/ocrsdk.aar')
     api files('libs/xstream-1.4.2.jar')
     api files('libs/STReadCardV2.0.17.jar')
     api 'cn.finalteam:galleryfinal:1.4.8.7'

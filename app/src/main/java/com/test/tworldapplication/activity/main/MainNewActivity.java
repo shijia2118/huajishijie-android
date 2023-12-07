@@ -35,6 +35,10 @@ import com.alibaba.sdk.android.oss.callback.OSSProgressCallback;
 import com.alibaba.sdk.android.oss.internal.OSSAsyncTask;
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.alibaba.sdk.android.oss.model.PutObjectResult;
+import com.baidu.ocr.sdk.OCR;
+import com.baidu.ocr.sdk.OnResultListener;
+import com.baidu.ocr.sdk.exception.OCRError;
+import com.baidu.ocr.sdk.model.AccessToken;
 import com.luck.picture.lib.rxbus2.RxUtils;
 import com.test.tworldapplication.R;
 import com.test.tworldapplication.activity.account.AccountMainFragment;
@@ -424,6 +428,25 @@ public class MainNewActivity extends BaseActivity {
         Util.checkCount();
         uploadLog();
 
+        initAccessToken();
+
+    }
+
+    /**
+     * 以license文件方式初始化
+     */
+    private void initAccessToken() {
+        OCR.getInstance(getApplicationContext()).initAccessToken(new OnResultListener<AccessToken>() {
+            @Override
+            public void onResult(AccessToken accessToken) {
+                String token = accessToken.getAccessToken();
+            }
+
+            @Override
+            public void onError(OCRError error) {
+                error.printStackTrace();
+            }
+        }, getApplicationContext());
     }
 
     private void uploadLog() {

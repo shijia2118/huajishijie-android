@@ -49,6 +49,11 @@ import cn.com.senter.helper.ConsantHelper;
 import cn.finalteam.galleryfinal.GalleryFinal;
 import cn.finalteam.galleryfinal.model.PhotoInfo;
 
+import com.baidu.ocr.sdk.OCR;
+import com.baidu.ocr.sdk.OnResultListener;
+import com.baidu.ocr.sdk.exception.OCRError;
+import com.baidu.ocr.sdk.model.IDCardParams;
+import com.baidu.ocr.sdk.model.IDCardResult;
 import com.kernal.passportreader.sdk.CardsCameraActivity;
 import com.kernal.passportreader.sdk.utils.DefaultPicSavePath;
 import com.kernal.passportreader.sdk.utils.ManageIDCardRecogResult;
@@ -2553,13 +2558,15 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                     if (indextime < 1) {
                         dialog.getTvTitle().setText("正在扫描,请稍后");
                         dialog.show();
-                        RecogService.nMainID = SharedPreferencesHelper.getInt(
-                                getApplicationContext(), "nMainId", 2);
-                        RecogService.isRecogByPath = true;
-                        Intent recogIntent = new Intent(MessageCollectionNewActivity2.this,
-                                RecogService.class);
+//                        RecogService.nMainID = SharedPreferencesHelper.getInt(
+//                                getApplicationContext(), "nMainId", 2);
+//                        RecogService.isRecogByPath = true;
+//                        Intent recogIntent = new Intent(MessageCollectionNewActivity2.this,
+//                                RecogService.class);
+//
+//                        bindService(recogIntent, recogConn, Service.BIND_AUTO_CREATE);
 
-                        bindService(recogIntent, recogConn, Service.BIND_AUTO_CREATE);
+                        recIDCard(IDCardParams.ID_CARD_SIDE_FRONT,handleUri);
 
                         Log.d("mmm", indextime + "");
                         indextime++;
@@ -2571,6 +2578,37 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
             }
         }
     };
+
+    private void recIDCard(String idCardSide, String filePath) {
+        IDCardParams param = new IDCardParams();
+        param.setImageFile(new File(filePath));
+        // 设置身份证正反面
+        param.setIdCardSide(idCardSide);
+        // 设置方向检测
+        param.setDetectDirection(true);
+        // 设置图像参数压缩质量0-100, 越大图像质量越好但是请求时间越长。 不设置则默认值为20
+        param.setImageQuality(20);
+
+        param.setDetectRisk(true);
+
+        OCR.getInstance(this).recognizeIDCard(param, new OnResultListener<IDCardResult>() {
+            @Override
+            public void onResult(IDCardResult result) {
+                if (result != null) {
+//                    alertText("", result.toString());
+                    Util.createToast(MessageCollectionNewActivity2.this,  result.toString());
+                    dialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onError(OCRError error) {
+//                alertText("", error.getMessage());
+                Util.createToast(MessageCollectionNewActivity2.this, error.getMessage());
+                dialog.dismiss();
+            }
+        });
+    }
 
 
     /**

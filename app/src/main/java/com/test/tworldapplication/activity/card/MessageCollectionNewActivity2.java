@@ -2558,17 +2558,9 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                     if (indextime < 1) {
                         dialog.getTvTitle().setText("正在扫描,请稍后");
                         dialog.show();
-//                        RecogService.nMainID = SharedPreferencesHelper.getInt(
-//                                getApplicationContext(), "nMainId", 2);
-//                        RecogService.isRecogByPath = true;
-//                        Intent recogIntent = new Intent(MessageCollectionNewActivity2.this,
-//                                RecogService.class);
-//
-//                        bindService(recogIntent, recogConn, Service.BIND_AUTO_CREATE);
 
                         recIDCard(IDCardParams.ID_CARD_SIDE_FRONT,handleUri);
 
-                        Log.d("mmm", indextime + "");
                         indextime++;
                     }
                     break;
@@ -2579,6 +2571,11 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
         }
     };
 
+    /**
+     * 扫描身份证图片
+     * @param idCardSide
+     * @param filePath
+     */
     private void recIDCard(String idCardSide, String filePath) {
         IDCardParams param = new IDCardParams();
         param.setImageFile(new File(filePath));
@@ -2594,22 +2591,118 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
         OCR.getInstance(this).recognizeIDCard(param, new OnResultListener<IDCardResult>() {
             @Override
             public void onResult(IDCardResult result) {
-                if (result != null) {
-//                    alertText("", result.toString());
-                    Util.createToast(MessageCollectionNewActivity2.this,  result.toString());
-                    dialog.dismiss();
-                }
+                onScanResult(result);
             }
 
             @Override
             public void onError(OCRError error) {
-//                alertText("", error.getMessage());
                 Util.createToast(MessageCollectionNewActivity2.this, error.getMessage());
+                flag = 2;
+                etName.setText("");
+                etId.setText("");
+                etAddress.setText("");
+                etRemark.setText("");
+                showPic0(null);
+                imgIdLast.setImageResource(R.mipmap.firstid);
+
+                indextime = 0;
+
                 dialog.dismiss();
             }
         });
     }
 
+    /**
+     * 证件OCR扫描结果处理
+     * @param result
+     */
+    private void onScanResult(IDCardResult result){
+        if(result == null) return;
+
+        flag = 2;
+        dialog.dismiss();
+
+        String imageStatus = result.getImageStatus();
+        String riskType = result.getRiskType();
+        if(imageStatus.equals("normal") && riskType.equals("normal")){
+            etName.setText(result.getName().getWords());
+            etAddress.setText(result.getAddress().getWords());
+            etId.setText(result.getIdNumber().getWords());
+        } else {
+            String errorMsg =  imageStatusException(imageStatus);
+            if(errorMsg.isEmpty()){
+              errorMsg = riskTypeException(riskType);
+            }
+            if(!errorMsg.isEmpty()){
+                Util.createToast(MessageCollectionNewActivity2.this, errorMsg);
+            }
+
+            etName.setText("");
+            etId.setText("");
+            etAddress.setText("");
+            etRemark.setText("");
+            showPic0(null);
+            imgIdLast.setImageResource(R.mipmap.firstid);
+            indextime = 0;
+        }
+    }
+
+    /**
+     * ImageStatus异常情况处理
+     * @param imageStatus:
+     * @return: errorMsg
+     */
+    private String imageStatusException(String imageStatus){
+        String errorMsg = "";
+        switch (imageStatus) {
+            case "reversed_side":
+                errorMsg = "身份证正反面颠倒";
+                break;
+            case "non_idcard":
+                errorMsg = "上传的图片中不包含身份证";
+                break;
+            case "blurred":
+                errorMsg = "身份证模糊";
+                break;
+            case "other_type_card":
+                errorMsg = "证件类型错误";
+                break;
+            case "over_exposure":
+                errorMsg = "身份证关键字段反光或过曝";
+                break;
+            case "over_dark":
+                errorMsg = "身份证欠曝（亮度过低";
+                break;
+            case "unknown":
+                errorMsg = "未知状态";
+                break;
+        }
+        return errorMsg;
+    }
+
+    /**
+     * RiskType异常情况处理
+     * @param riskType:
+     * @return: errorMsg
+     */
+    private String riskTypeException(String riskType){
+        String errorMsg = "";
+        switch (riskType) {
+            case "copy":
+                errorMsg = "身份证复印件无效";
+                break;
+            case "temporary":
+                errorMsg = "临时身份证无效";
+                break;
+            case "screen":
+                errorMsg = "身份证翻拍无效";
+                break;
+            case "unknown":
+                errorMsg = "未知状态";
+                break;
+        }
+        return errorMsg;
+    }
 
     /**
      * 复制单个文件

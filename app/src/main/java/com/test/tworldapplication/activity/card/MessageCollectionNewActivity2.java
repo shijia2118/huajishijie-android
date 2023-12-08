@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -52,8 +53,11 @@ import cn.finalteam.galleryfinal.model.PhotoInfo;
 import com.baidu.ocr.sdk.OCR;
 import com.baidu.ocr.sdk.OnResultListener;
 import com.baidu.ocr.sdk.exception.OCRError;
+import com.baidu.ocr.sdk.model.AccessToken;
 import com.baidu.ocr.sdk.model.IDCardParams;
 import com.baidu.ocr.sdk.model.IDCardResult;
+import com.baidu.ocr.ui.camera.CameraActivity;
+import com.baidu.ocr.ui.camera.CameraNativeHelper;
 import com.kernal.passportreader.sdk.CardsCameraActivity;
 import com.kernal.passportreader.sdk.utils.DefaultPicSavePath;
 import com.kernal.passportreader.sdk.utils.ManageIDCardRecogResult;
@@ -91,6 +95,7 @@ import com.test.tworldapplication.utils.BitmapUtil;
 import com.test.tworldapplication.utils.BlueReaderHelper;
 import com.test.tworldapplication.utils.DialogManager;
 import com.test.tworldapplication.utils.DisplayUtil;
+import com.test.tworldapplication.utils.FileUtils;
 import com.test.tworldapplication.utils.Util;
 import com.wildma.idcardcamera.camera.IDCardCamera;
 
@@ -248,6 +253,8 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
 
     private int modes;
 
+    private boolean hasGotToken = false;
+
     String face = "";
     /*0成卡,获取传递过来的三个参数 点击获取信息按钮,先获取本地设备信息,判断蓝牙是否开启,未开启去开启蓝牙,若无蓝牙信息跳到选择蓝牙设备界面,选择之后回调,将蓝牙地址存本地。若已开启,若无蓝牙设备信息,选择设备存本地。蓝牙开启也有设备信息,提示设备信息,根据信息判断读取哪个设备,开始读取数据*/
     /*读取数据成功之后,将身份证图片存为bm_card,选择的图片存为bitmap_zero,与Package,Promotion,RequestCheck,以及身份证信息传递到提交页面*/
@@ -264,6 +271,8 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_collection2);
 
+        initAccessToken();//以license文件方式初始化百度OCR
+
         SharedPreferences sharedPreferences0 = getSharedPreferences("mySP", Context.MODE_PRIVATE);
         modes = sharedPreferences0.getInt("modes", -1);
         readModesTwo = sharedPreferences0.getInt( "readModesTwo", -1 );
@@ -274,8 +283,6 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
         } else if (modes == 3) {
 
         }
-
-
 
         ButterKnife.bind(this);
         setBackGroundTitle("信息采集", true);
@@ -521,6 +528,31 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
 
     }
 
+
+    @Override
+    protected void onDestroy() {
+        // 释放本地质量控制模型
+        CameraNativeHelper.release();
+        super.onDestroy();
+    }
+
+    /**
+     * 以license文件方式初始化
+     */
+    private void initAccessToken() {
+        OCR.getInstance(getApplicationContext()).initAccessToken(new OnResultListener<AccessToken>() {
+            @Override
+            public void onResult(AccessToken accessToken) {
+                hasGotToken = true;
+            }
+
+            @Override
+            public void onError(OCRError error) {
+                error.printStackTrace();
+            }
+        }, getApplicationContext());
+    }
+
     private GalleryFinal.OnHanlderResultCallback mOnHanlderResultCallback = new GalleryFinal.OnHanlderResultCallback() {
 
         @Override
@@ -649,33 +681,46 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
     }
 
     public  void showCamera(int requestCode) {
+
+        if (!checkTokenStatus()) {
+            return;
+        }
+
         tempFile = null;
-        CardOcrRecogConfigure.getInstance()
-            .initLanguage(getApplicationContext())
-            .setSaveCut(true)
-            .setOpenIDCopyFuction(true)
-            .setnMainId(kernal.idcard.camera.SharedPreferencesHelper.getInt(
-                getApplicationContext(), "nMainId", 2))
-            .setnSubID( kernal.idcard.camera.SharedPreferencesHelper.getInt(
-                getApplicationContext(), "nSubID", 0))
-            .setFlag(0)
-            .setnCropType(0)
-            .setSavePath(new DefaultPicSavePath(this,true));
-        Intent intent=new Intent(this,CardsCameraActivity.class);
+
+        Intent intent = new Intent(MessageCollectionNewActivity2.this, CameraActivity.class);
+        intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH,
+                FileUtils.getSaveFile(getApplication()).getAbsolutePath());
+        intent.putExtra(CameraActivity.KEY_NATIVE_ENABLE,
+                true);
+        // KEY_NATIVE_MANUAL设置了之后CameraActivity中不再自动初始化和释放模型
+        // 请手动使用CameraNativeHelper初始化和释放模型
+        // 推荐这样做，可以避免一些activity切换导致的不必要的异常
+        intent.putExtra(CameraActivity.KEY_NATIVE_MANUAL,
+                true);
+        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_ID_CARD_FRONT);
         startActivityForResult(intent, requestCode);
-        //Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        //Uri uri;
-        //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        //    String authority = activity.getPackageName() + ".fileprovider"; //【清单文件中provider的authorities属性的值】
-        //    Log.d("xxx", authority);
-        //    Log.d("xxx", file.getName());
-        //    uri = FileProvider.getUriForFile(activity, authority, file);
-        //} else {
-        //    uri = Uri.fromFile(file);
-        //}
-        //Log.i("bqt", "【uri】" + uri);//【content://{$authority}/files/bqt/temp】或【file:///storage/emulated/0/bqt/temp】
-        //intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-        //activity.startActivityForResult(intent, requestCode);
+
+//        CardOcrRecogConfigure.getInstance()
+//            .initLanguage(getApplicationContext())
+//            .setSaveCut(true)
+//            .setOpenIDCopyFuction(true)
+//            .setnMainId(kernal.idcard.camera.SharedPreferencesHelper.getInt(
+//                getApplicationContext(), "nMainId", 2))
+//            .setnSubID( kernal.idcard.camera.SharedPreferencesHelper.getInt(
+//                getApplicationContext(), "nSubID", 0))
+//            .setFlag(0)
+//            .setnCropType(0)
+//            .setSavePath(new DefaultPicSavePath(this,true));
+//        Intent intent=new Intent(this,CardsCameraActivity.class);
+//        startActivityForResult(intent, requestCode);
+    }
+
+    private boolean checkTokenStatus() {
+        if (!hasGotToken) {
+            Toast.makeText(getApplicationContext(), "token还未成功获取", Toast.LENGTH_LONG).show();
+        }
+        return hasGotToken;
     }
 
     private void requestPermission() {
@@ -1850,7 +1895,7 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                 if (resultCode == Activity.RESULT_OK) {
                     Bundle bundle = null;
                     if (data != null) {
-                        bundle=data.getBundleExtra("resultbundle");
+                        bundle=data.getBundleExtra(CameraActivity.KEY_CONTENT_TYPE);
                     }
 
                     String path = "";
@@ -1919,28 +1964,44 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                                     if (requestCode == 110) {
 
                                     }
-                                    if (bundle != null) {
-                                        ResultMessage resultMessage=(ResultMessage) bundle.getSerializable("resultMessage");
 
-                                        String[] picPath=bundle.getStringArray("picpath");
-                                        //数据的封装
-                                        String result=ManageIDCardRecogResult.managerSucessRecogResult(resultMessage,getApplicationContext());
-                                        spit(result);
-                                        if (splite_Result == null || splite_Result.length < 7) {
-                                            ToastUtils.s(this, "证件识别错误");
-                                            return;
-                                        }
-                                        file_two = picPath[0];
+                                    String contentType = data.getStringExtra(CameraActivity.KEY_CONTENT_TYPE);
+                                    String filePath = FileUtils.getSaveFile(getApplicationContext()).getAbsolutePath();
+                                    if (!TextUtils.isEmpty(contentType)) {
+                                        if (CameraActivity.CONTENT_TYPE_ID_CARD_FRONT.equals(contentType)) {
+                                            recIDCard(IDCardParams.ID_CARD_SIDE_FRONT, filePath);
+                                         String[] picPath=bundle.getStringArray("picpath");
+
+                                            file_two = picPath[0];
                                         selectPath = picPath[0];
-                                        etName.setText(splite_Result[1].substring(3));
-                                        etAddress.setText(splite_Result[5].substring(3));
-                                        etId.setText(splite_Result[6].substring(7));
                                         disPlayImage(picPath[1]);
-                                    } else {
-                                        String error=data.getStringExtra("error");
-                                        ToastUtils.s(this, error);
-
+                                        } else if (CameraActivity.CONTENT_TYPE_ID_CARD_BACK.equals(contentType)) {
+                                            recIDCard(IDCardParams.ID_CARD_SIDE_BACK, filePath);
+                                        }
                                     }
+
+//                                    if (bundle != null) {
+//                                        ResultMessage resultMessage=(ResultMessage) bundle.getSerializable("resultMessage");
+//
+//                                        String[] picPath=bundle.getStringArray("picpath");
+//                                        //数据的封装
+//                                        String result=ManageIDCardRecogResult.managerSucessRecogResult(resultMessage,getApplicationContext());
+//                                        spit(result);
+//                                        if (splite_Result == null || splite_Result.length < 7) {
+//                                            ToastUtils.s(this, "证件识别错误");
+//                                            return;
+//                                        }
+//                                        file_two = picPath[0];
+//                                        selectPath = picPath[0];
+//                                        etName.setText(splite_Result[1].substring(3));
+//                                        etAddress.setText(splite_Result[5].substring(3));
+//                                        etId.setText(splite_Result[6].substring(7));
+//                                        disPlayImage(picPath[1]);
+//                                    } else {
+//                                        String error=data.getStringExtra("error");
+//                                        ToastUtils.s(this, error);
+//
+//                                    }
 
 //                                    if (reqeustCode == 110) {
 //

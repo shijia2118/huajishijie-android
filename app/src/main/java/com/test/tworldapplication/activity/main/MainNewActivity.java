@@ -428,26 +428,10 @@ public class MainNewActivity extends BaseActivity {
         Util.checkCount();
         uploadLog();
 
-        initAccessToken();
 
     }
 
-    /**
-     * 以license文件方式初始化
-     */
-    private void initAccessToken() {
-        OCR.getInstance(getApplicationContext()).initAccessToken(new OnResultListener<AccessToken>() {
-            @Override
-            public void onResult(AccessToken accessToken) {
-                String token = accessToken.getAccessToken();
-            }
 
-            @Override
-            public void onError(OCRError error) {
-                error.printStackTrace();
-            }
-        }, getApplicationContext());
-    }
 
     private void uploadLog() {
         String path = SPUtil.get(MyApplication.context, "log_path", "").toString();

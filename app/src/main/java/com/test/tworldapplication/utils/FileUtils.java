@@ -1,5 +1,6 @@
 package com.test.tworldapplication.utils;
 
+import android.content.Context;
 import android.os.Environment;
 
 import java.io.File;
@@ -80,6 +81,11 @@ public class FileUtils {
                 e.printStackTrace();
             }
         }
+        return file;
+    }
+
+    public static File getSaveFile(Context context) {
+        File file = new File(context.getFilesDir(), "pic.jpg");
         return file;
     }
 }

@@ -16,4 +16,6 @@ public interface Constants {
   String VIDEOPICTWO = "videoPicTwo";
   String LICENCE = "LICENCE";
   String GRID = "grid";
+
+  String HASOCRTOKEN = "hasGotToken";
 }

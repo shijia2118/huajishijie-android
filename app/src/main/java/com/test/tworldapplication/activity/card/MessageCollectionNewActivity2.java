@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -58,6 +59,7 @@ import com.baidu.ocr.sdk.model.IDCardParams;
 import com.baidu.ocr.sdk.model.IDCardResult;
 import com.baidu.ocr.ui.camera.CameraActivity;
 import com.baidu.ocr.ui.camera.CameraNativeHelper;
+import com.baidu.ocr.ui.camera.CameraView;
 import com.kernal.passportreader.sdk.CardsCameraActivity;
 import com.kernal.passportreader.sdk.utils.DefaultPicSavePath;
 import com.kernal.passportreader.sdk.utils.ManageIDCardRecogResult;
@@ -89,13 +91,16 @@ import com.test.tworldapplication.http.CardHttp;
 import com.test.tworldapplication.http.OtherHttp;
 import com.test.tworldapplication.http.OtherRequest;
 import com.test.tworldapplication.http.RequestLiangPay;
+import com.test.tworldapplication.inter.BaiduOcrScanResult;
 import com.test.tworldapplication.inter.SuccessNull;
 import com.test.tworldapplication.inter.SuccessValue;
 import com.test.tworldapplication.utils.BitmapUtil;
 import com.test.tworldapplication.utils.BlueReaderHelper;
+import com.test.tworldapplication.utils.Constants;
 import com.test.tworldapplication.utils.DialogManager;
 import com.test.tworldapplication.utils.DisplayUtil;
 import com.test.tworldapplication.utils.FileUtils;
+import com.test.tworldapplication.utils.SPUtil;
 import com.test.tworldapplication.utils.Util;
 import com.wildma.idcardcamera.camera.IDCardCamera;
 
@@ -253,8 +258,6 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
 
     private int modes;
 
-    private boolean hasGotToken = false;
-
     String face = "";
     /*0成卡,获取传递过来的三个参数 点击获取信息按钮,先获取本地设备信息,判断蓝牙是否开启,未开启去开启蓝牙,若无蓝牙信息跳到选择蓝牙设备界面,选择之后回调,将蓝牙地址存本地。若已开启,若无蓝牙设备信息,选择设备存本地。蓝牙开启也有设备信息,提示设备信息,根据信息判断读取哪个设备,开始读取数据*/
     /*读取数据成功之后,将身份证图片存为bm_card,选择的图片存为bitmap_zero,与Package,Promotion,RequestCheck,以及身份证信息传递到提交页面*/
@@ -271,7 +274,26 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_collection2);
 
-        initAccessToken();//以license文件方式初始化百度OCR
+        //  初始化本地质量控制模型,释放代码在onDestory中
+        //  调用身份证扫描必须加上 intent.putExtra(CameraActivity.KEY_NATIVE_MANUAL, true); 关闭自动初始化和释放本地模型
+        CameraNativeHelper.init(this, OCR.getInstance(this).getLicense(),
+                (errorCode, e) -> {
+                    String msg;
+                    switch (errorCode) {
+                        case CameraView.NATIVE_SOLOAD_FAIL:
+                            msg = "加载so失败，请确保apk中存在ui部分的so";
+                            break;
+                        case CameraView.NATIVE_AUTH_FAIL:
+                            msg = "授权本地质量控制token获取失败";
+                            break;
+                        case CameraView.NATIVE_INIT_FAIL:
+                            msg = "本地质量控制";
+                            break;
+                        default:
+                            msg = String.valueOf(errorCode);
+                    }
+                    Util.createToast(MessageCollectionNewActivity2.this, "本地质量控制初始化错误，错误原因： " + msg);
+                });
 
         SharedPreferences sharedPreferences0 = getSharedPreferences("mySP", Context.MODE_PRIVATE);
         modes = sharedPreferences0.getInt("modes", -1);
@@ -536,23 +558,6 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
         super.onDestroy();
     }
 
-    /**
-     * 以license文件方式初始化
-     */
-    private void initAccessToken() {
-        OCR.getInstance(getApplicationContext()).initAccessToken(new OnResultListener<AccessToken>() {
-            @Override
-            public void onResult(AccessToken accessToken) {
-                hasGotToken = true;
-            }
-
-            @Override
-            public void onError(OCRError error) {
-                error.printStackTrace();
-            }
-        }, getApplicationContext());
-    }
-
     private GalleryFinal.OnHanlderResultCallback mOnHanlderResultCallback = new GalleryFinal.OnHanlderResultCallback() {
 
         @Override
@@ -700,27 +705,14 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                 true);
         intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_ID_CARD_FRONT);
         startActivityForResult(intent, requestCode);
-
-//        CardOcrRecogConfigure.getInstance()
-//            .initLanguage(getApplicationContext())
-//            .setSaveCut(true)
-//            .setOpenIDCopyFuction(true)
-//            .setnMainId(kernal.idcard.camera.SharedPreferencesHelper.getInt(
-//                getApplicationContext(), "nMainId", 2))
-//            .setnSubID( kernal.idcard.camera.SharedPreferencesHelper.getInt(
-//                getApplicationContext(), "nSubID", 0))
-//            .setFlag(0)
-//            .setnCropType(0)
-//            .setSavePath(new DefaultPicSavePath(this,true));
-//        Intent intent=new Intent(this,CardsCameraActivity.class);
-//        startActivityForResult(intent, requestCode);
     }
 
     private boolean checkTokenStatus() {
-        if (!hasGotToken) {
+        Boolean hasGotToken = (Boolean) SPUtil.get(this, Constants.HASOCRTOKEN,false);
+        if (hasGotToken == null ||  !hasGotToken) {
             Toast.makeText(getApplicationContext(), "token还未成功获取", Toast.LENGTH_LONG).show();
         }
-        return hasGotToken;
+        return true;
     }
 
     private void requestPermission() {
@@ -1895,7 +1887,7 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                 if (resultCode == Activity.RESULT_OK) {
                     Bundle bundle = null;
                     if (data != null) {
-                        bundle=data.getBundleExtra(CameraActivity.KEY_CONTENT_TYPE);
+                        bundle=data.getBundleExtra("resultbundle");
                     }
 
                     String path = "";
@@ -1961,22 +1953,44 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
 //                                    }
                                     break;
                                 case "1"://扫描
-                                    if (requestCode == 110) {
-
-                                    }
-
+                                    assert data != null;
                                     String contentType = data.getStringExtra(CameraActivity.KEY_CONTENT_TYPE);
                                     String filePath = FileUtils.getSaveFile(getApplicationContext()).getAbsolutePath();
                                     if (!TextUtils.isEmpty(contentType)) {
                                         if (CameraActivity.CONTENT_TYPE_ID_CARD_FRONT.equals(contentType)) {
-                                            recIDCard(IDCardParams.ID_CARD_SIDE_FRONT, filePath);
-                                         String[] picPath=bundle.getStringArray("picpath");
+                                            recIDCard(IDCardParams.ID_CARD_SIDE_FRONT, filePath, new BaiduOcrScanResult() {
+                                                @Override
+                                                public void onSuccess(IDCardResult result) {
+                                                    file_two = filePath;
+                                                    selectPath = filePath;
+                                                    etName.setText(result.getName().getWords());
+                                                    etAddress.setText(result.getAddress().getWords());
+                                                    etId.setText(result.getIdNumber().getWords());
+                                                    disPlayImage(filePath);
+                                                }
 
-                                            file_two = picPath[0];
-                                        selectPath = picPath[0];
-                                        disPlayImage(picPath[1]);
+                                                @Override
+                                                public void onError(String errorMsg) {
+                                                    Util.createToast(MessageCollectionNewActivity2.this,errorMsg);
+                                                }
+                                            });
                                         } else if (CameraActivity.CONTENT_TYPE_ID_CARD_BACK.equals(contentType)) {
-                                            recIDCard(IDCardParams.ID_CARD_SIDE_BACK, filePath);
+                                            recIDCard(IDCardParams.ID_CARD_SIDE_BACK, filePath, new BaiduOcrScanResult() {
+                                                @Override
+                                                public void onSuccess(IDCardResult result) {
+                                                    file_two = filePath;
+                                                    selectPath = filePath;
+                                                    etName.setText(result.getName().getWords());
+                                                    etAddress.setText(result.getAddress().getWords());
+                                                    etId.setText(result.getIdNumber().getWords());
+                                                    disPlayImage(filePath);
+                                                }
+
+                                                @Override
+                                                public void onError(String errorMsg) {
+                                                    Util.createToast(MessageCollectionNewActivity2.this,errorMsg);
+                                                }
+                                            });
                                         }
                                     }
 
@@ -2002,19 +2016,6 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
 //                                        ToastUtils.s(this, error);
 //
 //                                    }
-
-//                                    if (reqeustCode == 110) {
-//
-//                                    } else {
-//                                        file_two = path;
-//                                        selectPath = path;
-//                                        disPlayImage(path);
-//                                        SharedPreferences sharedPreferences = getSharedPreferences("mySP", Context.MODE_PRIVATE);
-//                                        String reco = sharedPreferences.getString("reco", "");
-//                                        selectPath = reco;
-////                                    }
-//                                    }
-
 
                                     break;
                             }
@@ -2620,7 +2621,29 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                         dialog.getTvTitle().setText("正在扫描,请稍后");
                         dialog.show();
 
-                        recIDCard(IDCardParams.ID_CARD_SIDE_FRONT,handleUri);
+                        recIDCard(IDCardParams.ID_CARD_SIDE_FRONT, handleUri, new BaiduOcrScanResult() {
+                            @Override
+                            public void onSuccess(IDCardResult result) {
+                                etName.setText(result.getName().getWords());
+                                etAddress.setText(result.getAddress().getWords());
+                                etId.setText(result.getIdNumber().getWords());
+                                dialog.dismiss();
+                            }
+
+                            @Override
+                            public void onError(String errorMsg) {
+                                Util.createToast(MessageCollectionNewActivity2.this,errorMsg);
+                                flag = 2;
+                                etName.setText("");
+                                etId.setText("");
+                                etAddress.setText("");
+                                etRemark.setText("");
+                                showPic0(null);
+                                imgIdLast.setImageResource(R.mipmap.firstid);
+                                indextime = 0;
+                                dialog.dismiss();
+                            }
+                        });
 
                         indextime++;
                     }
@@ -2637,7 +2660,7 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
      * @param idCardSide
      * @param filePath
      */
-    private void recIDCard(String idCardSide, String filePath) {
+    private void recIDCard(String idCardSide, String filePath, BaiduOcrScanResult scanResult) {
         IDCardParams param = new IDCardParams();
         param.setImageFile(new File(filePath));
         // 设置身份证正反面
@@ -2646,29 +2669,21 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
         param.setDetectDirection(true);
         // 设置图像参数压缩质量0-100, 越大图像质量越好但是请求时间越长。 不设置则默认值为20
         param.setImageQuality(20);
-
         param.setDetectRisk(true);
 
-        OCR.getInstance(this).recognizeIDCard(param, new OnResultListener<IDCardResult>() {
+        dialog.show();
+
+        OCR.getInstance(MessageCollectionNewActivity2.this).recognizeIDCard(param, new OnResultListener<IDCardResult>() {
             @Override
             public void onResult(IDCardResult result) {
-                onScanResult(result);
+                dialog.dismiss();
+                onScanResult(result,scanResult);
             }
 
             @Override
             public void onError(OCRError error) {
-                Util.createToast(MessageCollectionNewActivity2.this, error.getMessage());
-                flag = 2;
-                etName.setText("");
-                etId.setText("");
-                etAddress.setText("");
-                etRemark.setText("");
-                showPic0(null);
-                imgIdLast.setImageResource(R.mipmap.firstid);
-
-                indextime = 0;
-
                 dialog.dismiss();
+                scanResult.onError(error.getMessage());
             }
         });
     }
@@ -2677,34 +2692,19 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
      * 证件OCR扫描结果处理
      * @param result
      */
-    private void onScanResult(IDCardResult result){
+    private void onScanResult(IDCardResult result,BaiduOcrScanResult scanResult){
         if(result == null) return;
-
-        flag = 2;
-        dialog.dismiss();
 
         String imageStatus = result.getImageStatus();
         String riskType = result.getRiskType();
         if(imageStatus.equals("normal") && riskType.equals("normal")){
-            etName.setText(result.getName().getWords());
-            etAddress.setText(result.getAddress().getWords());
-            etId.setText(result.getIdNumber().getWords());
+            scanResult.onSuccess(result);
         } else {
             String errorMsg =  imageStatusException(imageStatus);
             if(errorMsg.isEmpty()){
               errorMsg = riskTypeException(riskType);
             }
-            if(!errorMsg.isEmpty()){
-                Util.createToast(MessageCollectionNewActivity2.this, errorMsg);
-            }
-
-            etName.setText("");
-            etId.setText("");
-            etAddress.setText("");
-            etRemark.setText("");
-            showPic0(null);
-            imgIdLast.setImageResource(R.mipmap.firstid);
-            indextime = 0;
+            scanResult.onError(errorMsg);
         }
     }
 

@@ -71,6 +71,7 @@ import com.test.tworldapplication.http.OtherRequest;
 import com.test.tworldapplication.inter.SuccessNull;
 import com.test.tworldapplication.inter.SuccessValue;
 import com.test.tworldapplication.utils.BaseUtils;
+import com.test.tworldapplication.utils.Constants;
 import com.test.tworldapplication.utils.EventBusCarrier;
 import com.test.tworldapplication.utils.FileLogUtils;
 import com.test.tworldapplication.utils.LocationHelper;
@@ -289,6 +290,9 @@ public class MainNewActivity extends BaseActivity {
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         setBackGroundTitle("首页", false, true, true);
+
+        initAccessToken();//以license文件方式初始化百度OCR
+
         Log.d("yyy", Util.getVersion());
         _dialogBuilderLocation = Util.createAlertDialog(AppManager.getAppManager().currentActivity(),
                 "用户未在常用地使用", null);
@@ -431,7 +435,23 @@ public class MainNewActivity extends BaseActivity {
 
     }
 
+    /**
+     * 以license文件方式初始化
+     */
+    private void initAccessToken() {
+        OCR.getInstance(getApplicationContext()).initAccessToken(new OnResultListener<AccessToken>() {
+            @Override
+            public void onResult(AccessToken accessToken) {
+                SPUtil.put(getApplicationContext(), Constants.HASOCRTOKEN,true);
+            }
 
+            @Override
+            public void onError(OCRError error) {
+                error.printStackTrace();
+                SPUtil.put(getApplicationContext(), Constants.HASOCRTOKEN,false);
+            }
+        }, getApplicationContext());
+    }
 
     private void uploadLog() {
         String path = SPUtil.get(MyApplication.context, "log_path", "").toString();

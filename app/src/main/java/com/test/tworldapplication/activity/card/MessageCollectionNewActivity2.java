@@ -2618,9 +2618,6 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                     break;
                 case STARTSCAN:
                     if (indextime < 1) {
-                        dialog.getTvTitle().setText("正在扫描,请稍后");
-                        dialog.show();
-
                         recIDCard(IDCardParams.ID_CARD_SIDE_FRONT, handleUri, new BaiduOcrScanResult() {
                             @Override
                             public void onSuccess(IDCardResult result) {
@@ -2644,7 +2641,6 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                                 dialog.dismiss();
                             }
                         });
-
                         indextime++;
                     }
                     break;
@@ -2661,6 +2657,10 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
      * @param filePath
      */
     private void recIDCard(String idCardSide, String filePath, BaiduOcrScanResult scanResult) {
+
+        dialog.getTvTitle().setText("正在扫描,请稍后");
+        dialog.show();
+
         IDCardParams param = new IDCardParams();
         param.setImageFile(new File(filePath));
         // 设置身份证正反面
@@ -2671,21 +2671,25 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
         param.setImageQuality(20);
         param.setDetectRisk(true);
 
-        dialog.show();
+        new Thread(() -> {
+            Looper.prepare();
 
-        OCR.getInstance(MessageCollectionNewActivity2.this).recognizeIDCard(param, new OnResultListener<IDCardResult>() {
-            @Override
-            public void onResult(IDCardResult result) {
-                dialog.dismiss();
-                onScanResult(result,scanResult);
-            }
+            OCR.getInstance(MessageCollectionNewActivity2.this).recognizeIDCard(param, new OnResultListener<IDCardResult>() {
+                @Override
+                public void onResult(IDCardResult result) {
+                    dialog.dismiss();
+                    onScanResult(result,scanResult);
+                }
 
-            @Override
-            public void onError(OCRError error) {
-                dialog.dismiss();
-                scanResult.onError(error.getMessage());
-            }
-        });
+                @Override
+                public void onError(OCRError error) {
+                    dialog.dismiss();
+                    scanResult.onError(error.getMessage());
+                }
+            });
+
+            Looper.loop();
+        }).start();
     }
 
     /**
@@ -2693,8 +2697,6 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
      * @param result
      */
     private void onScanResult(IDCardResult result,BaiduOcrScanResult scanResult){
-        if(result == null) return;
-
         String imageStatus = result.getImageStatus();
         String riskType = result.getRiskType();
         if(imageStatus.equals("normal") && riskType.equals("normal")){

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="please_select_id_type">请选择您的入网证件类型:</string>
+    <string name="identity_card">居民身份证</string>
+</resources>

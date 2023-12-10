@@ -6,4 +6,7 @@
         <attr name="penColor" format="color" />
         <attr name="velocityFilterWeight" format="float" />
     </declare-styleable>
+
 </resources>
+
+

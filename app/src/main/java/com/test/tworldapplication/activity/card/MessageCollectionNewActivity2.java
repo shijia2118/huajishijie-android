@@ -2,7 +2,6 @@ package com.test.tworldapplication.activity.card;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.content.ComponentName;
 import android.content.ContentResolver;
@@ -11,7 +10,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -31,6 +29,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.text.method.KeyListener;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -54,14 +53,11 @@ import cn.finalteam.galleryfinal.model.PhotoInfo;
 import com.baidu.ocr.sdk.OCR;
 import com.baidu.ocr.sdk.OnResultListener;
 import com.baidu.ocr.sdk.exception.OCRError;
-import com.baidu.ocr.sdk.model.AccessToken;
 import com.baidu.ocr.sdk.model.IDCardParams;
 import com.baidu.ocr.sdk.model.IDCardResult;
 import com.baidu.ocr.ui.camera.CameraActivity;
 import com.baidu.ocr.ui.camera.CameraNativeHelper;
 import com.baidu.ocr.ui.camera.CameraView;
-import com.kernal.passportreader.sdk.CardsCameraActivity;
-import com.kernal.passportreader.sdk.utils.DefaultPicSavePath;
 import com.kernal.passportreader.sdk.utils.ManageIDCardRecogResult;
 import com.luck.picture.lib.tools.ToastUtils;
 import com.otg.idcard.OTGReadCardAPI;
@@ -92,6 +88,7 @@ import com.test.tworldapplication.http.OtherHttp;
 import com.test.tworldapplication.http.OtherRequest;
 import com.test.tworldapplication.http.RequestLiangPay;
 import com.test.tworldapplication.inter.BaiduOcrScanResult;
+import com.test.tworldapplication.inter.IdTypeSelect;
 import com.test.tworldapplication.inter.SuccessNull;
 import com.test.tworldapplication.inter.SuccessValue;
 import com.test.tworldapplication.utils.BitmapUtil;
@@ -114,10 +111,12 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Executors;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import kernal.idcard.android.RecogParameterMessage;
 import kernal.idcard.android.RecogService;
 import kernal.idcard.android.ResultMessage;
-import kernal.idcard.camera.CardOcrRecogConfigure;
 import kernal.idcard.camera.IBaseReturnMessage;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.JSONException;
@@ -269,6 +268,9 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
     String number, preStore, detail;
     private int readModesTwo;
 
+    private int idCardType = 0; // 0-居民身份证 1-外国人永久居留证
+    KeyListener originalKeyListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -310,6 +312,9 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
         setBackGroundTitle("信息采集", true);
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(etName.getWindowToken(), 0);
+
+        originalKeyListener = etId.getKeyListener();
+
         etName.clearFocus();
         etId.clearFocus();
         etId.setKeyListener(null);
@@ -547,7 +552,30 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
 
         btAdapt = BluetoothAdapter.getDefaultAdapter();// 初始化本机蓝牙功能
 
+        /// 证件类型选择，包括:
+        /// 1.居民身份证；2.外国人永久居留证
+        DialogManager.idTypeSelect(this, new IdTypeSelect() {
+            @Override
+            public void result(int value) {
+                idCardType = value;
+                changeIdEditStatus();
+            }
+        });
 
+    }
+
+    private void changeIdEditStatus(){
+        boolean enable = toBlueTooth.getVisibility() == View.VISIBLE && idCardType == 1;
+        if(enable){
+            etId.setKeyListener(originalKeyListener);
+            etAddress.setText("中华人民共和国国家移民管理局");
+            etAddress.setEnabled(false);
+        }else{
+            etId.clearFocus();
+            etId.setKeyListener(null);
+            etAddress.setText("");
+            etAddress.setEnabled(true);
+        }
     }
 
 
@@ -943,11 +971,18 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                     final String strAddress = etAddress.getText().toString();
                     final String strRemark = etRemark.getText().toString();
 
+                    boolean isForeigner = toBlueTooth.getVisibility() == View.VISIBLE && idCardType == 1;
+                    String text = etId.getText().toString();
+                    Pattern pattern = Pattern.compile("^[9a-zA-Z].*");
+                    Matcher matcher = pattern.matcher(text);
+
                     if (bitmap_zero == null || bitmap_one == null || bitmap_two == null || strName.equals("") || strId.equals("") || strAddress.equals("")) {
                         Util.createToast(MessageCollectionNewActivity2.this, "请将信息填写完整");
                     } else if (strName.length() > 30) {
                         Util.createToast(MessageCollectionNewActivity2.this, "用户名过长!");
-                    } else if (strId.length() != 15 && strId.length() != 18) {
+                    } else if(isForeigner && !matcher.matches()){
+                        Util.createToast(MessageCollectionNewActivity2.this, "请检查您输入的证件号是否正确");
+                    } else if (!isForeigner && strId.length() != 15 && strId.length() != 18) {
                         Util.createToast(MessageCollectionNewActivity2.this, "请输入正确的身份证号!");
                     } else {
 
@@ -1190,7 +1225,7 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                 imgIdLasRemove.setVisibility(View.GONE);
                 indextime = 0;
 
-
+                changeIdEditStatus();
                 break;
 
             case R.id.toScan:
@@ -1209,7 +1244,7 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                 imgIdLasRemove.setVisibility(View.GONE);
 
                 indextime = 0;
-
+                changeIdEditStatus();
 
                 break;
 
@@ -1958,6 +1993,12 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                                     String filePath = FileUtils.getSaveFile(getApplicationContext()).getAbsolutePath();
                                     if (!TextUtils.isEmpty(contentType)) {
                                         if (CameraActivity.CONTENT_TYPE_ID_CARD_FRONT.equals(contentType)) {
+                                            boolean isForeigner = toBlueTooth.getVisibility() == View.VISIBLE && idCardType == 1;
+                                            if(isForeigner){
+                                                Util.createToast(MessageCollectionNewActivity2.this,"识别证件信息失败，请手动录入");
+                                                return;
+                                            }
+
                                             recIDCard(IDCardParams.ID_CARD_SIDE_FRONT, filePath, new BaiduOcrScanResult() {
                                                 @Override
                                                 public void onSuccess(IDCardResult result) {
@@ -2495,30 +2536,6 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
         }
     }
 
-//    private void readCardSuccess(IdentityCardZ identityCard) {
-//
-//        if (identityCard != null) {
-//            etName.setText(identityCard.name.trim());
-//            etId.setText(identityCard.cardNo.trim());
-//            etAddress.setText(identityCard.address.trim());
-//            etName.setSelection(etName.getText().toString().length());
-//            modes = 2;
-//            try {
-//
-////                bitmap_two = BitmapFactory.decodeByteArray(identityCard.avatar,
-////                        0, identityCard.avatar.length);
-////                imgIdLast.setImageBitmap(bitmap_two);
-////                flag = 2;
-////                state_two = 3;
-////                imgIdLasRemove.setVisibility(View.VISIBLE);
-//
-//                Log.e(ConsantHelper.STAGE_LOG, "图片成功");
-//            } catch (Exception e) {
-//                Log.e(ConsantHelper.STAGE_LOG, "图片失败" + e.getMessage());
-//            }
-//
-//        }
-//    }
 
     Handler handler = new Handler() {
         @Override
@@ -2618,6 +2635,16 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                     break;
                 case STARTSCAN:
                     if (indextime < 1) {
+                        boolean isForeigner = toBlueTooth.getVisibility() == View.VISIBLE && idCardType == 1;
+                        if(isForeigner){
+                            Util.createToast(MessageCollectionNewActivity2.this,"识别证件信息失败，请手动录入");
+                            etName.setText("");
+                            etId.setText("");
+                            etRemark.setText("");
+                            indextime++;
+                            return;
+                        }
+
                         recIDCard(IDCardParams.ID_CARD_SIDE_FRONT, handleUri, new BaiduOcrScanResult() {
                             @Override
                             public void onSuccess(IDCardResult result) {

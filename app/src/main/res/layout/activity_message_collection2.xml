@@ -91,7 +91,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="15dp"
                 android:background="@null"
-                android:digits="0123456789xX"
+                android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 android:gravity="right"
                 android:hint="请输入证件号码"
                 android:textIsSelectable="true"
@@ -263,7 +263,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
-                                android:text="身份证正面照"
+                                android:text="证件原件人像面"
                                 android:textColor="#666666"
                                 android:textSize="12dp" />
                         </LinearLayout>
@@ -354,7 +354,7 @@
                               android:layout_width="wrap_content"
                               android:layout_height="wrap_content"
                               android:layout_marginTop="10dp"
-                              android:text="身份证反面照"
+                              android:text="证件原件国徽面"
                               android:textColor="#666666"
                               android:textSize="12dp" />
                         </LinearLayout>
@@ -410,7 +410,7 @@
                               android:layout_width="wrap_content"
                               android:layout_height="wrap_content"
                               android:layout_marginTop="10dp"
-                              android:text="身份证正面照"
+                              android:text="证件原件人像面"
                               android:textColor="#666666"
                               android:textSize="12dp" />
 

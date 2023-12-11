@@ -92,10 +92,15 @@ public class CameraActivity extends Activity {
         cameraView = (CameraView) findViewById(R.id.camera_view);
         cameraView.getCameraControl().setPermissionCallback(permissionCallback);
         lightButton = (ImageView) findViewById(R.id.light_button);
-        lightButton.setOnClickListener(lightButtonOnClickListener);
+        lightButton.setVisibility(View.GONE);
+        lightButton.setOnClickListener(null);
+//        lightButton.setOnClickListener(lightButtonOnClickListener);
         takePhotoBtn = (ImageView) findViewById(R.id.take_photo_button);
-        findViewById(R.id.album_button).setOnClickListener(albumButtonOnClickListener);
+//        findViewById(R.id.album_button).setOnClickListener(albumButtonOnClickListener);
+        findViewById(R.id.album_button).setVisibility(View.GONE);
+
         takePhotoBtn.setOnClickListener(takeButtonOnClickListener);
+
 
         // confirm result;
         displayImageView = (ImageView) findViewById(R.id.display_image_view);

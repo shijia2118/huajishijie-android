@@ -282,7 +282,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
-                                android:text="身份证正面照"
+                                android:text="证件原件人像面"
                                 android:textColor="#666666"
                                 android:textSize="12dp" />
                         </LinearLayout>

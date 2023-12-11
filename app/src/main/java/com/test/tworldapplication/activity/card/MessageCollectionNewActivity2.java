@@ -934,7 +934,8 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                 flag = 2;
                 etName.setText("");
                 etId.setText("");
-                etAddress.setText("");
+//                etAddress.setText("");
+                changeIdEditStatus();
                 etRemark.setText("");
                 showPic0(null);
                 imgIdLast.setImageResource(R.mipmap.firstid);
@@ -1258,11 +1259,18 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                         final String strAddress = etAddress.getText().toString();
                         final String strRemark = etRemark.getText().toString();
 
+                        boolean isForeigner = toBlueTooth.getVisibility() == View.VISIBLE && idCardType == 1;
+                        String text = etId.getText().toString();
+                        Pattern pattern = Pattern.compile("^[9a-zA-Z].*");
+                        Matcher matcher = pattern.matcher(text);
+
                         if (bitmap_zero == null || bitmap_one == null || bitmap_two == null || bitmap_three == null || strName.equals("") || strId.equals("") || strAddress.equals("")) {
                             Util.createToast(MessageCollectionNewActivity2.this, "请将信息填写完整");
                         } else if (strName.length() > 30) {
                             Util.createToast(MessageCollectionNewActivity2.this, "用户名过长!");
-                        } else if (strId.length() != 15 && strId.length() != 18) {
+                        } else if(isForeigner && !matcher.matches()){
+                            Util.createToast(MessageCollectionNewActivity2.this, "请检查您输入的证件号是否正确");
+                        } else if (!isForeigner &&  strId.length() != 15 && strId.length() != 18) {
                             Util.createToast(MessageCollectionNewActivity2.this, "请输入正确的身份证号!");
                         } else {
                             Intent intent = new Intent(this, FaceRecordingActivity.class);
@@ -1996,6 +2004,13 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                                             boolean isForeigner = toBlueTooth.getVisibility() == View.VISIBLE && idCardType == 1;
                                             if(isForeigner){
                                                 Util.createToast(MessageCollectionNewActivity2.this,"识别证件信息失败，请手动录入");
+                                                etName.setText("");
+                                                etId.setText("");
+                                                etRemark.setText("");
+                                                changeIdEditStatus();
+                                                file_two = filePath;
+                                                selectPath = filePath;
+                                                disPlayImage(filePath);
                                                 return;
                                             }
 
@@ -2641,6 +2656,7 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                             etName.setText("");
                             etId.setText("");
                             etRemark.setText("");
+                            changeIdEditStatus();
                             indextime++;
                             return;
                         }

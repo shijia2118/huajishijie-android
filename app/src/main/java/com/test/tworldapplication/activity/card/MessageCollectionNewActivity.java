@@ -1,5 +1,7 @@
 package com.test.tworldapplication.activity.card;
 
+import static com.sunrizetech.idhelper.ConsantHelper.READ_CARD_SUCCESS;
+
 import android.Manifest;
 import android.app.Activity;
 import android.app.Service;
@@ -45,7 +47,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
 import com.otg.idcard.OTGReadCardAPI;
-import com.sunrise.reader.ReaderManagerService;
 import com.test.tworldapplication.R;
 import com.test.tworldapplication.activity.main.LoginActivity;
 import com.test.tworldapplication.activity.main.MainNewActivity;
@@ -80,6 +81,8 @@ import com.test.tworldapplication.utils.DisplayUtil;
 import com.test.tworldapplication.utils.Util;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -100,6 +103,7 @@ import cn.com.senter.model.IdentityCardZ;
 import cn.finalteam.galleryfinal.GalleryFinal;
 import cn.finalteam.galleryfinal.model.PhotoInfo;
 import rx.Subscriber;
+import sunrise.api.CommonUtil;
 import sunrise.bluetooth.SRBluetoothCardReader;
 import kernal.idcard.android.RecogParameterMessage;
 import kernal.idcard.android.RecogService;
@@ -108,9 +112,6 @@ import wintone.passport.sdk.utils.AppManager;
 import wintone.passport.sdk.utils.Devcode;
 import wintone.passport.sdk.utils.SharedPreferencesHelper;
 import wintone.passportreader.sdk.CameraActivity;
-
-import static com.sunrise.icardreader.helper.ConsantHelper.READ_CARD_FAILED;
-import static com.sunrise.icardreader.helper.ConsantHelper.READ_CARD_SUCCESS;
 
 public class MessageCollectionNewActivity extends BaseActivity {
     @BindView(R.id.tvTitle)
@@ -247,6 +248,11 @@ public class MessageCollectionNewActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_collection);
+
+        //TODO 请填入分配的接入信息
+        CommonUtil.getInstance().setAppKey("0A46F442C9CC45BE98F89C78AFF7B098");
+        CommonUtil.getInstance().setAppSecret("F45D52FBF92B4BE393A26CD8821F8BCE");
+        CommonUtil.getInstance().setPassword("53A28CBF9A934F3C8D4012EED19FBD9D");
 
         SharedPreferences sharedPreferences0 = getSharedPreferences("mySP", Context.MODE_PRIVATE);
         modes = sharedPreferences0.getInt("modes", -1);
@@ -1910,9 +1916,6 @@ public class MessageCollectionNewActivity extends BaseActivity {
 
     @Override
     protected void onStop() {
-        //关闭管控线程，防止报错
-        if (mSRBlueReaderHelper != null)
-            ReaderManagerService.stopServer();
         super.onStop();
     }
 
@@ -1978,26 +1981,24 @@ public class MessageCollectionNewActivity extends BaseActivity {
                                     Log.d("vvv", msg.what + "");
                                     switch (msg.what) {
                                         case READ_CARD_SUCCESS:
+                                            readCardSuccess0((String) msg.obj);
                                             mSRBlueReaderHelper.unRegisterBlueCard();
-                                            com.sunrise.icardreader.model.IdentityCardZ a = (com.sunrise.icardreader.model.IdentityCardZ) msg.obj;
-//                                            Log.d("vvv", a.name);
                                             dialog.dismiss();
-                                            readCardSuccess0(a);
                                             break;
-                                        case READ_CARD_FAILED:
+                                        default:
                                             dialog.dismiss();
                                             Toast.makeText(MessageCollectionNewActivity.this, "读取失败", Toast.LENGTH_SHORT).show();
                                             break;
 
                                     }
                                 }
-                            }, MessageCollectionNewActivity.this, "FE870B0163113409C134283661490AEF");
+                            }, MessageCollectionNewActivity.this);
                             if (mSRBlueReaderHelper.registerBlueCard(mac[1]))
                                 Log.d("bbb", "1111111");
                             new Thread() {
                                 public void run() {
                                     //蓝牙读身份证
-                                    mSRBlueReaderHelper.readCard(30);
+                                    mSRBlueReaderHelper.readIDCardByJson();
                                 }
                             }.start();
                         }
@@ -2025,12 +2026,32 @@ public class MessageCollectionNewActivity extends BaseActivity {
 
     }
 
-    private void readCardSuccess0(com.sunrise.icardreader.model.IdentityCardZ identityCard) {
-        if (identityCard != null) {
-            etName.setText(identityCard.name.trim());
-            etId.setText(identityCard.cardNo.trim());
-            etAddress.setText(identityCard.address.trim());
-            etName.setSelection(etName.getText().toString().length());
+    /**
+     * 读卡成功，显示信息
+     *
+     * @param identityCardStr
+     */
+    private void readCardSuccess0(String identityCardStr) {
+        JSONObject identityCard = null;
+        try {
+            identityCard = new JSONObject(identityCardStr);
+            String idType = null;
+            try {
+                idType = identityCard.getString("idType");
+            } catch (JSONException ignored) {
+            }
+
+            etName.setText(identityCard.getString("name"));
+            etId.setText(identityCard.getString("idNum"));
+
+            //通过idType来判断是否是外国人身份证，外国人身份证是I,港澳台身份证是J
+            if (idType != null && idType.equals("I")) {
+                etAddress.setText("中华人民共和国国家移民管理局");
+            }else{
+                etAddress.setText(identityCard.getString("address"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 

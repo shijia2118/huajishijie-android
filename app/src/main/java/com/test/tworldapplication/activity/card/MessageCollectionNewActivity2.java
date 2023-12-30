@@ -61,7 +61,6 @@ import com.baidu.ocr.ui.camera.CameraView;
 import com.kernal.passportreader.sdk.utils.ManageIDCardRecogResult;
 import com.luck.picture.lib.tools.ToastUtils;
 import com.otg.idcard.OTGReadCardAPI;
-import com.sunrise.reader.ReaderManagerService;
 import com.test.tworldapplication.R;
 import com.test.tworldapplication.activity.main.LoginActivity;
 import com.test.tworldapplication.activity.main.MainNewActivity;
@@ -123,13 +122,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import rx.Subscriber;
+import sunrise.api.CommonUtil;
 import sunrise.bluetooth.SRBluetoothCardReader;
 import wintone.passport.sdk.utils.AppManager;
 import wintone.passport.sdk.utils.Devcode;
 import wintone.passport.sdk.utils.SharedPreferencesHelper;
 
-import static com.sunrise.icardreader.helper.ConsantHelper.READ_CARD_FAILED;
-import static com.sunrise.icardreader.helper.ConsantHelper.READ_CARD_SUCCESS;
+import static com.sunrizetech.idhelper.ConsantHelper.READ_CARD_SUCCESS;
 
 public class MessageCollectionNewActivity2 extends BaseActivity implements IBaseReturnMessage {
     @BindView(R.id.tvTitle)
@@ -275,6 +274,11 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_collection2);
+
+        //TODO 请填入分配的接入信息
+        CommonUtil.getInstance().setAppKey("0A46F442C9CC45BE98F89C78AFF7B098");
+        CommonUtil.getInstance().setAppSecret("F45D52FBF92B4BE393A26CD8821F8BCE");
+        CommonUtil.getInstance().setPassword("53A28CBF9A934F3C8D4012EED19FBD9D");
 
         //  初始化本地质量控制模型,释放代码在onDestory中
         //  调用身份证扫描必须加上 intent.putExtra(CameraActivity.KEY_NATIVE_MANUAL, true); 关闭自动初始化和释放本地模型
@@ -2258,18 +2262,6 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
         }
     };
 
-//    private void test() {
-//        com.sunrise.icardreader.model.IdentityCardZ identityCard = new com.sunrise.icardreader.model.IdentityCardZ();
-////        etName.setText(identityCard.name.trim());
-////        etId.setText(identityCard.cardNo.trim());
-////        etAddress.setText(identityCard.address.trim());
-////        etName.setSelection(etName.getText().toString().length());
-//        identityCard.name = "test";
-//        identityCard.cardNo = "123456";
-//        identityCard.address = "测试地址";
-//        readCardSuccess0(identityCard);
-//    }
-
 
     private final String SPNAME = "Addressmac";
 
@@ -2292,9 +2284,6 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
 
     @Override
     protected void onStop() {
-        //关闭管控线程，防止报错
-        if (mSRBlueReaderHelper != null)
-            ReaderManagerService.stopServer();
         super.onStop();
     }
 
@@ -2350,33 +2339,30 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
                             handler.sendEmptyMessageDelayed(MESSAGE_VALID_BTBUTTON, 1000);
                         } else if (mac[0].startsWith("SR")) {
                             dialog.show();
-                            mSRBlueReaderHelper = new SRBluetoothCardReader(new Handler() {
+                            mSRBlueReaderHelper = new SRBluetoothCardReader(new Handler(){
                                 @Override
                                 public void handleMessage(Message msg) {
                                     super.handleMessage(msg);
-                                    Log.d("vvv", msg.what + "");
                                     switch (msg.what) {
                                         case READ_CARD_SUCCESS:
+                                            readCardSuccess0((String) msg.obj);
                                             mSRBlueReaderHelper.unRegisterBlueCard();
-                                            com.sunrise.icardreader.model.IdentityCardZ a = (com.sunrise.icardreader.model.IdentityCardZ) msg.obj;
-//                                            Log.d("vvv", a.name);
                                             dialog.dismiss();
-                                            readCardSuccess0(a);
                                             break;
-                                        case READ_CARD_FAILED:
+                                        default:
                                             dialog.dismiss();
                                             Toast.makeText(MessageCollectionNewActivity2.this, "读取失败", Toast.LENGTH_SHORT).show();
                                             break;
-
                                     }
                                 }
-                            }, MessageCollectionNewActivity2.this, "FE870B0163113409C134283661490AEF");
+                            },MessageCollectionNewActivity2.this);
+
                             if (mSRBlueReaderHelper.registerBlueCard(mac[1]))
                                 Log.d("bbb", "1111111");
                             new Thread() {
                                 public void run() {
                                     //蓝牙读身份证
-                                    mSRBlueReaderHelper.readCard(30);
+                                    mSRBlueReaderHelper.readIDCardByJson();
                                 }
                             }.start();
                         }
@@ -2402,13 +2388,33 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
         }
     }
 
-    private void readCardSuccess0(com.sunrise.icardreader.model.IdentityCardZ identityCard) {
-        if (identityCard != null) {
-            etName.setText(identityCard.name.trim());
-            etId.setText(identityCard.cardNo.trim());
-            etAddress.setText(identityCard.address.trim());
-            etName.setSelection(etName.getText().toString().length());
+    /**
+     * 读卡成功，显示信息
+     *
+     * @param identityCardStr
+     */
+    private void readCardSuccess0(String identityCardStr) {
+        JSONObject identityCard = null;
+        try {
+            identityCard = new JSONObject(identityCardStr);
+            String idType = null;
+            try {
+                idType = identityCard.getString("idType");
+            } catch (JSONException ignored) {
+            }
+
+            etName.setText(identityCard.getString("name"));
+            etId.setText(identityCard.getString("idNum"));
             modes = 2;
+
+            //通过idType来判断是否是外国人身份证，外国人身份证是I,港澳台身份证是J
+            if (idType != null && idType.equals("I")) {
+                etAddress.setText("中华人民共和国国家移民管理局");
+            }else{
+                etAddress.setText(identityCard.getString("address"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 
@@ -2435,41 +2441,6 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
     }
 
     private class BlueReadTask extends AsyncTask<Void, Void, String> {
-
-//        @Override
-//        protected void onPostExecute(String strCardInfo) {
-//            tvCollection.setEnabled(true);
-//
-//            /*读取到的信息是空,提示读取失败*/
-//            if (TextUtils.isEmpty(strCardInfo)) {
-//                handler.sendEmptyMessage(ConsantHelper.READ_CARD_FAILED);
-//                return;
-//            }
-//            /*读取到的信息是空,提示读取失败*/
-//            if (strCardInfo.length() <= 2) {
-//                readCardFailed(strCardInfo);
-//                return;
-//            }
-//
-//            ObjectMapper objectMapper = new ObjectMapper();
-//            IdentityCardZ mIdentityCardZ = new IdentityCardZ();
-//            try {
-//                mIdentityCardZ = (IdentityCardZ) objectMapper.readValue(
-//                        strCardInfo, IdentityCardZ.class);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                Log.e(ConsantHelper.STAGE_LOG, "mIdentityCardZ failed");
-//                return;
-//            }
-//            dialog.dismiss();
-//            /*读卡成功*/
-//            readCardSuccess(mIdentityCardZ);
-//
-//
-//            super.onPostExecute(strCardInfo);
-//
-//        }
-
         @Override
         protected void onPostExecute(String strCardInfo) {
             tvCollection.setEnabled(true);

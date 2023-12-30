@@ -1,5 +1,7 @@
 package com.test.tworldapplication.activity.main;
 
+import static com.sunrizetech.idhelper.ConsantHelper.READ_CARD_SUCCESS;
+
 import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
@@ -60,8 +62,6 @@ import butterknife.OnClick;
 import rx.Subscriber;
 import sunrise.bluetooth.SRBluetoothCardReader;
 import wintone.passport.sdk.utils.AppManager;
-
-import static com.sunrise.icardreader.helper.ConsantHelper.READ_CARD_SUCCESS;
 
 public class PhoneDetailActivity extends BaseActivity implements PlkBleConnectCallback {
     @BindView(R.id.imgBack)
@@ -678,7 +678,7 @@ public class PhoneDetailActivity extends BaseActivity implements PlkBleConnectCa
                                                         break;
                                                 }
                                             }
-                                        }, PhoneDetailActivity.this, "FE870B0163113409C134283661490AEF");
+                                        }, PhoneDetailActivity.this);
 
                                         if (mSRBlueReaderHelper.registerBlueCard(mac[1])) {
                                             dialog.getTvTitle().setText("正在读取设备");

@@ -275,10 +275,9 @@ public class MessageCollectionNewActivity2 extends BaseActivity implements IBase
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_collection2);
 
-        //TODO 请填入分配的接入信息
-        CommonUtil.getInstance().setAppKey("0A46F442C9CC45BE98F89C78AFF7B098");
-        CommonUtil.getInstance().setAppSecret("F45D52FBF92B4BE393A26CD8821F8BCE");
-        CommonUtil.getInstance().setPassword("53A28CBF9A934F3C8D4012EED19FBD9D");
+        CommonUtil.getInstance().setAppKey("707592CB470E4E3EACCED0CA1BB17572");
+        CommonUtil.getInstance().setAppSecret("55CD02FA16C944DFB2A851B3DC813B79");
+        CommonUtil.getInstance().setPassword("4FD9CC7A3C6F4C35AD5A8CC0E611393E");
 
         //  初始化本地质量控制模型,释放代码在onDestory中
         //  调用身份证扫描必须加上 intent.putExtra(CameraActivity.KEY_NATIVE_MANUAL, true); 关闭自动初始化和释放本地模型

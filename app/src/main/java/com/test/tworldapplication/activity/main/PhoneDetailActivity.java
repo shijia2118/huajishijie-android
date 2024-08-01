@@ -9,9 +9,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -26,10 +28,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
-import com.luck.picture.lib.tools.ToastUtils;
 import com.plk.bluetoothlesdk.PlkBleConnectCallback;
 import com.plk.bluetoothlesdk.PlkBleService;
 import com.plk.bluetoothlesdk.PlkException;
+import com.senter.readcard.openapi.CardSDK;
 import com.test.tworldapplication.R;
 import com.test.tworldapplication.activity.PostResult;
 import com.test.tworldapplication.activity.card.ActivitySelectDetailActivity;
@@ -54,11 +56,18 @@ import com.test.tworldapplication.http.AccountHttp;
 import com.test.tworldapplication.http.AccountRequest;
 import com.test.tworldapplication.http.CardHttp;
 import com.test.tworldapplication.inter.SuccessValue;
+import com.test.tworldapplication.utils.BlueReaderHelper;
+import com.test.tworldapplication.utils.ToastUtil;
 import com.test.tworldapplication.utils.Util;
+
+import org.codehaus.jackson.map.ObjectMapper;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.com.senter.helper.ConsantHelper;
 import rx.Subscriber;
 import sunrise.bluetooth.SRBluetoothCardReader;
 import wintone.passport.sdk.utils.AppManager;
@@ -133,6 +142,10 @@ public class PhoneDetailActivity extends BaseActivity implements PlkBleConnectCa
     int getImsiSuccess = 0;
     String from;
 
+    BlueReaderHelper mBlueReaderHelper;
+
+    private CardSDK cardSDK;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -197,6 +210,10 @@ public class PhoneDetailActivity extends BaseActivity implements PlkBleConnectCa
         initCheckBuyDialog();
         initWriteSuccessDialog();
         initWriteFailedDialog();
+
+        cardSDK = CardSDK.getInstance(CardSDK.Mode.BlueTooth);
+        //每种不同的通信方式，需要单独设置
+        cardSDK.setContext(this);
     }
 
     @Override
@@ -288,71 +305,63 @@ public class PhoneDetailActivity extends BaseActivity implements PlkBleConnectCa
         window.setAttributes(layoutParams);
         TextView refuse = (TextView) checkBuyDialog.findViewById(R.id.refuse);
         TextView agree = (TextView) checkBuyDialog.findViewById(R.id.agree);
-        refuse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                checkBuyDialog.dismiss();
-            }
-        });
-        agree.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                checkBuyDialog.dismiss();
-                PostLockNumberNew postLockNumberNew = new PostLockNumberNew();
-                postLockNumberNew.setSession_token(Util.getLocalAdmin(PhoneDetailActivity.this)[0]);
-                postLockNumberNew.setNumber(number);
-                postLockNumberNew.setPoolname(requestPreNumberDetails.getPoolname());
-                postLockNumberNew.setCrmCode(requestPreNumberDetails.getCrmCode());
-                postLockNumberNew.setCrmUserName(requestPreNumberDetails.getCrmUserName());
-                postLockNumberNew.setLiangType(requestPreNumberDetails.getLiangType());
-                postLockNumberNew.setIsLiang(requestPreNumberDetails.getIsLiang());
-                postLockNumberNew.setPrestore(requestPreNumberDetails.getPrestore());
-                postLockNumberNew.setRegFee(requestPreNumberDetails.getRegFee());
-                postLockNumberNew.setCycle(requestPreNumberDetails.getCycle());
-                postLockNumberNew.setCityName(requestPreNumberDetails.getCityName());
-                postLockNumberNew.setProvince(requestPreNumberDetails.getProvince());
-                postLockNumberNew.setOperatorname(requestPreNumberDetails.getOperatorname());
-                postLockNumberNew.setPackageId(mPackage.getId());
-                postLockNumberNew.setPackageName(mPackage.getName());
-                postLockNumberNew.setPromotionId(mPromotion.getId());
-                postLockNumberNew.setPromotionName(mPromotion.getName());
-                postLockNumberNew.setPayAmount(requestPreNumberDetails.getPrestore());
-                HttpPost<PostLockNumberNew> httpPost = new HttpPost<>();
-                httpPost.setApp_key(Util.GetMD5Code(BaseCom.APP_KEY));
-                httpPost.setApp_sign(Util.GetMD5Code(BaseCom.APP_PWD + gson.toJson(postLockNumberNew) + BaseCom.APP_PWD));
-                httpPost.setParameter(postLockNumberNew);
-                dialog.getTvTitle().setText("正在购买");
-                dialog.show();
-                new CardHttp().lockNumberNew(new Subscriber<HttpRequest<RequestLockNumberNew>>() {
-                    @Override
-                    public void onCompleted() {
+        refuse.setOnClickListener(view -> checkBuyDialog.dismiss());
+        agree.setOnClickListener(view -> {
+            checkBuyDialog.dismiss();
+            PostLockNumberNew postLockNumberNew = new PostLockNumberNew();
+            postLockNumberNew.setSession_token(Util.getLocalAdmin(PhoneDetailActivity.this)[0]);
+            postLockNumberNew.setNumber(number);
+            postLockNumberNew.setPoolname(requestPreNumberDetails.getPoolname());
+            postLockNumberNew.setCrmCode(requestPreNumberDetails.getCrmCode());
+            postLockNumberNew.setCrmUserName(requestPreNumberDetails.getCrmUserName());
+            postLockNumberNew.setLiangType(requestPreNumberDetails.getLiangType());
+            postLockNumberNew.setIsLiang(requestPreNumberDetails.getIsLiang());
+            postLockNumberNew.setPrestore(requestPreNumberDetails.getPrestore());
+            postLockNumberNew.setRegFee(requestPreNumberDetails.getRegFee());
+            postLockNumberNew.setCycle(requestPreNumberDetails.getCycle());
+            postLockNumberNew.setCityName(requestPreNumberDetails.getCityName());
+            postLockNumberNew.setProvince(requestPreNumberDetails.getProvince());
+            postLockNumberNew.setOperatorname(requestPreNumberDetails.getOperatorname());
+            postLockNumberNew.setPackageId(mPackage.getId());
+            postLockNumberNew.setPackageName(mPackage.getName());
+            postLockNumberNew.setPromotionId(mPromotion.getId());
+            postLockNumberNew.setPromotionName(mPromotion.getName());
+            postLockNumberNew.setPayAmount(requestPreNumberDetails.getPrestore());
+            HttpPost<PostLockNumberNew> httpPost = new HttpPost<>();
+            httpPost.setApp_key(Util.GetMD5Code(BaseCom.APP_KEY));
+            httpPost.setApp_sign(Util.GetMD5Code(BaseCom.APP_PWD + gson.toJson(postLockNumberNew) + BaseCom.APP_PWD));
+            httpPost.setParameter(postLockNumberNew);
+            dialog.getTvTitle().setText("正在购买");
+            dialog.show();
+            new CardHttp().lockNumberNew(new Subscriber<HttpRequest<RequestLockNumberNew>>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    dialog.dismiss();
+                }
+
+                @Override
+                public void onNext(HttpRequest<RequestLockNumberNew> stringHttpRequest) {
+                    dialog.dismiss();
+                    if (stringHttpRequest.getCode() == BaseCom.NORMAL) {
+                        orderNo = stringHttpRequest.getData().getOrderNo();
+                        initBuySuccessDialog(0);
+                        buyResultDialog.show();
+                    } else if (stringHttpRequest.getCode() == BaseCom.LOSELOG)
+                        Util.gotoActy(PhoneDetailActivity.this, LoginActivity.class);
+                    else if (stringHttpRequest.getCode() == BaseCom.VERSIONINCORRENT)
+                        Toast.makeText(PhoneDetailActivity.this, stringHttpRequest.getMes(), Toast.LENGTH_SHORT).show();
+                    else {
+                        initBuySuccessDialog(1);
+                        buyResultDialog.show();
 
                     }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        dialog.dismiss();
-                    }
-
-                    @Override
-                    public void onNext(HttpRequest<RequestLockNumberNew> stringHttpRequest) {
-                        dialog.dismiss();
-                        if (stringHttpRequest.getCode() == BaseCom.NORMAL) {
-                            orderNo = stringHttpRequest.getData().getOrderNo();
-                            initBuySuccessDialog(0);
-                            buyResultDialog.show();
-                        } else if (stringHttpRequest.getCode() == BaseCom.LOSELOG)
-                            Util.gotoActy(PhoneDetailActivity.this, LoginActivity.class);
-                        else if (stringHttpRequest.getCode() == BaseCom.VERSIONINCORRENT)
-                            Toast.makeText(PhoneDetailActivity.this, stringHttpRequest.getMes(), Toast.LENGTH_SHORT).show();
-                        else {
-                            initBuySuccessDialog(1);
-                            buyResultDialog.show();
-
-                        }
-                    }
-                }, httpPost);
-            }
+                }
+            }, httpPost);
         });
     }
 
@@ -403,13 +412,10 @@ public class PhoneDetailActivity extends BaseActivity implements PlkBleConnectCa
                 tvToast.setText("购买失败");
                 break;
         }
-        agree.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                buyResultDialog.dismiss();
-                if (flag == 1)
-                    AppManager.getAppManager().finishActivity();
-            }
+        agree.setOnClickListener(view -> {
+            buyResultDialog.dismiss();
+            if (flag == 1)
+                AppManager.getAppManager().finishActivity();
         });
     }
 
@@ -563,6 +569,9 @@ public class PhoneDetailActivity extends BaseActivity implements PlkBleConnectCa
                     getImsiSuccess = 0;
                     tvNext.setVisibility(View.GONE);
                     tvNext0.setVisibility(View.VISIBLE);
+                    if(requestImsiHttpRequest.getMes()!=null){
+                        ToastUtil.showToast(PhoneDetailActivity.this,requestImsiHttpRequest.getMes());
+                    }
 //                    tvIccid.setVisibility(View.GONE);
 //                    tvGetIMSI.setVisibility(View.VISIBLE);
 //                    tvNext.setVisibility(View.VISIBLE);
@@ -685,7 +694,7 @@ public class PhoneDetailActivity extends BaseActivity implements PlkBleConnectCa
                                             dialog.show();
                                             new Thread() {
                                                 public void run() {
-                                                    //蓝牙读身份证
+                                                    //蓝牙读取SIMI
                                                     int result = mSRBlueReaderHelper.readSimICCID(cardNum);
                                                     String string2 = "";
                                                     if (result >= 0) {
@@ -710,6 +719,46 @@ public class PhoneDetailActivity extends BaseActivity implements PlkBleConnectCa
                                             Toast.makeText(PhoneDetailActivity.this, "连接失败", Toast.LENGTH_SHORT).show();
 
 
+                                    } else if(mac[0].startsWith("ST")){
+                                        if(cardSDK.registerBTCard(mac[1])){
+                                            dialog.getTvTitle().setText("正在读取设备");
+                                            dialog.show();
+
+                                            if (!cardSDK.simInit()) {
+                                                dialog.dismiss();
+                                                ToastUtil.showToast(PhoneDetailActivity.this,"初始化失败，未连接蓝牙设备");
+                                                return;
+                                            }
+
+                                            new Thread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    byte[] imsi = new byte[128];
+                                                    int retCode = cardSDK.readSimICCID(imsi);
+                                                    switch (retCode) {
+                                                        case -1:
+                                                            ToastUtil.showToast(PhoneDetailActivity.this,"读卡失败");
+                                                            break;
+                                                        case -2:
+                                                            ToastUtil.showToast(PhoneDetailActivity.this,"设备未连接");
+                                                            break;
+                                                        case -3:
+                                                            ToastUtil.showToast(PhoneDetailActivity.this,"未识别到卡");
+                                                            break;
+                                                        case 0:
+                                                        case 1:
+                                                            Message message = new Message();
+                                                            message.obj = new String(imsi).trim();
+                                                            message.what = 0;
+                                                            handler.sendMessage(message);
+                                                            break;
+                                                    }
+
+                                                }
+                                            }).start();
+                                        }else {
+                                            ToastUtil.showToast(PhoneDetailActivity.this,"st参数设置失败");
+                                        }
                                     } else {
                                         try {
                                             if (receive == 0) {
@@ -831,6 +880,15 @@ public class PhoneDetailActivity extends BaseActivity implements PlkBleConnectCa
                     postResult(1);
                 }
                 mSRBlueReaderHelper.unRegisterBlueCard();
+            }
+
+        } if (mac[0].startsWith("ST")) {
+            if (cardSDK.registerBTCard(mac[1])) {
+                if (cardSDK.writeSimCard(requestImsi.getImsi(), requestImsi.getSmscent()) == 1) {
+                    postResult(0);
+                } else {
+                    postResult(1);
+                }
             }
 
         } else {
@@ -980,8 +1038,6 @@ public class PhoneDetailActivity extends BaseActivity implements PlkBleConnectCa
                     Util.gotoActy(PhoneDetailActivity.this, LoginActivity.class);
                 else
                     Toast.makeText(PhoneDetailActivity.this, httpRequest.getMes(), Toast.LENGTH_SHORT).show();
-
-
             }
         }, httpPost);
 

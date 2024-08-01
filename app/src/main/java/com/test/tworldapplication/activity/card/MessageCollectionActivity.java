@@ -100,6 +100,7 @@ import cn.com.senter.model.IdentityCardZ;
 import cn.finalteam.galleryfinal.GalleryFinal;
 import cn.finalteam.galleryfinal.model.PhotoInfo;
 import rx.Subscriber;
+import sunrise.api.CommonUtil;
 import sunrise.bluetooth.SRBluetoothCardReader;
 import kernal.idcard.android.RecogParameterMessage;
 import kernal.idcard.android.RecogService;
@@ -240,6 +241,10 @@ public class MessageCollectionActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_collection);
+
+        CommonUtil.getInstance().setAppKey("707592CB470E4E3EACCED0CA1BB17572");
+        CommonUtil.getInstance().setAppSecret("55CD02FA16C944DFB2A851B3DC813B79");
+        CommonUtil.getInstance().setPassword("4FD9CC7A3C6F4C35AD5A8CC0E611393E");
 
         SharedPreferences sharedPreferences0 = getSharedPreferences("mySP", Context.MODE_PRIVATE);
         modes = sharedPreferences0.getInt("modes", -1);
